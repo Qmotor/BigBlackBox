@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BigBlackBox</string>
+    <string name="title_activity_log_result">MainActivity</string>
+    <string name="title_home">主页</string>
+    <string name="title_community">社区</string>
+    <string name="title_mine">我的</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
