@@ -20,19 +20,19 @@
                 android:id="@+id/home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monday" />
+                android:text="全部" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/communtiy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tuesday" />
+                android:text="考研讲座" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wednesday" />
+                android:text="考研资料" />
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2

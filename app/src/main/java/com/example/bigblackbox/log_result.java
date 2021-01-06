@@ -17,10 +17,7 @@ public class log_result extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_result2);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.hide();
-        }  //隐藏顶部标题栏
+
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);

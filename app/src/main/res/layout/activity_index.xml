@@ -17,25 +17,28 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/buttomView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monday" />
+                android:icon="@mipmap/home"
+                android:text="@string/title_home" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/communtiy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tuesday" />
+                android:icon="@mipmap/community"
+                android:text="@string/title_community" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wednesday" />
+                android:icon="@mipmap/mine"
+                android:text="@string/title_mine" />
         </com.google.android.material.tabs.TabLayout>
 
 
