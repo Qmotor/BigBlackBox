@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Push_detail">
+
+    <TextView
+        android:id="@+id/pushName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="李狗蛋" />
+
+    <TextView
+        android:id="@+id/pushTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2021-12-12 15:39" />
+
+    <TextView
+        android:id="@+id/pushTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="大家好" />
+
+    <TextView
+        android:id="@+id/pushContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="很高兴认识各位" />
+
+</LinearLayout>

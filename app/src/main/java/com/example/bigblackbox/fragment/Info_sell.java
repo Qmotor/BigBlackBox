@@ -5,30 +5,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.adpater.PushInfoAdpater;
-import com.example.bigblackbox.entity.PushInfo;
-import com.example.bigblackbox.Push_detail;
+import com.example.bigblackbox.adpater.PostingAdpater;
+import com.example.bigblackbox.entity.Posting;
+import com.example.bigblackbox.Post_detail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class Home extends Fragment {
+public class Info_sell extends Fragment {
     SQLiteOpenHelper helper;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,28 +37,30 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home2, container, false);
+
+        return inflater.inflate(R.layout.fragment_info_sell, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<PushInfo> pi = new ArrayList<>();
-        try(SQLiteDatabase db = helper.getReadableDatabase()){
-            try(Cursor cursor = db.rawQuery("select * from pushPosting order by pushPostingTime desc",new String[0])){
-                while(cursor.moveToNext()){
-                    pi.add(new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
+        final List<Posting> p = new ArrayList<>();
+        try (SQLiteDatabase db = helper.getReadableDatabase()) {
+            try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
+                while (cursor.moveToNext()) {
+
+                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 }
             }
         }
-        ListView listView = view.findViewById(R.id.homeList);
-        listView.setAdapter(new PushInfoAdpater(getContext(),pi));
+        ListView listView = view.findViewById(R.id.infoSellList);
+        listView.setAdapter(new PostingAdpater(getContext(), p));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PushInfo pushInfo = pi.get(position);
-                Intent intent = new Intent(getContext(), Push_detail.class);
-                intent.putExtra("pushInfoID",pushInfo.getPushID());
+                Posting posting = p.get(position);
+                Intent intent = new Intent(getContext(), Post_detail.class);
+                intent.putExtra("postID", posting.getPostID());
                 startActivity(intent);
             }
         });

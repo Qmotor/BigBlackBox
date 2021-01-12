@@ -28,10 +28,11 @@ public class Community extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_community2, container, false);
-        List<Fragment> fragments = new ArrayList<>(3);
-        fragments.add(new Home());
-        fragments.add(new Home());
-        fragments.add(new Mine());
+        List<Fragment> fragments = new ArrayList<>(4);
+        fragments.add(new All_news());
+        fragments.add(new Talk());
+        fragments.add(new Lecture());
+        fragments.add(new Info_sell());
 
         final ViewPager2 viewPager2 = root.findViewById(R.id.viewPager);
         viewPager2.setAdapter(new ViewAdpater(this,fragments));
@@ -61,6 +62,8 @@ public class Community extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
+
         });
 
         return root;

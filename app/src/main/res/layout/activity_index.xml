@@ -27,7 +27,7 @@
                 android:text="@string/title_home" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/communtiy"
+                android:id="@+id/community"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@mipmap/community"

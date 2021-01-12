@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class reg_result extends AppCompatActivity {
+public class Reg_result extends AppCompatActivity {
     private TextView name,pwd,gender;
 
     @Override

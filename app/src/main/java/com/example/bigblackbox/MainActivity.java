@@ -1,6 +1,5 @@
 package com.example.bigblackbox;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Register(View v){
-        Intent intent = new Intent(this,register.class);
+        Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
     public void test(View v){

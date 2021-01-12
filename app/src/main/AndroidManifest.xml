@@ -13,13 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.IndexActivity">
-        </activity>
-        <activity
-            android:name=".log_result"
-            android:label="@string/title_activity_log_result" />
-        <activity android:name=".reg_result" />
-        <activity android:name=".register" />
+        <activity android:name=".Push_detail" />
+        <activity android:name=".Post_detail" />
+        <activity android:name=".activity.IndexActivity" />
+        <activity android:name=".Reg_result" />
+        <activity android:name=".Register" />
         <activity android:name=".login" />
         <activity android:name=".MainActivity">
             <intent-filter>

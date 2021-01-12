@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class register extends AppCompatActivity {
+public class Register extends AppCompatActivity {
     private EditText nameText,pwdText,repeatPwdText;
     private RadioButton maleBtn;
     private DbUtil mHelper;
@@ -66,7 +66,7 @@ public class register extends AppCompatActivity {
 
     public void add(String male){
         int amount=0;
-        Cursor c = mDB.rawQuery("select * from userInfo where userName = ?",new String[]{nameText.getText().toString()});
+        Cursor c = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{nameText.getText().toString()});
         amount = c.getCount();         //如果amount不为0，说明该用户名已被使用
         if(amount != 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -79,8 +79,8 @@ public class register extends AppCompatActivity {
         else {           //amount为0，用户名未被使用
             mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?)",
                     new String[]{nameText.getText().toString(), pwdText.getText().toString(), male});
-            Toast.makeText(register.this,"注册成功", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, reg_result.class);
+            Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Reg_result.class);
             intent.putExtra("regname",nameText.getText().toString());
             intent.putExtra("regpwd",pwdText.getText().toString());
             intent.putExtra("reggender",male);

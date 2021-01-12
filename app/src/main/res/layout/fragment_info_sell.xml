@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.Home">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.Info_sell">
 
-    <!-- TODO: Update blank fragment layout -->
     <ListView
-        android:id="@+id/homeList"
+        android:id="@+id/infoSellList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="2dp"/>
