@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Add_post"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edt_title"
+        android:hint="在此输入标题"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:minLines="2"
+        android:gravity="top"
+        android:background="#FFC0CB"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <EditText
+        android:id="@+id/edt_text"
+        android:hint="在此输入内容"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:padding="5dp"
+        android:minLines="5"
+        android:gravity="top"
+        android:background="#FA8072"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="帖子板块："
+            android:textSize="18dp"/>
+        <RadioGroup
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/talk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="研友杂谈"/>
+            <RadioButton
+                android:id="@+id/lecture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="考研讲座"/>
+            <RadioButton
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="考研资料"/>
+        </RadioGroup>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="RegChk"
+        android:text="发布" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="取消"/>
+
+</LinearLayout>

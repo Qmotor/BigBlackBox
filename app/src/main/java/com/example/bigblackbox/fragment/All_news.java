@@ -10,15 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.bigblackbox.Add_post;
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
+import com.example.bigblackbox.Search;
 import com.example.bigblackbox.adpater.PostingAdpater;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.Post_detail;
@@ -27,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class All_news extends Fragment {
-    private ImageView sb;
+    private ImageView sb,sb1;
     SQLiteOpenHelper helper;
 
     @Override
@@ -35,7 +39,6 @@ public class All_news extends Fragment {
         super.onCreate(savedInstanceState);
         helper = new DbUtil(getContext());
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +52,7 @@ public class All_news extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sb = view.findViewById(R.id.speakBtn);
+        sb1 = view.findViewById(R.id.search_Btn);
         final List<Posting> p = new ArrayList<>();
         try (SQLiteDatabase db = helper.getReadableDatabase()) {
             try (Cursor cursor = db.rawQuery("select * from posting order by postTime desc", new String[0])) {
@@ -75,12 +79,12 @@ public class All_news extends Fragment {
                 switch (scrollState) {
                     case 0:
                         sb.setVisibility(View.VISIBLE);
+                        sb1.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        sb.setVisibility(View.GONE);
-                        break;
                     case 2:
                         sb.setVisibility(View.GONE);
+                        sb1.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -91,5 +95,23 @@ public class All_news extends Fragment {
             }
         });
 
+        sb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Add_post.class);
+                startActivity(intent);
+            }
+        });
+        sb1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),Search.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
+
 }

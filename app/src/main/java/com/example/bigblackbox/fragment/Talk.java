@@ -1,5 +1,6 @@
 package com.example.bigblackbox.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bigblackbox.DbUtil;
+import com.example.bigblackbox.Post_detail;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.adpater.PostingAdpater;
 import com.example.bigblackbox.entity.Posting;
@@ -41,7 +44,7 @@ public class Talk extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<Posting> p = new ArrayList<>();
+        final List<Posting> p = new ArrayList<>();
         try(SQLiteDatabase db = helper.getReadableDatabase()){
             try(Cursor cursor = db.rawQuery("select * from posting where postFollow = 1 order by postTime desc",new String[0])){
                 while(cursor.moveToNext()){
@@ -52,5 +55,14 @@ public class Talk extends Fragment {
         }
         ListView listView = view.findViewById(R.id.talkList);
         listView.setAdapter(new PostingAdpater(getContext(),p));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Posting posting = p.get(position);
+                Intent intent = new Intent(getContext(), Post_detail.class);
+                intent.putExtra("postID", posting.getPostID());
+                startActivity(intent);
+            }
+        });
     }
 }

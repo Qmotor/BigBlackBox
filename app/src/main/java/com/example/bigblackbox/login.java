@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
 
 import com.example.bigblackbox.activity.IndexActivity;
 
@@ -29,14 +28,12 @@ public class login extends AppCompatActivity {
     }
 
     public void LoginApp(View view) {
-
         int amount = 0;
         Cursor c = mDB.rawQuery("select userID from userInfo where userName = ? and userPwd = ?",
                 new String[]{LnameText.getText().toString(),LpwdText.getText().toString()});
         amount = c.getCount();
         while (c.moveToNext()) {
             int id = c.getInt(0);
-            System.out.println("当前用户ID为："+id);
         }
 
         if(amount == 0){
@@ -48,6 +45,7 @@ public class login extends AppCompatActivity {
         }
         else {
                 Intent intent = new Intent(this, IndexActivity.class);
+                UserName.userName = LnameText.getText().toString();
                 startActivity(intent);
         }
     }

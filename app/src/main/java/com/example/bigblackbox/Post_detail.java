@@ -48,7 +48,6 @@ public class Post_detail extends AppCompatActivity {
         final List<Reply> r = new ArrayList<>();
         try(SQLiteDatabase db = helper.getReadableDatabase()){
             try(Cursor cursor = db.rawQuery("select * from postReply where reply_postID = ?",new String[]{String.valueOf(post_id)})){
-                System.out.println(post_id);
                 while (cursor.moveToNext()){
                     r.add(new Reply(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
                 }

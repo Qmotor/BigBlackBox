@@ -48,7 +48,6 @@ public class Info_sell extends Fragment {
         try (SQLiteDatabase db = helper.getReadableDatabase()) {
             try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
                 while (cursor.moveToNext()) {
-
                     p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 }
             }

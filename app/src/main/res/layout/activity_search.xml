@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Search">
+
+    <EditText
+        android:id="@+id/edt_search"
+        android:hint="请输入要查询的帖子标题"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:minLines="2"
+        android:gravity="top"
+        android:background="#FFC0CB"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/searchButton"
+        android:text="搜索"
+        android:onClick="searchPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ListView
+        android:id="@+id/searchList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
