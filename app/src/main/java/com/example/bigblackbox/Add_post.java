@@ -3,14 +3,11 @@ package com.example.bigblackbox;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +15,6 @@ import java.util.Date;
 
 public class Add_post extends AppCompatActivity {
     private EditText titleText,contentText;
-    private RadioGroup rg;
     private RadioButton talkBtn,sellBtn,lectureBtn;
     private DbUtil mHelper;
     private SQLiteDatabase mDB;
@@ -38,6 +34,8 @@ public class Add_post extends AppCompatActivity {
         sellBtn = findViewById(R.id.info);
 
     }
+
+
 
     public void RegChk(View view){
         String checkResult = checkInfo();
@@ -60,6 +58,9 @@ public class Add_post extends AppCompatActivity {
     }
 
     public String checkInfo(){
+        if(UserInfo.userName == null){
+            return "登录状态无效";
+        }
         String title= titleText.getText().toString();
         if("".equals(title)){
             return "标题不能为空！";
@@ -82,10 +83,9 @@ public class Add_post extends AppCompatActivity {
         //获取当前时间
         Date date = new Date(System.currentTimeMillis());
             mDB.execSQL("insert into posting values(null,?,?,?,?,?)",
-                    new String[]{UserName.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
+                    new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
-            this.titleText.setText("");
-            this.contentText.setText("");
+            this.finish();
         }
 
 

@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +31,8 @@ import java.util.List;
 public class All_news extends Fragment {
     private ImageView sb,sb1;
     SQLiteOpenHelper helper;
+    private PostingAdpater mPostingAdpater;
+    private List<Posting> p = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,14 @@ public class All_news extends Fragment {
         helper = new DbUtil(getContext());
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.fragment_all_news, container, false);
+
     }
 
     @Override
@@ -53,16 +55,10 @@ public class All_news extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         sb = view.findViewById(R.id.speakBtn);
         sb1 = view.findViewById(R.id.search_Btn);
-        final List<Posting> p = new ArrayList<>();
-        try (SQLiteDatabase db = helper.getReadableDatabase()) {
-            try (Cursor cursor = db.rawQuery("select * from posting order by postTime desc", new String[0])) {
-                while (cursor.moveToNext()) {
-                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
-                }
-            }
-        }
         final ListView listView = view.findViewById(R.id.allNewsList);
-        listView.setAdapter(new PostingAdpater(getContext(), p));
+
+        mPostingAdpater = new PostingAdpater(getContext(), p);
+        listView.setAdapter(mPostingAdpater);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,7 +68,7 @@ public class All_news extends Fragment {
                 startActivity(intent);
             }
         });
-
+        showData();
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -110,8 +106,24 @@ public class All_news extends Fragment {
             }
         });
 
-
     }
 
+    private void showData() {
+        p.clear();
+        try (SQLiteDatabase db = helper.getReadableDatabase()) {
+            try (Cursor cursor = db.rawQuery("select * from posting order by postTime desc", new String[0])) {
+                while (cursor.moveToNext()) {
+                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                }
+            }
+        }
+        //通知观察者数据已经变更
+        mPostingAdpater.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showData();
+    }
 }

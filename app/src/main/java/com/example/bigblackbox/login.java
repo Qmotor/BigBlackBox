@@ -15,6 +15,7 @@ public class login extends AppCompatActivity {
     private EditText LnameText,LpwdText;
     private DbUtil mHelper;
     private SQLiteDatabase mDB;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,15 @@ public class login extends AppCompatActivity {
 
         LnameText = findViewById(R.id.LUid);
         LpwdText = findViewById(R.id.LUpwd);
+
+        String userName = getIntent().getStringExtra("regName");
+        String userPwd = getIntent().getStringExtra("regPwd");
+
+        if(userName != null){
+            LnameText.setText(userName);
+            LpwdText.setText(userPwd);
+        }
+
     }
 
     public void LoginApp(View view) {
@@ -33,7 +43,7 @@ public class login extends AppCompatActivity {
                 new String[]{LnameText.getText().toString(),LpwdText.getText().toString()});
         amount = c.getCount();
         while (c.moveToNext()) {
-            int id = c.getInt(0);
+             id = c.getInt(0);
         }
 
         if(amount == 0){
@@ -45,7 +55,8 @@ public class login extends AppCompatActivity {
         }
         else {
                 Intent intent = new Intent(this, IndexActivity.class);
-                UserName.userName = LnameText.getText().toString();
+                UserInfo.userName = LnameText.getText().toString();
+                UserInfo.userID = String.valueOf(id);
                 startActivity(intent);
         }
     }

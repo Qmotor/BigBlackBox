@@ -80,14 +80,10 @@ public class Register extends AppCompatActivity {
             mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?)",
                     new String[]{nameText.getText().toString(), pwdText.getText().toString(), male});
             Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Reg_result.class);
-            intent.putExtra("regname",nameText.getText().toString());
-            intent.putExtra("regpwd",pwdText.getText().toString());
-            intent.putExtra("reggender",male);
+            Intent intent = new Intent(this, login.class);
+            intent.putExtra("regName",nameText.getText().toString());
+            intent.putExtra("regPwd",pwdText.getText().toString());
             startActivity(intent);
-            this.nameText.setText("");
-            this.pwdText.setText("");
-            this.repeatPwdText.setText("");
         }
     }
 
