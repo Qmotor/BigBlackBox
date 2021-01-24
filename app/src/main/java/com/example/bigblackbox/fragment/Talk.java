@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Talk extends Fragment {
+    private PostingAdpater mPostingAdpater;
+    private List<Posting> p = new ArrayList<>();
     SQLiteOpenHelper helper;
 
     @Override
@@ -44,17 +46,10 @@ public class Talk extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<Posting> p = new ArrayList<>();
-        try(SQLiteDatabase db = helper.getReadableDatabase()){
-            try(Cursor cursor = db.rawQuery("select * from posting where postFollow = 1 order by postTime desc",new String[0])){
-                while(cursor.moveToNext()){
 
-                    p.add(new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5)));
-                }
-            }
-        }
         ListView listView = view.findViewById(R.id.talkList);
-        listView.setAdapter(new PostingAdpater(getContext(),p));
+        mPostingAdpater = new PostingAdpater(getContext(), p);
+        listView.setAdapter(mPostingAdpater);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -65,4 +60,25 @@ public class Talk extends Fragment {
             }
         });
     }
+
+    private void showData(){
+        p.clear();
+        try(SQLiteDatabase db = helper.getReadableDatabase()){
+            try(Cursor cursor = db.rawQuery("select * from posting where postFollow = 1 order by postTime desc",new String[0])){
+                while(cursor.moveToNext()){
+
+                    p.add(new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5)));
+                }
+            }
+        }
+        mPostingAdpater.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showData();
+    }
+
 }

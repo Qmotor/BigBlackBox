@@ -30,6 +30,9 @@ public class login extends AppCompatActivity {
         String userName = getIntent().getStringExtra("regName");
         String userPwd = getIntent().getStringExtra("regPwd");
 
+        LnameText.setText("五二八七");
+        LpwdText.setText("123456");
+
         if(userName != null){
             LnameText.setText(userName);
             LpwdText.setText(userPwd);

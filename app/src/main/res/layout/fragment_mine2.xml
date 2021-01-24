@@ -58,6 +58,15 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
     <TextView
+        android:id="@+id/myPosting"
+        android:layout_marginTop="10dp"
+        android:text="查看我的帖子"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:background="@drawable/click_bg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+    <TextView
         android:id="@+id/login_out"
         android:layout_marginTop="10dp"
         android:text="注销"
@@ -66,5 +75,6 @@
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
+
 
 </LinearLayout>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.bigblackbox.activity.IndexActivity;
 
 public class MainActivity extends AppCompatActivity {
 

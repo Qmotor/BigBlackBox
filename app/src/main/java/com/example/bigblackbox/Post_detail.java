@@ -1,6 +1,5 @@
 package com.example.bigblackbox;
 
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.example.bigblackbox.adpater.ReplyAdpater;
 import com.example.bigblackbox.entity.Posting;

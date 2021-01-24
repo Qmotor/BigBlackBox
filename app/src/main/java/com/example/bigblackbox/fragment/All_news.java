@@ -69,6 +69,7 @@ public class All_news extends Fragment {
             }
         });
         showData();
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

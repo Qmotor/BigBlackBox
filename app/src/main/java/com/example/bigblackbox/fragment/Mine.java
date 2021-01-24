@@ -2,7 +2,6 @@ package com.example.bigblackbox.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,15 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bigblackbox.EditUserInfo;
 import com.example.bigblackbox.MainActivity;
+import com.example.bigblackbox.MyPosting;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.UserInfo;
 
 public class Mine extends Fragment {
-    private TextView name,id,edit,loginOut;
+    private TextView name,id,edit,myPost,loginOut;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class Mine extends Fragment {
         name = view.findViewById(R.id.uName);
         id = view.findViewById(R.id.uID);
         edit = view.findViewById(R.id.edit_userInfo);
+        myPost = view.findViewById(R.id.myPosting);
         loginOut = view.findViewById(R.id.login_out);
 
         name.setText(UserInfo.userName);
@@ -52,8 +52,15 @@ public class Mine extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getContext(), "点了1", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), EditUserInfo.class);
+                startActivity(intent);
+            }
+        });
+
+        myPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MyPosting.class);
                 startActivity(intent);
             }
         });

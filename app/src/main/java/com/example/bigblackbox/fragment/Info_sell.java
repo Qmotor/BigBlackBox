@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Info_sell extends Fragment {
+    private PostingAdpater mPostingAdpater;
+    private List<Posting> p = new ArrayList<>();
     SQLiteOpenHelper helper;
 
     @Override
@@ -44,16 +46,11 @@ public class Info_sell extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final List<Posting> p = new ArrayList<>();
-        try (SQLiteDatabase db = helper.getReadableDatabase()) {
-            try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
-                while (cursor.moveToNext()) {
-                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
-                }
-            }
-        }
-        ListView listView = view.findViewById(R.id.infoSellList);
-        listView.setAdapter(new PostingAdpater(getContext(), p));
+
+        final ListView listView = view.findViewById(R.id.infoSellList);
+
+        mPostingAdpater = new PostingAdpater(getContext(), p);
+        listView.setAdapter(mPostingAdpater);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,5 +60,24 @@ public class Info_sell extends Fragment {
                 startActivity(intent);
             }
         });
+        showSellData();
     }
+    private void showSellData(){
+        p.clear();
+        try (SQLiteDatabase db = helper.getReadableDatabase()) {
+            try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
+                while (cursor.moveToNext()) {
+                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                }
+            }
+        }
+        mPostingAdpater.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showSellData();
+    }
+
 }

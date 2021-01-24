@@ -3,8 +3,6 @@ package com.example.bigblackbox;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,11 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.entity.User;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class EditUserInfo extends AppCompatActivity {
 
@@ -29,8 +23,6 @@ public class EditUserInfo extends AppCompatActivity {
     private TextView uid,uname;
     private EditText phone,email,edu,school,career;
     private RadioButton maleBtn,femaleBtn;
-
-
 
     SQLiteOpenHelper helper;
 

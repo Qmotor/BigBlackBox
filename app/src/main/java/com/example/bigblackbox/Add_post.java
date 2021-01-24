@@ -87,6 +87,4 @@ public class Add_post extends AppCompatActivity {
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
             this.finish();
         }
-
-
 }
