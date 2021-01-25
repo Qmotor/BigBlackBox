@@ -1,14 +1,14 @@
 package com.example.bigblackbox.entity;
 
 public class User {
-    private int userID;
-    private String userName;
-    private String userGender;
-    private String userPhone;
-    private String userEmail;
-    private String userEdu;
-    private String userSchool;
-    private String userCareer;
+    private int userID;                     //用户ID
+    private String userName;                //用户名
+    private String userGender;              //性别
+    private String userPhone;               //联系电话
+    private String userEmail;               //电子邮箱
+    private String userEdu;                 //教育经历
+    private String userSchool;              //目标院校
+    private String userCareer;              //当前职业
 
 
     public User(){

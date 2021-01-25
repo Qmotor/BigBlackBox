@@ -80,7 +80,6 @@ public class EditUserInfo extends AppCompatActivity {
         }else{
             save();
         }
-
     }
 
     public String checkInfo(){

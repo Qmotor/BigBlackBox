@@ -47,6 +47,9 @@ public class PushInfoAdpater extends BaseAdapter {
             v = convertView;
         }
         PushInfo pushInfo = mPushInfo.get(position);
+        /*
+        将数据库查询结果显示在相应的TextView中
+         */
         ((TextView) v.findViewById(R.id.title)).setText(pushInfo.getPushTitle());
         ((TextView) v.findViewById(R.id.author)).setText(pushInfo.getPushUser());
         ((TextView) v.findViewById(R.id.time)).setText(pushInfo.getPushTime());

@@ -29,6 +29,9 @@ public class Community extends Fragment {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_community2, container, false);
         List<Fragment> fragments = new ArrayList<>(4);
+        /*
+        向ListView中添加不同的片段
+         */
         fragments.add(new All_news());
         fragments.add(new Talk());
         fragments.add(new Lecture());

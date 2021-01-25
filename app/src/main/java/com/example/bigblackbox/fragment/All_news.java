@@ -62,6 +62,9 @@ public class All_news extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                根据用户点击的帖子，在Posting实体类中获取相应的帖子ID，并将该值传入Post_detail中
+                */
                 Posting posting = p.get(position);
                 Intent intent = new Intent(getContext(), Post_detail.class);
                 intent.putExtra("postID", posting.getPostID());
@@ -74,10 +77,16 @@ public class All_news extends Fragment {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
+                    /*
+                    当ListView不滚动时，悬浮按钮状态为可见
+                     */
                     case 0:
                         sb.setVisibility(View.VISIBLE);
                         sb1.setVisibility(View.VISIBLE);
                         break;
+                     /*
+                      当ListView滚动时，悬浮按钮状态为隐藏
+                      */
                     case 1:
                     case 2:
                         sb.setVisibility(View.GONE);
@@ -110,7 +119,7 @@ public class All_news extends Fragment {
     }
 
     private void showData() {
-        p.clear();
+        p.clear();                //清除List中的数据，防止数据显示出错
         try (SQLiteDatabase db = helper.getReadableDatabase()) {
             try (Cursor cursor = db.rawQuery("select * from posting order by postTime desc", new String[0])) {
                 while (cursor.moveToNext()) {
@@ -124,6 +133,9 @@ public class All_news extends Fragment {
 
     @Override
     public void onResume() {
+        /*
+        重写onResume()方法，保持显示数据常新
+         */
         super.onResume();
         showData();
     }

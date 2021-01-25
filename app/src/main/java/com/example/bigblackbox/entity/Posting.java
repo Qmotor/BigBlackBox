@@ -1,18 +1,16 @@
 package com.example.bigblackbox.entity;
 
 public class Posting {
-    private int postID;
-    private String name;
-    private String title;
-    private String content;
-    private String time;
-    private int follow;
-
+    private int postID;             //帖子编号
+    private String name;            //发帖人用户名
+    private String title;           //帖子标题
+    private String content;         //帖子内容
+    private String time;            //发帖时间
+    private int follow;             //帖子板块从属
 
     public Posting(){
 
     }
-
 
     public Posting(int postID, String name, String title, String content, String time, int follow) {
         this.postID = postID;

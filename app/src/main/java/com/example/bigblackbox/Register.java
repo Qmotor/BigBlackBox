@@ -65,7 +65,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void add(String male){
-        int amount=0;
+        int amount;
         Cursor c = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{nameText.getText().toString()});
         amount = c.getCount();         //如果amount不为0，说明该用户名已被使用
         if(amount != 0){
@@ -80,7 +80,7 @@ public class Register extends AppCompatActivity {
             mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?)",
                     new String[]{nameText.getText().toString(), pwdText.getText().toString(), male});
             Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, login.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("regName",nameText.getText().toString());
             intent.putExtra("regPwd",pwdText.getText().toString());
             startActivity(intent);

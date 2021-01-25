@@ -54,6 +54,9 @@ public class Home extends Fragment {
                 }
             }
         }
+        /*
+        绑定控件，将数据库查询结果显示在相应的ListView中
+         */
         ListView listView = view.findViewById(R.id.homeList);
         listView.setAdapter(new PushInfoAdpater(getContext(),pi));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +64,9 @@ public class Home extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PushInfo pushInfo = pi.get(position);
                 Intent intent = new Intent(getContext(), Push_detail.class);
+                /*
+                根据用户点击的帖子，从实体类获取推送消息ID，并将该值传入Push_detail中
+                 */
                 intent.putExtra("pushInfoID",pushInfo.getPushID());
                 startActivity(intent);
             }

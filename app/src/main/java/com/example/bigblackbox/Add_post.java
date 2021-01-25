@@ -35,25 +35,23 @@ public class Add_post extends AppCompatActivity {
 
     }
 
-
-
     public void RegChk(View view){
         String checkResult = checkInfo();
-        if(checkResult != null){         //验证信息未通过
+        if(checkResult != null){                                                    //验证信息未通过
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Warning!!!");
-            builder.setMessage(checkResult);    //输出具体未通过原因
+            builder.setMessage(checkResult);                                        //输出具体未通过原因
             builder.setPositiveButton("确定",null);
             builder.create().show();
         }else{
-            int follow = 3 ;
+            int follow = 3;
            if(talkBtn.isChecked()){
                follow = 1;
            }
            else if(lectureBtn.isChecked()){
                follow = 2;
            }
-            add(follow);
+            add(follow);                       //将follow参数传入add方法
         }
     }
 

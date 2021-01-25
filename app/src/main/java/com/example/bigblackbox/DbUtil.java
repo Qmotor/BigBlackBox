@@ -11,10 +11,15 @@ public class DbUtil extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //用户表
         db.execSQL("create table userInfo(userID integer primary key autoincrement,userName varchar(30),userPwd varchar(30),userGender char(10),userPhone char(11),userEmail varchar(30),userEdu varchar(30),userTargetSchol varchar(30),userCareer varchar(30))");
+        //帖子表
         db.execSQL("create table posting(postID integer primary key autoincrement,postUserName varchar(30),postTitle varchar(30),postContent varchar(50),postTime varchar(30),postFollow varchar(20))");
+        //评论表
         db.execSQL("create table postReply(replyID integer primary key autoincrement,reply_postID integer,replyUserName varchar(30),replyContent varchar(30),replyTime varchar(30))");
+        //推送消息表
         db.execSQL("create table pushPosting(pushPostingID integer primary key autoincrement,pushPostingUserName varchar(30),pushPostingTitle varchar(30),pushPostingContent varchar(50),pushPostingTime varchar(30))");
+        //管理员表
         db.execSQL("create table admin(adID integer primary key autoincrement,adName varchar(30),adPwd varchar(30))");
     }
 

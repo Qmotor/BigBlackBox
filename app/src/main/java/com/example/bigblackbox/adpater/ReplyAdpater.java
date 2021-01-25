@@ -45,6 +45,9 @@ public class ReplyAdpater extends BaseAdapter {
             v = convertView;
         }
         Reply reply = mReply.get(position);
+        /*
+        将数据库查询结果显示在相应的TextView中
+         */
         ((TextView)v.findViewById(R.id.replyContent)).setText(reply.getReplyContent());
         ((TextView)v.findViewById(R.id.replyUser)).setText(reply.getReplyName());
         ((TextView)v.findViewById(R.id.replyTime)).setText(reply.getReplyTime());

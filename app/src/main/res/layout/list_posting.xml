@@ -17,8 +17,8 @@
         <TextView
             android:id="@+id/postTime"
             android:textSize="12dp"
-            android:layout_marginLeft="160dp"
             android:text="2020-11-13 14:52"
+            android:layout_marginLeft="160dp"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"/>
 </LinearLayout>

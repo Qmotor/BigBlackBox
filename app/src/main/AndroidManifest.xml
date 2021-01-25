@@ -21,7 +21,6 @@
         <activity android:name=".Post_detail" />
         <activity android:name=".activity.IndexActivity" />
         <activity android:name=".Register" />
-        <activity android:name=".login" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

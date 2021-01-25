@@ -19,6 +19,7 @@ public class PostingAdpater extends BaseAdapter {
     public PostingAdpater(Context context, List<Posting> posting) {
         this.mPosting = posting;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -45,6 +46,9 @@ public class PostingAdpater extends BaseAdapter {
             v = convertView;
         }
         Posting posting = mPosting.get(position);
+        /*
+        将数据库查询结果显示在相应的TextView中
+         */
         ((TextView)v.findViewById(R.id.postTitle)).setText(posting.getTitle());
         ((TextView)v.findViewById(R.id.userName)).setText(posting.getName());
         ((TextView)v.findViewById(R.id.postTime)).setText(posting.getTime());

@@ -54,6 +54,9 @@ public class Info_sell extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                根据用户点击的帖子，从实体类获取相应的帖子编号，并将该值传入Post_detail中
+                 */
                 Posting posting = p.get(position);
                 Intent intent = new Intent(getContext(), Post_detail.class);
                 intent.putExtra("postID", posting.getPostID());
@@ -63,7 +66,7 @@ public class Info_sell extends Fragment {
         showSellData();
     }
     private void showSellData(){
-        p.clear();
+        p.clear();           //清空List中的数据，防止数据多次显示
         try (SQLiteDatabase db = helper.getReadableDatabase()) {
             try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
                 while (cursor.moveToNext()) {
@@ -76,6 +79,9 @@ public class Info_sell extends Fragment {
 
     @Override
     public void onResume() {
+        /*
+        重写onResume()方法，保持显示数据常新
+         */
         super.onResume();
         showSellData();
     }
