@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/background"
+        android:background="@drawable/login_bg"
         android:gravity="center">
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"></View>
+                android:layout_marginBottom="5dp" />
 
             <EditText
                 android:id="@+id/LUpwd"
@@ -65,6 +65,44 @@
                 android:textColorHint="#9F9FA0"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#83738F"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ver"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:hint="请输入验证码"
+                    android:textColor="#9F9FA0"
+                    android:textColorHint="#9F9FA0"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"/>
+
+                <ImageView
+                    android:id="@+id/verCode"
+                    android:onClick="flashVer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/flash"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="点击这里"
+                android:onClick="findPwd"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"/>
         </LinearLayout>

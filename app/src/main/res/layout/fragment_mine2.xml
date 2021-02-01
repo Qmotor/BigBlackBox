@@ -53,7 +53,7 @@
         android:layout_marginTop="10dp"
         android:text="修改个人信息"
         android:textColor="#000000"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
@@ -62,16 +62,25 @@
         android:layout_marginTop="10dp"
         android:text="查看我的帖子"
         android:textColor="#000000"
-        android:textSize="18dp"
+        android:textSize="16dp"
+        android:background="@drawable/click_bg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+    <TextView
+        android:id="@+id/editPwd"
+        android:layout_marginTop="10dp"
+        android:text="修改账号密码"
+        android:textColor="#000000"
+        android:textSize="16dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
     <TextView
         android:id="@+id/login_out"
         android:layout_marginTop="10dp"
-        android:text="注销"
+        android:text="注销登录"
         android:textColor="#000000"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>

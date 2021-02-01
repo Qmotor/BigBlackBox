@@ -2,11 +2,16 @@ package com.example.bigblackbox;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -14,26 +19,54 @@ import android.widget.Toast;
 public class Register extends AppCompatActivity {
     private EditText nameText,pwdText,repeatPwdText;
     private RadioButton maleBtn;
-    private DbUtil mHelper;
+    private Button clearBtn;
     private SQLiteDatabase mDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHelper = new DbUtil(this);
+        DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
         setContentView(R.layout.activity_register);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         nameText = findViewById(R.id.Uid);
         pwdText = findViewById(R.id.Upwd);
-        repeatPwdText= findViewById(R.id.Enpwd);
+        repeatPwdText= findViewById(R.id.enPwd);
         maleBtn = findViewById(R.id.male);
+        clearBtn = findViewById(R.id.clear);
+
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if("".equals(nameText.getText().toString()) && "".equals(pwdText.getText().toString()) && "".equals(repeatPwdText.getText().toString())){
+                    Toast.makeText(Register.this,"本来就没东西就没必要清空了吧^_^",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
+                    builder.setTitle("提示");
+                    builder.setMessage("您确定要清空以上信息吗");
+                    builder.setPositiveButton("我手滑了0_o", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            nameText.setText("");
+                            pwdText.setText("");
+                            repeatPwdText.setText("");
+                        }
+                    });
+                    builder.create().show();
+                }
+            }
+        });
     }
     public void RegChk(View view){
         String checkResult = checkInfo();
         if(checkResult != null){         //验证信息未通过
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Warning!!!");
+            builder.setTitle("提示");
             builder.setMessage(checkResult);    //输出具体未通过原因
             builder.setPositiveButton("确定",null);
             builder.create().show();
@@ -66,7 +99,7 @@ public class Register extends AppCompatActivity {
 
     public void add(String male){
         int amount;
-        Cursor c = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{nameText.getText().toString()});
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{nameText.getText().toString()});
         amount = c.getCount();         //如果amount不为0，说明该用户名已被使用
         if(amount != 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

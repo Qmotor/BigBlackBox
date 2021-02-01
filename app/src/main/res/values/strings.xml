@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">我不知道</string>
+    <string name="app_name">安卓论坛测试</string>
     <string name="title_activity_log_result">MainActivity</string>
     <string name="title_home">主页</string>
     <string name="title_community">社区</string>

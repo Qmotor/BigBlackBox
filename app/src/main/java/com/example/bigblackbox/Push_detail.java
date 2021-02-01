@@ -13,17 +13,16 @@ import android.widget.TextView;
 import com.example.bigblackbox.entity.PushInfo;
 
 public class Push_detail extends AppCompatActivity {
-    private TextView name,time,title,content;
     SQLiteOpenHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_detail);
-        name = findViewById(R.id.pushName);
-        time = findViewById(R.id.pushTime);
-        title = findViewById(R.id.pushTitle);
-        content = findViewById(R.id.pushContent);
+        TextView name = findViewById(R.id.pushName);
+        TextView time = findViewById(R.id.pushTime);
+        TextView title = findViewById(R.id.pushTitle);
+        TextView content = findViewById(R.id.pushContent);
         helper = new DbUtil(this);
         int push_id = getIntent().getIntExtra("pushInfoID",-1);
         PushInfo p = null;

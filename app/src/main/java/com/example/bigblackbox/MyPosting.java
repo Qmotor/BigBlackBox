@@ -19,14 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyPosting extends AppCompatActivity {
-    private DbUtil mHelper;
-    private SQLiteDatabase mDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHelper = new DbUtil(this);
-        mDB = mHelper.getReadableDatabase();
+        DbUtil mHelper = new DbUtil(this);
+        SQLiteDatabase mDB = mHelper.getReadableDatabase();
         setContentView(R.layout.activity_my_posting);
 
         final List<Posting> p = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.example.bigblackbox;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +16,7 @@ import java.util.Date;
 
 public class Add_post extends AppCompatActivity {
     private EditText titleText,contentText;
-    private RadioButton talkBtn,sellBtn,lectureBtn;
-    private DbUtil mHelper;
+    private RadioButton talkBtn,lectureBtn;
     private SQLiteDatabase mDB;
 
     @Override
@@ -24,15 +24,13 @@ public class Add_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
 
-        mHelper = new DbUtil(this);
+        DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
 
         titleText = findViewById(R.id.edt_title);
         contentText= findViewById(R.id.edt_text);
         talkBtn = findViewById(R.id.talk);
         lectureBtn = findViewById(R.id.lecture);
-        sellBtn = findViewById(R.id.info);
-
     }
 
     public void RegChk(View view){
@@ -77,9 +75,10 @@ public class Add_post extends AppCompatActivity {
     }
 
     public void add(int follow){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
-        //获取当前时间
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
+        //获取当前时间
+
             mDB.execSQL("insert into posting values(null,?,?,?,?,?)",
                     new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();

@@ -20,13 +20,12 @@ import java.util.List;
 public class Search extends AppCompatActivity {
     private EditText searchText;
     private DbUtil mHelper;
-    private SQLiteDatabase mDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHelper = new DbUtil(this);
-        mDB = mHelper.getReadableDatabase();
+        SQLiteDatabase mDB = mHelper.getReadableDatabase();
         setContentView(R.layout.activity_search);
 
         searchText = findViewById(R.id.edt_search);
