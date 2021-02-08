@@ -51,36 +51,50 @@
     <TextView
         android:id="@+id/edit_userInfo"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
         android:text="修改个人信息"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
     <TextView
         android:id="@+id/myPosting"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
         android:text="查看我的帖子"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
     <TextView
         android:id="@+id/editPwd"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
         android:text="修改账号密码"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
+        android:background="@drawable/click_bg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+    <TextView
+        android:id="@+id/safeQuestion"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
+        android:text="完善密保信息"
+        android:textColor="#000000"
+        android:textSize="14dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>
     <TextView
         android:id="@+id/login_out"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="7dp"
         android:text="注销登录"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="30dp"/>

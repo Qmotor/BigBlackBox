@@ -1,6 +1,5 @@
 package com.example.bigblackbox;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
@@ -8,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.widget.TextView;
-
 
 import com.example.bigblackbox.entity.PushInfo;
 
@@ -38,5 +36,4 @@ public class Push_detail extends AppCompatActivity {
         title.setText(p.getPushTitle());
         content.setText(p.getPushContent());
     }
-
 }

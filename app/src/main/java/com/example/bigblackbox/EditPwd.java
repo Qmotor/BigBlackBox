@@ -10,21 +10,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class EditPwd extends AppCompatActivity {
 
-    private TextView user;
     private EditText oldP,newP,enP;
     private SQLiteDatabase mDB;
-    private Button clearBtn;
     private static final long DELAY = 2000;
 
     @Override
@@ -32,11 +30,20 @@ public class EditPwd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_pwd);
 
-        user = findViewById(R.id.editUser);
+        DbUtil mHelper = new DbUtil(this);
+        mDB = mHelper.getReadableDatabase();
+
+        TextView user = findViewById(R.id.editUser);
         oldP = findViewById(R.id.oldPwd);
         newP = findViewById(R.id.newPwd);
         enP = findViewById(R.id.enNewPwd);
-        clearBtn = findViewById(R.id.clear);
+        Button clearBtn = findViewById(R.id.clear);
+
+        /*
+        设置状态栏为透明
+         */
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +54,7 @@ public class EditPwd extends AppCompatActivity {
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditPwd.this);
                     builder.setTitle("提示");
-                    builder.setMessage("您确定要清空以上信息吗");
+                    builder.setMessage("您确定要清空以上信息吗？");
                     builder.setPositiveButton("我手滑啦O_o", null);
                     builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -55,17 +62,15 @@ public class EditPwd extends AppCompatActivity {
                             oldP.setText("");
                             newP.setText("");
                             enP.setText("");
+                            Toast.makeText(EditPwd.this,"已清除",Toast.LENGTH_LONG).show();
+
                         }
                     });
                     builder.create().show();
                 }
             }
         });
-
-        DbUtil mHelper = new DbUtil(this);
-        mDB = mHelper.getReadableDatabase();
-
-        user.setText("当前用户为："+UserInfo.userName);
+        user.setText("当前操作用户为："+UserInfo.userName);
     }
 
     public void edit(View view) {
@@ -86,7 +91,7 @@ public class EditPwd extends AppCompatActivity {
                 empBuilder.create().show();
             }
 
-            else if(enp.length() <= 5 || enp.length() > 13){
+            else if(enp.length() < 5 || enp.length() > 13){
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("新密码长度应在6-12位之间");
@@ -124,16 +129,17 @@ public class EditPwd extends AppCompatActivity {
                 Toast.makeText(EditPwd.this,"修改密码成功，即将跳转至登录界面", Toast.LENGTH_LONG).show();
                 final Intent localIntent = new Intent(this,MainActivity.class);
                 Timer timer = new Timer();
+                /*
+                设置定时操作，保证程序结构合理
+                 */
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run(){
-                        startActivity(localIntent);//执行
+                        startActivity(localIntent);
                         finish();
                     }
                 };
                 timer.schedule(task,DELAY);
             }
     }
-
-
 }

@@ -1,19 +1,21 @@
 package com.example.bigblackbox;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bigblackbox.adpater.ReplyAdpater;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bigblackbox.adapter.ReplyAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.entity.Reply;
 
@@ -23,11 +25,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Post_detail extends AppCompatActivity {
-    private TextView name,time,title,content;
     private EditText comment;
-    private DbUtil mHelper;
     private SQLiteDatabase mDB;
-    SQLiteOpenHelper helper;
+    private String currentUser;
+    private String commUser;
 
     private int post_id = -1;
 
@@ -35,40 +36,83 @@ public class Post_detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
-        name = findViewById(R.id.postName);
-        time = findViewById(R.id.postTime);
-        title = findViewById(R.id.postTitle);
-        content = findViewById(R.id.postContent);
+        TextView name = findViewById(R.id.postName);
+        TextView time = findViewById(R.id.postTime);
+        TextView title = findViewById(R.id.postTitle);
+        TextView content = findViewById(R.id.postContent);
         comment = findViewById(R.id.edt_comment);
 
-        mHelper = new DbUtil(this);
+        DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
-        helper = new DbUtil(this);
 
         post_id = getIntent().getIntExtra("postID",-1);
         Posting p = null;
-        try(SQLiteDatabase db = helper.getReadableDatabase()){
-            try(Cursor cursor = db.rawQuery("select * from posting where postID = ?",new String[]{String.valueOf(post_id)})){
+            try(Cursor cursor = mDB.rawQuery("select * from posting where postID = ?",new String[]{String.valueOf(post_id)})){
                 if(cursor.moveToNext()){
                     p = new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
                 }
             }
-        }
+        assert p != null;
         name.setText(p.getName());
         time.setText(p.getTime());
         title.setText(p.getTitle());
         content.setText(p.getContent());
 
         final List<Reply> r = new ArrayList<>();
-        try(SQLiteDatabase db = helper.getReadableDatabase()){
-            try(Cursor cursor = db.rawQuery("select * from postReply where reply_postID = ?",new String[]{String.valueOf(post_id)})){
+            try(Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ?",new String[]{String.valueOf(post_id)})){
                 while (cursor.moveToNext()){
                     r.add(new Reply(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
                 }
             }
-        }
+
         final ListView listView = findViewById(R.id.replyList);
-        listView.setAdapter(new ReplyAdpater(this,r));
+        listView.setAdapter(new ReplyAdapter(this,r));
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Reply reply = r.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Post_detail.this);
+                builder.setTitle("提示");
+                builder.setMessage("您确定要删除该评论吗？");
+                builder.setPositiveButton("我手滑了0_o", null);
+                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                                new String[]{String.valueOf(reply.getPostID())});
+                        @SuppressLint("Recycle") Cursor cu = mDB.rawQuery("select * from postReply where replyID = ?",
+                                new String[]{String.valueOf(reply.getReplyID())});
+                        if(c.moveToNext()){
+                            currentUser = c.getString(1);
+                        }
+                        if(cu.moveToNext()){
+                            commUser = cu.getString(2);
+                        }
+                        if(!currentUser.equals(UserInfo.userName)){        //判断所选帖子发帖用户与当前登录用户是否一致
+                            if(!commUser.equals(UserInfo.userName)){       //判断当前评论用户与当前登录用户是否一致
+                                Toast.makeText(Post_detail.this,"这是你的评论吗？",Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                /*
+                                此部分删除的是他人帖子下自己的评论
+                                 */
+                                mDB.execSQL("delete from postReply where replyID = ?", new String[]{String.valueOf(reply.getReplyID())});
+                                Toast.makeText(Post_detail.this,"评论删除成功", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else{
+                            /*
+                            此部分删除的是自己发布的帖子下的任意评论
+                             */
+                            mDB.execSQL("delete from postReply where replyID = ?", new String[]{String.valueOf(reply.getReplyID())});
+                            Toast.makeText(Post_detail.this,"评论删除成功", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
     }
 
     public void subComment(View view){
@@ -82,7 +126,6 @@ public class Post_detail extends AppCompatActivity {
         }else{
             add();
         }
-
     }
 
     public String checkInfo(){
@@ -114,6 +157,4 @@ public class Post_detail extends AppCompatActivity {
             builder.create().show();
         }
     }
-
-
 }

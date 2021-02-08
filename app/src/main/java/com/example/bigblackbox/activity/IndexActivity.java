@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.adpater.ViewAdpater;
+import com.example.bigblackbox.adapter.ViewAdapter;
 import com.example.bigblackbox.fragment.Community;
 import com.example.bigblackbox.fragment.Home;
 import com.example.bigblackbox.fragment.Mine;
@@ -32,7 +32,7 @@ public class IndexActivity extends AppCompatActivity {
         fragments.add(new Mine());
 
         final ViewPager2 viewPager2 = findViewById(R.id.viewPager);
-        viewPager2.setAdapter(new ViewAdpater(this,fragments));
+        viewPager2.setAdapter(new ViewAdapter(this,fragments));
         viewPager2.setUserInputEnabled(false);
 
         final TabLayout tabLayout = findViewById(R.id.buttomView);

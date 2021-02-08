@@ -13,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bigblackbox.EditPwd;
 import com.example.bigblackbox.EditUserInfo;
 import com.example.bigblackbox.MainActivity;
 import com.example.bigblackbox.MyPosting;
 import com.example.bigblackbox.R;
+import com.example.bigblackbox.SecurityQuestion;
 import com.example.bigblackbox.UserInfo;
+
 
 public class Mine extends Fragment {
 
@@ -46,6 +49,7 @@ public class Mine extends Fragment {
         TextView myPost = view.findViewById(R.id.myPosting);
         TextView editPwd = view.findViewById(R.id.editPwd);
         TextView loginOut = view.findViewById(R.id.login_out);
+        TextView safeAsk = view.findViewById(R.id.safeQuestion);
 
         name.setText(UserInfo.userName);
         id.setText("用户ID："+UserInfo.userID);
@@ -74,6 +78,14 @@ public class Mine extends Fragment {
             }
         });
 
+        safeAsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SecurityQuestion.class);
+                startActivity(intent);
+            }
+        });
+
 
         loginOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +100,7 @@ public class Mine extends Fragment {
                         UserInfo.userID = null;
                         Intent intent = new Intent(getContext(),MainActivity.class);
                         startActivity(intent);
+                        Toast.makeText(getContext(),"注销成功",Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.setNegativeButton("取消",null);

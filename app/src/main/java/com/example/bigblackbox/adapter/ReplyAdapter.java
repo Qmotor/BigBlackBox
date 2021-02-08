@@ -1,4 +1,4 @@
-package com.example.bigblackbox.adpater;
+package com.example.bigblackbox.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,28 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.entity.Posting;
+import com.example.bigblackbox.entity.Reply;
 
 import java.util.List;
 
-public class PostingAdpater extends BaseAdapter {
-    private final List<Posting> mPosting;
+public class ReplyAdapter extends BaseAdapter {
+    private final List<Reply> mReply;
     private final LayoutInflater mInflater;
 
-    public PostingAdpater(Context context, List<Posting> posting) {
-        this.mPosting = posting;
+    public ReplyAdapter(Context context, List<Reply> reply) {
+        this.mReply = reply;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
     public int getCount() {
-        return mPosting.size();
+        return mReply.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mPosting.get(position);
+        return mReply.get(position);
     }
 
     @Override
@@ -41,18 +40,17 @@ public class PostingAdpater extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
         if (convertView == null) {
-            v = mInflater.inflate(R.layout.list_posting, parent, false);
+            v = mInflater.inflate(R.layout.list_reply, parent, false);
         } else {
             v = convertView;
         }
-        Posting posting = mPosting.get(position);
+        Reply reply = mReply.get(position);
         /*
         将数据库查询结果显示在相应的TextView中
          */
-        ((TextView)v.findViewById(R.id.postTitle)).setText(posting.getTitle());
-        ((TextView)v.findViewById(R.id.userName)).setText(posting.getName());
-        ((TextView)v.findViewById(R.id.postTime)).setText(posting.getTime());
-        ((TextView)v.findViewById(R.id.postContent)).setText(posting.getContent());
+        ((TextView)v.findViewById(R.id.replyContent)).setText(reply.getReplyContent());
+        ((TextView)v.findViewById(R.id.replyUser)).setText(reply.getReplyName());
+        ((TextView)v.findViewById(R.id.replyTime)).setText(reply.getReplyTime());
         return v;
     }
 }

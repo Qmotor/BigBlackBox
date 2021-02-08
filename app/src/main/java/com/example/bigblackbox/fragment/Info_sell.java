@@ -1,23 +1,27 @@
 package com.example.bigblackbox.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.adpater.PostingAdpater;
+import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.Post_detail;
 
@@ -25,14 +29,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Info_sell extends Fragment {
-    private PostingAdpater mPostingAdpater;
+    private String name;
+    private PostingAdapter mPostingAdapter;
+    private SQLiteDatabase mDB;
     private List<Posting> p = new ArrayList<>();
-    SQLiteOpenHelper helper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        helper = new DbUtil(getContext());
+        DbUtil mHelper = new DbUtil(getContext());
+        mDB = mHelper.getReadableDatabase();
     }
 
     @Override
@@ -49,8 +55,8 @@ public class Info_sell extends Fragment {
 
         final ListView listView = view.findViewById(R.id.infoSellList);
 
-        mPostingAdpater = new PostingAdpater(getContext(), p);
-        listView.setAdapter(mPostingAdpater);
+        mPostingAdapter = new PostingAdapter(getContext(), p);
+        listView.setAdapter(mPostingAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,18 +69,47 @@ public class Info_sell extends Fragment {
                 startActivity(intent);
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Posting posting = p.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("提示");
+                builder.setMessage("您确定要删除该帖子吗？");
+                builder.setPositiveButton("我手滑了0_o", null);
+                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                                new String[]{String.valueOf(posting.getPostID())});
+                        if(c.moveToNext()){
+                            name = c.getString(1);
+                        }
+                        if(!name.equals(UserInfo.userName)){
+                            Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            mDB.execSQL("delete from posting where postUserName = ? and postID = ?",
+                                    new String[]{UserInfo.userName, String.valueOf(posting.getPostID())});
+                            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
         showSellData();
     }
     private void showSellData(){
         p.clear();           //清空List中的数据，防止数据多次显示
-        try (SQLiteDatabase db = helper.getReadableDatabase()) {
-            try (Cursor cursor = db.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
+            try (Cursor cursor = mDB.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
                 while (cursor.moveToNext()) {
                     p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 }
             }
-        }
-        mPostingAdpater.notifyDataSetChanged();
+        mPostingAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -85,5 +120,4 @@ public class Info_sell extends Fragment {
         super.onResume();
         showSellData();
     }
-
 }

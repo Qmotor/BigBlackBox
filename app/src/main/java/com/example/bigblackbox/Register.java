@@ -19,7 +19,6 @@ import android.widget.Toast;
 public class Register extends AppCompatActivity {
     private EditText nameText,pwdText,repeatPwdText;
     private RadioButton maleBtn;
-    private Button clearBtn;
     private SQLiteDatabase mDB;
 
     @Override
@@ -36,7 +35,7 @@ public class Register extends AppCompatActivity {
         pwdText = findViewById(R.id.Upwd);
         repeatPwdText= findViewById(R.id.enPwd);
         maleBtn = findViewById(R.id.male);
-        clearBtn = findViewById(R.id.clear);
+        Button clearBtn = findViewById(R.id.clear);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +46,7 @@ public class Register extends AppCompatActivity {
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                     builder.setTitle("提示");
-                    builder.setMessage("您确定要清空以上信息吗");
+                    builder.setMessage("您确定要清空以上信息吗？");
                     builder.setPositiveButton("我手滑了0_o", null);
                     builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -55,6 +54,7 @@ public class Register extends AppCompatActivity {
                             nameText.setText("");
                             pwdText.setText("");
                             repeatPwdText.setText("");
+                            Toast.makeText(Register.this,"已清除",Toast.LENGTH_LONG).show();
                         }
                     });
                     builder.create().show();
@@ -110,7 +110,7 @@ public class Register extends AppCompatActivity {
             this.nameText.setText("");
         }
         else {           //amount为0，用户名未被使用
-            mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?)",
+            mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?,?,?)",
                     new String[]{nameText.getText().toString(), pwdText.getText().toString(), male});
             Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
@@ -119,5 +119,4 @@ public class Register extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }

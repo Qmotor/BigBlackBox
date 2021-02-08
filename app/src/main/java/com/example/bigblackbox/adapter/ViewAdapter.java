@@ -1,4 +1,4 @@
-package com.example.bigblackbox.adpater;
+package com.example.bigblackbox.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -7,16 +7,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
-public class ViewAdpater extends FragmentStateAdapter {
+public class ViewAdapter extends FragmentStateAdapter {
 
     private final List<Fragment> fragments;
 
-    public ViewAdpater(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragments) {
+    public ViewAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragments) {
         super(fragmentActivity);
         this.fragments = fragments;
     }
 
-    public ViewAdpater(@NonNull Fragment fragment, List<Fragment> fragments) {
+    public ViewAdapter(@NonNull Fragment fragment, List<Fragment> fragments) {
         super(fragment);
         this.fragments = fragments;
     }

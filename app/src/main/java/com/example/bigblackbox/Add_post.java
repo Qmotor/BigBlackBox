@@ -1,8 +1,5 @@
 package com.example.bigblackbox;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +31,7 @@ public class Add_post extends AppCompatActivity {
         contentText= findViewById(R.id.edt_text);
         talkBtn = findViewById(R.id.talk);
         lectureBtn = findViewById(R.id.lecture);
+
     }
 
     public void RegChk(View view){
@@ -78,7 +79,6 @@ public class Add_post extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         //获取当前时间
-
             mDB.execSQL("insert into posting values(null,?,?,?,?,?)",
                     new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();

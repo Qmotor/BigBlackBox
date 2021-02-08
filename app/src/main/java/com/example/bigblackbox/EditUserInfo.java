@@ -18,9 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class EditUserInfo extends AppCompatActivity {
-
     private SQLiteDatabase mDB;
-
     private EditText phone,email,edu,school,career;
     private RadioButton maleBtn;
     private static final long DELAY = 2000;

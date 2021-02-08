@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
         verCode = findViewById(R.id.verCode);
         verInput = findViewById(R.id.ver);
 
-
-        String userName = getIntent().getStringExtra("regName");
-        String userPwd = getIntent().getStringExtra("regPwd");
-
-        /*
-        测试信息，方便登录
-         */
-        nameText.setText("五二八七");
-        pwdText.setText("123456");
-
         /*
         第一次进入登录界面时刷新验证码窗体控件，使之可以显示验证码
          */
@@ -66,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         /*
         注册成功后，自动向登录界面中的TextView填充用户名和密码
          */
+        String userName = getIntent().getStringExtra("regName");
+        String userPwd = getIntent().getStringExtra("regPwd");
         if(userName != null){
             nameText.setText(userName);
             pwdText.setText(userPwd);
@@ -93,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(codeStr)) {
             Toast.makeText(this, "验证码不能为空", 0).show();
+            flashVer(view);
             return;
         }
 
@@ -116,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 Intent intent = new Intent(this, IndexActivity.class);
+                /*
+                向UserInfo类中的静态变量赋值，方便后续程序调用
+                 */
                 UserInfo.userName = nameText.getText().toString();
                 UserInfo.userID = String.valueOf(id);
                 startActivity(intent);
@@ -138,6 +134,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FindPwd.class);
         startActivity(intent);
     }
-
-
 }

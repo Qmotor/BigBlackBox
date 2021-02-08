@@ -1,7 +1,5 @@
 package com.example.bigblackbox;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.bigblackbox.adpater.PostingAdpater;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHelper = new DbUtil(this);
-        SQLiteDatabase mDB = mHelper.getReadableDatabase();
         setContentView(R.layout.activity_search);
 
         searchText = findViewById(R.id.edt_search);
@@ -41,7 +40,7 @@ public class Search extends AppCompatActivity {
             }
         }
             ListView listView = findViewById(R.id.searchList);
-            listView.setAdapter(new PostingAdpater(this, p));
+            listView.setAdapter(new PostingAdapter(this, p));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

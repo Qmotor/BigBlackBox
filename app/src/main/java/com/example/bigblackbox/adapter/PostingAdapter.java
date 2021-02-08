@@ -1,4 +1,4 @@
-package com.example.bigblackbox.adpater;
+package com.example.bigblackbox.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,29 +8,28 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.entity.PushInfo;
+import com.example.bigblackbox.entity.Posting;
 
 import java.util.List;
 
-public class PushInfoAdpater extends BaseAdapter {
-
-    private final List<PushInfo> mPushInfo;
+public class PostingAdapter extends BaseAdapter {
+    private final List<Posting> mPosting;
     private final LayoutInflater mInflater;
 
-    public PushInfoAdpater(Context context, List<PushInfo> pushInfo) {
-        this.mPushInfo = pushInfo;
+    public PostingAdapter(Context context, List<Posting> posting) {
+        this.mPosting = posting;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
 
+    }
 
     @Override
     public int getCount() {
-        return mPushInfo.size();
+        return mPosting.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mPushInfo.get(position);
+        return mPosting.get(position);
     }
 
     @Override
@@ -42,17 +41,18 @@ public class PushInfoAdpater extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
         if (convertView == null) {
-            v = mInflater.inflate(R.layout.list_pushinfo, parent, false);
+            v = mInflater.inflate(R.layout.list_posting, parent, false);
         } else {
             v = convertView;
         }
-        PushInfo pushInfo = mPushInfo.get(position);
+        Posting posting = mPosting.get(position);
         /*
         将数据库查询结果显示在相应的TextView中
          */
-        ((TextView) v.findViewById(R.id.title)).setText(pushInfo.getPushTitle());
-        ((TextView) v.findViewById(R.id.author)).setText(pushInfo.getPushUser());
-        ((TextView) v.findViewById(R.id.time)).setText(pushInfo.getPushTime());
+        ((TextView)v.findViewById(R.id.postTitle)).setText(posting.getTitle());
+        ((TextView)v.findViewById(R.id.userName)).setText(posting.getName());
+        ((TextView)v.findViewById(R.id.postTime)).setText(posting.getTime());
+        ((TextView)v.findViewById(R.id.postContent)).setText(posting.getContent());
         return v;
     }
 }

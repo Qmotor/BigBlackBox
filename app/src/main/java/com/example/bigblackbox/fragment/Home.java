@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.adpater.PushInfoAdpater;
+import com.example.bigblackbox.adapter.PushInfoAdapter;
 import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.Push_detail;
 
@@ -58,7 +58,7 @@ public class Home extends Fragment {
         绑定控件，将数据库查询结果显示在相应的ListView中
          */
         ListView listView = view.findViewById(R.id.homeList);
-        listView.setAdapter(new PushInfoAdpater(getContext(),pi));
+        listView.setAdapter(new PushInfoAdapter(getContext(),pi));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

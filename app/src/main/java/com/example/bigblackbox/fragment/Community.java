@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.adpater.ViewAdpater;
+import com.example.bigblackbox.adapter.ViewAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class Community extends Fragment {
         fragments.add(new Info_sell());
 
         final ViewPager2 viewPager2 = root.findViewById(R.id.viewPager);
-        viewPager2.setAdapter(new ViewAdpater(this,fragments));
+        viewPager2.setAdapter(new ViewAdapter(this,fragments));
 
         final TabLayout tabLayout = root.findViewById(R.id.buttomView);
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
