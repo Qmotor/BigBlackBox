@@ -31,19 +31,18 @@ public class Add_post extends AppCompatActivity {
         contentText= findViewById(R.id.edt_text);
         talkBtn = findViewById(R.id.talk);
         lectureBtn = findViewById(R.id.lecture);
-
     }
 
     public void RegChk(View view){
         String checkResult = checkInfo();
-        if(checkResult != null){                                                    //验证信息未通过
+        if(checkResult != null){                                                    //系统验证帖子信息不合法
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Warning!!!");
-            builder.setMessage(checkResult);                                        //输出具体未通过原因
+            builder.setTitle("温馨提示");
+            builder.setMessage(checkResult);                                        //输出具体原因
             builder.setPositiveButton("确定",null);
             builder.create().show();
         }else{
-            int follow = 3;
+            int follow = 3;                    //默认follow初始值为3
            if(talkBtn.isChecked()){
                follow = 1;
            }
@@ -58,7 +57,7 @@ public class Add_post extends AppCompatActivity {
         if(UserInfo.userName == null){
             return "登录状态无效";
         }
-        String title= titleText.getText().toString();
+        String title = titleText.getText().toString();
         if("".equals(title)){
             return "标题不能为空！";
         }
@@ -76,12 +75,14 @@ public class Add_post extends AppCompatActivity {
     }
 
     public void add(int follow){
+        /*
+        获取当前系统时间
+         */
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
-        //获取当前时间
             mDB.execSQL("insert into posting values(null,?,?,?,?,?)",
                     new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
-            this.finish();
+            this.finish();      //发帖成功后，关闭当前Activity
         }
 }

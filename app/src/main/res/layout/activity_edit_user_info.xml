@@ -145,6 +145,7 @@
             android:text="性     别："
             android:textSize="18dp"/>
         <RadioGroup
+            android:id="@+id/maleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

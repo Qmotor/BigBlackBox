@@ -56,17 +56,16 @@ public class FindPwd extends AppCompatActivity {
 
     public void nextStep(View view){
         int amount;
-        /*
-        定义字符串，后续可直接调用
-         */
-        String codeStr = ver.getText().toString().trim();
-        String code = codeUtils.getCode();
-
-        String uName = userName.getText().toString();
+        String codeStr = ver.getText().toString().trim();     //验证码输入框字符串
+        String code = codeUtils.getCode();                    //验证码控件字符串
+        String uName = userName.getText().toString();         //用户名
 
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ?",
                 new String[]{uName});
         amount = c.getCount();
+        /*
+        利用用户输入的用户名在数据库内进行查询，将查询的结果数赋值给amount
+         */
 
         if (TextUtils.isEmpty(codeStr)) {
             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_LONG).show();
@@ -82,28 +81,34 @@ public class FindPwd extends AppCompatActivity {
                 empBuilder.create().show();
             }
 
+            /*
+            amount为0，即说明用户输入的用户名在数据库中不存在
+             */
              else if(amount == 0){
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("该用户不存在，请重新输入");
                 empBuilder.setPositiveButton("确定",null);
                 empBuilder.create().show();
-                flash(view);
-                userName.setText("");
+                flash(view);                    //调用flash()方法，自动刷新验证码
+                userName.setText("");           //将用户输入的用户名和密码置空
                 ver.setText("");
             }
+             /*
+             验证通过，自动跳转至找回密码界面
+              */
              else{
                 Intent intent = new Intent(this, FindPwd_detail.class);
                 intent.putExtra("editPwdUser",uName);
                 startActivity(intent);
-                flash(view);
-                ver.setText("");
+                flash(view);              //调用flash()方法，刷新验证码
+                ver.setText("");          //将验证码输入框置空
             }
         }
         else {
             Toast.makeText(this, "验证码输入有误", Toast.LENGTH_LONG).show();
-            flash(view);
-            ver.setText("");
+            flash(view);                  //调用flash()方法，刷新验证码
+            ver.setText("");              //将验证码输入框置空
         }
     }
 }

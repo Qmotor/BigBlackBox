@@ -23,7 +23,7 @@ public class EditPwd extends AppCompatActivity {
 
     private EditText oldP,newP,enP;
     private SQLiteDatabase mDB;
-    private static final long DELAY = 2000;
+    private static final long DELAY = 2000;     //设置延迟参数，默认值为2s
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,14 @@ public class EditPwd extends AppCompatActivity {
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
                 new String[]{UserInfo.userName, op});
         amount = c.getCount();
+        /*
+        将select查询结果数赋值给amount
+         */
 
+        /*
+        以下代码为系统验证用户所输入信息是否无误
+        若信息有误，则向用户提示相应信息
+         */
             if("".equals(op)){
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
@@ -115,6 +122,9 @@ public class EditPwd extends AppCompatActivity {
                 empBuilder.create().show();
             }
 
+            /*
+            amount为0，即说明用户输入旧密码与当前账户不匹配
+             */
             else if(amount == 0){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("错误提示！");
@@ -123,9 +133,19 @@ public class EditPwd extends AppCompatActivity {
                 builder.create().show();
                 oldP.setText("");
             }
+
+            /*
+            用户输入信息无误，则可以修改当前账户密码，修改密码完毕后，自动跳转至登录界面
+             */
             else {
                 mDB.execSQL("update userInfo set userPwd = ? where userName = ?",
                         new String[]{np, UserInfo.userName});
+                /*
+                修改密码成功后，自动清空UserInfo中的用户信息，以防止出现数据错误
+                 */
+                UserInfo.userName = null;
+                UserInfo.userID = null;
+
                 Toast.makeText(EditPwd.this,"修改密码成功，即将跳转至登录界面", Toast.LENGTH_LONG).show();
                 final Intent localIntent = new Intent(this,MainActivity.class);
                 Timer timer = new Timer();

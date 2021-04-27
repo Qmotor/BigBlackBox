@@ -52,6 +52,9 @@ public class FindPwd_detail extends AppCompatActivity {
         userName = getIntent().getStringExtra("editPwdUser");
         showText.setText(userName+"，您正在找回密码");
 
+        /*
+        给列表绑定数据
+         */
         item = getResources().getStringArray(R.array.securityQuestion);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
