@@ -117,6 +117,7 @@ public class Register extends AppCompatActivity {
             intent.putExtra("regName",nameText.getText().toString());
             intent.putExtra("regPwd",pwdText.getText().toString());
             startActivity(intent);
+            this.finish();
         }
     }
 }

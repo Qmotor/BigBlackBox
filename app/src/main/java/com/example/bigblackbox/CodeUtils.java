@@ -8,10 +8,6 @@ import android.graphics.Paint;
 
 import java.util.Random;
 
-/**
- * Created by yao
- * 用于图片验证码的工具类
- */
 public class CodeUtils {
     private static final char[] CHARS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -131,8 +127,6 @@ public class CodeUtils {
         float skewX = mRandom.nextInt(11) / 10;
         skewX = mRandom.nextBoolean() ? skewX : -skewX;
         paint.setTextSkewX(skewX); //float类型参数，负数表示右斜，整数左斜
-//        paint.setUnderlineText(true); //true为下划线，false为非下划线
-//        paint.setStrikeThruText(true); //true为删除线，false为非删除线
     }
 
     //随机间距

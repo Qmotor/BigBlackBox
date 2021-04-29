@@ -103,6 +103,7 @@ public class FindPwd extends AppCompatActivity {
                 startActivity(intent);
                 flash(view);              //调用flash()方法，刷新验证码
                 ver.setText("");          //将验证码输入框置空
+                this.finish();
             }
         }
         else {

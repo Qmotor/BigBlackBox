@@ -22,6 +22,7 @@ import com.example.bigblackbox.MyPosting;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.SecurityQuestion;
 import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.activity.IndexActivity;
 
 
 public class Mine extends Fragment {
@@ -101,6 +102,7 @@ public class Mine extends Fragment {
                         Intent intent = new Intent(getContext(),MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(getContext(),"注销成功",Toast.LENGTH_LONG).show();
+                        getActivity().onBackPressed();
                     }
                 });
                 builder.setNegativeButton("取消",null);

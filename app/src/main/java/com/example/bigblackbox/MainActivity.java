@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 flashVer(view);
                 verInput.setText("");
+                this.finish();
             }
         } else {
             Toast.makeText(this, "验证码输入有误", 0).show();
@@ -134,4 +135,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FindPwd.class);
         startActivity(intent);
     }
+
 }

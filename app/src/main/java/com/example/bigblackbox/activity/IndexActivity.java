@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.adapter.ViewAdapter;
@@ -55,5 +58,25 @@ public class IndexActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    long time=System.currentTimeMillis();
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long now=System.currentTimeMillis();
+            if( now- time < 2000){
+                this.finish();
+            }
+            else {
+                time =now;
+                Toast.makeText(this,"再按一次退出系统",Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        }
+
+
+        return super.onKeyDown(keyCode, event);
     }
 }
