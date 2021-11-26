@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         verCode.setImageBitmap(bitmap);
 
         /*
-        注册成功后，自动向登录界面中的TextView填充用户名和密码
+        注册成功后，自动向登录界面中的TextView填充用户名和密码123
          */
         String userName = getIntent().getStringExtra("regName");
         String userPwd = getIntent().getStringExtra("regPwd");
