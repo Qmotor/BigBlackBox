@@ -32,6 +32,8 @@ public class Post_detail extends AppCompatActivity {
 
     private int post_id = -1;
 
+    ReplyAdapter replyAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,8 @@ public class Post_detail extends AppCompatActivity {
             }
 
         final ListView listView = findViewById(R.id.replyList);
-        listView.setAdapter(new ReplyAdapter(this,r));
+        replyAdapter = new ReplyAdapter(this,r);
+        listView.setAdapter(replyAdapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

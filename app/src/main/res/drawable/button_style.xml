@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="false">
+    <item android:state_pressed="true">
         <shape>
             <!-- 色值 -->
-            <solid android:color="#585EE0" />
+            <solid android:color="#A8A8F6" />
             <!-- 圆角 -->
             <corners android:radius="10dp" />
         </shape>
     </item>
-    <item android:state_pressed="true">
+    <item android:state_pressed="false">
         <shape>
             <!-- 色值 -->
-            <solid android:color="#289BE5" />
+            <solid android:color="#64B0E1" />
             <!-- 圆角 -->
             <corners android:radius="10dp" />
         </shape>

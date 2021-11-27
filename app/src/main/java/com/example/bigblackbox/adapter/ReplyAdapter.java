@@ -1,5 +1,6 @@
 package com.example.bigblackbox.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,10 @@ import java.util.List;
 public class ReplyAdapter extends BaseAdapter {
     private final List<Reply> mReply;
     private final LayoutInflater mInflater;
-
+    Context context;
     public ReplyAdapter(Context context, List<Reply> reply) {
         this.mReply = reply;
+        this.context = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
