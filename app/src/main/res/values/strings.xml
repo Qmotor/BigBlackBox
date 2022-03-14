@@ -4,15 +4,21 @@
     <string name="title_home">主页</string>
     <string name="title_community">社区</string>
     <string name="title_mine">我的</string>
+
+    <string name="chat_all">全部</string>
+    <string name="chat_talk">研友杂谈</string>
+    <string name="chat_lecture">考研讲座</string>
+    <string name="chat_secondHand">二手资料</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="securityQuestion">
-        <item>你的初恋姓/叫什么</item>
-        <item>你的初中物理老师是谁</item>
-        <item>你父亲/母亲的姓名</item>
-        <item>你最喜欢的游戏名字</item>
-        <item>你的小学名字</item>
-        <item>你第一款通关的游戏名字</item>
+        <item><font color="#009fcc">你的初恋姓/叫什么</font></item>
+        <item><font color="#009fcc">你的初中物理老师是谁</font></item>
+        <item><font color="#009fcc">你父亲/母亲的姓名</font></item>
+        <item><font color="#009fcc">你最喜欢的游戏名字</font></item>
+        <item><font color="#009fcc">你的小学名字</font></item>
+        <item><font color="#009fcc">你第一款通关的游戏名字</font></item>
     </string-array>
 </resources>

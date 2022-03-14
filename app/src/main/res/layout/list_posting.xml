@@ -5,6 +5,8 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -15,31 +17,35 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="李狗蛋"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/postTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginLeft="160dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginEnd="7dp"
             android:text="2020-11-13 14:52"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
     </FrameLayout>
 
     <TextView
+        android:layout_marginStart="5dp"
         android:id="@+id/postTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="大家好"
         android:textColor="#000000"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
+        android:layout_marginStart="5dp"
         android:id="@+id/postContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:text="很高兴认识各位" />
 
 </LinearLayout>

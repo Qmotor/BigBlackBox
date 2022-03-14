@@ -12,4 +12,24 @@
         android:layout_height="wrap_content"
         android:dividerHeight="2dp"/>
 
+    <ImageView
+        android:id="@+id/addBtnHome"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/plus" />
+
+    <ImageView
+        android:id="@+id/searchBtnHome"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="65dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/search" />
+
 </FrameLayout>

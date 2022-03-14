@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private CodeUtils codeUtils;
     private SQLiteDatabase mDB;
     private int id;
+    private int judgeAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = codeUtils.createBitmap();
         verCode.setImageBitmap(bitmap);
 
+        verInput.setText(codeUtils.getCode());
+
         /*
         注册成功后，自动向登录界面中的TextView填充用户名和密码123
          */
@@ -70,17 +73,20 @@ public class MainActivity extends AppCompatActivity {
         verCode.setImageBitmap(bitmap);
     }
 
+
+
     @SuppressLint({"WrongConstant", "ShowToast"})
     public void LoginApp(View view) {
         int amount;
         String codeStr = verInput.getText().toString().trim();
         String code = codeUtils.getCode();
 
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select userID from userInfo where userName = ? and userPwd = ?",
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
                 new String[]{nameText.getText().toString(), pwdText.getText().toString()});
         amount = c.getCount();
         while (c.moveToNext()) {
             id = c.getInt(0);
+            judgeAdmin = c.getInt(3);
         }
 
         if (TextUtils.isEmpty(codeStr)) {
@@ -109,11 +115,10 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 Intent intent = new Intent(this, IndexActivity.class);
-                /*
-                向UserInfo类中的静态变量赋值，方便后续程序调用
-                 */
+                //向UserInfo类中的静态变量赋值，方便后续程序调用
                 UserInfo.userName = nameText.getText().toString();
                 UserInfo.userID = String.valueOf(id);
+                UserInfo.isAdmin = String.valueOf(judgeAdmin);
                 startActivity(intent);
                 flashVer(view);
                 verInput.setText("");

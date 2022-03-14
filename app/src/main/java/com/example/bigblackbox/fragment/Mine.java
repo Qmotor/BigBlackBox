@@ -51,6 +51,8 @@ public class Mine extends Fragment {
         TextView editPwd = view.findViewById(R.id.editPwd);
         TextView loginOut = view.findViewById(R.id.login_out);
         TextView safeAsk = view.findViewById(R.id.safeQuestion);
+        TextView collect = view.findViewById(R.id.collection);
+        TextView about = view.findViewById(R.id.aboutUs);
 
         name.setText(UserInfo.userName);
         id.setText("用户ID："+UserInfo.userID);
@@ -87,6 +89,20 @@ public class Mine extends Fragment {
             }
         });
 
+        collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"收藏功能开发中。。。", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"我们啥也不是", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         loginOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +115,7 @@ public class Mine extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         UserInfo.userName = null;
                         UserInfo.userID = null;
+                        UserInfo.isAdmin = null;
                         Intent intent = new Intent(getContext(),MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(getContext(),"注销成功",Toast.LENGTH_LONG).show();

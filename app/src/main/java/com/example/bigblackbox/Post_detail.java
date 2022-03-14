@@ -61,7 +61,7 @@ public class Post_detail extends AppCompatActivity {
         content.setText(p.getContent());
 
         final List<Reply> r = new ArrayList<>();
-            try(Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ?",new String[]{String.valueOf(post_id)})){
+            try(Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ? order by replyTime desc",new String[]{String.valueOf(post_id)})){
                 while (cursor.moveToNext()){
                     r.add(new Reply(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
                 }
@@ -70,6 +70,7 @@ public class Post_detail extends AppCompatActivity {
         final ListView listView = findViewById(R.id.replyList);
         replyAdapter = new ReplyAdapter(this,r);
         listView.setAdapter(replyAdapter);
+        // 长按事件——删除评论
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

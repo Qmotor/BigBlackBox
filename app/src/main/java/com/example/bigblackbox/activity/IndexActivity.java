@@ -6,10 +6,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.bigblackbox.R;
+import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.adapter.ViewAdapter;
 import com.example.bigblackbox.fragment.Community;
 import com.example.bigblackbox.fragment.Home;
@@ -27,6 +27,13 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        if(UserInfo.isAdmin.equals("1")){
+//            Toast.makeText(this,"欢迎管理员",Toast.LENGTH_SHORT).show();
+//        }else {
+//            Toast.makeText(this,"欢迎您",Toast.LENGTH_SHORT).show();
+//        }
+
         setContentView(R.layout.activity_index);
 
         List<Fragment> fragments = new ArrayList<>(3);
@@ -60,23 +67,21 @@ public class IndexActivity extends AppCompatActivity {
 
     }
 
-    long time=System.currentTimeMillis();
+    long time = System.currentTimeMillis();
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             long now=System.currentTimeMillis();
-            if( now- time < 2000){
+            if(now - time < 2000){
                 this.finish();
             }
             else {
-                time =now;
+                time = now;
                 Toast.makeText(this,"再按一次退出系统",Toast.LENGTH_SHORT).show();
             }
             return false;
         }
-
-
         return super.onKeyDown(keyCode, event);
     }
 }

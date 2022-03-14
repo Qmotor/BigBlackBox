@@ -106,8 +106,11 @@ public class All_news extends Fragment {
                             Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_LONG).show();
                         }
                         else {
+                            // 删除操作会将帖子及帖子下的所以评论删除
                             mDB.execSQL("delete from posting where postUserName = ? and postID = ?",
                                     new String[]{UserInfo.userName, String.valueOf(posting.getPostID())});
+                            mDB.execSQL("delete from postReply where reply_postID = ?",
+                                    new String[]{String.valueOf(posting.getPostID())});
                             Toast.makeText(getContext(),"删除成功", Toast.LENGTH_LONG).show();
                         }
                     }

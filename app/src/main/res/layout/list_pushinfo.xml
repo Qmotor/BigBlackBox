@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="今日热点新闻推送"/>
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_marginStart="5dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:gravity="left"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:textStyle="bold"
-            android:textColor="#FFC0CB"
-            android:text="斑竹一号" />
-
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="今日热点新闻推送测试模块分事实是事实"/>
         <TextView
             android:id="@+id/time"
-            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:text="2020-12-12 13:41" />
-
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
+            android:text="2021-11-01 12:09:12"/>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/test">
+
+    </ImageView>
 </LinearLayout>

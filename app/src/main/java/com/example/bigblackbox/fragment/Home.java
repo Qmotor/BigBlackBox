@@ -13,11 +13,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.bigblackbox.Add_post;
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
+import com.example.bigblackbox.Search;
+import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.adapter.PushInfoAdapter;
 import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.Push_detail;
@@ -27,6 +33,7 @@ import java.util.List;
 
 
 public class Home extends Fragment {
+    private ImageView addBtn,searchBtn;
     SQLiteOpenHelper helper;
 
 
@@ -46,6 +53,8 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        addBtn = view.findViewById(R.id.addBtnHome);
+        searchBtn = view.findViewById(R.id.searchBtnHome);
         final List<PushInfo> pi = new ArrayList<>();
         try(SQLiteDatabase db = helper.getReadableDatabase()){
             try(Cursor cursor = db.rawQuery("select * from pushPosting order by pushPostingTime desc",new String[0])){
@@ -69,6 +78,53 @@ public class Home extends Fragment {
                  */
                 intent.putExtra("pushInfoID",pushInfo.getPushID());
                 startActivity(intent);
+            }
+        });
+
+        // 判断当前登录用户是否为管理员，若是，则在”主页“显示相应控件，否则直接移除控件
+        if(UserInfo.isAdmin.equals("1")) {
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    switch (scrollState) {
+                    /*
+                    当ListView不滚动时，悬浮按钮状态为可见
+                     */
+                        case 0:
+                            addBtn.setVisibility(View.VISIBLE);
+                            searchBtn.setVisibility(View.VISIBLE);
+                            break;
+                     /*
+                      当ListView滚动时，悬浮按钮状态为隐藏
+                      */
+                        case 1:
+                        case 2:
+                            addBtn.setVisibility(View.GONE);
+                            searchBtn.setVisibility(View.GONE);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+            });
+        }else {
+            addBtn.setVisibility(View.GONE);
+            searchBtn.setVisibility(View.GONE);
+        }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"123",Toast.LENGTH_SHORT).show();
+            }
+        });
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"456",Toast.LENGTH_SHORT).show();
             }
         });
     }

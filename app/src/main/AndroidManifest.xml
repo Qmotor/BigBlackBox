@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SecurityQuestion"></activity>
+        <activity android:name=".SecurityQuestion"/>
         <activity android:name=".FindPwd_detail" />
         <activity android:name=".EditPwd" />
         <activity android:name=".FindPwd" />
@@ -25,6 +25,8 @@
         <activity android:name=".Post_detail" />
         <activity android:name=".activity.IndexActivity" />
         <activity android:name=".Register" />
+        <activity android:name=".activity.Chat"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

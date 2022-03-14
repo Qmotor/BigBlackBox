@@ -8,8 +8,13 @@ public class UserInfo {
     public static String getUserID(){
         return userID;
     }
+    public static String getAdmin(){
+        return isAdmin;
+    }
 
     public static String userName = null;
 
     public static String userID;
+
+    public static String isAdmin;
 }
