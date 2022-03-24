@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.bigblackbox.R;
+import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.entity.Reply;
 
 import java.util.List;
@@ -47,9 +48,7 @@ public class ReplyAdapter extends BaseAdapter {
             v = convertView;
         }
         Reply reply = mReply.get(position);
-        /*
-        将数据库查询结果显示在相应的TextView中
-         */
+        // 将数据库查询结果显示在相应的TextView中
         ((TextView)v.findViewById(R.id.replyContent)).setText(reply.getReplyContent());
         ((TextView)v.findViewById(R.id.replyUser)).setText(reply.getReplyName());
         ((TextView)v.findViewById(R.id.replyTime)).setText(reply.getReplyTime());

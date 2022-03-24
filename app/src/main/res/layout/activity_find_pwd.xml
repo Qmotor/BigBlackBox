@@ -41,8 +41,9 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginLeft="50dp"
                 android:textColor="#9F9FA0"
+                android:singleLine="true"
                 android:textColorHint="#9F9FA0"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:hint="请输入需要修改密码的用户名"/>
 
             <View
@@ -67,7 +68,8 @@
                     android:background="@null"
                     android:layout_gravity="center"
                     android:hint="请输入验证码"
-                    android:textSize="16dp"
+                    android:singleLine="true"
+                    android:textSize="16sp"
                     android:textColor="#9F9FA0"
                     android:textColorHint="#9F9FA0"
                     android:layout_marginLeft="50dp"
@@ -93,8 +95,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style"
                 android:onClick="nextStep"
@@ -102,8 +104,9 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="10dp"
+                android:onClick="back"
                 android:background="@drawable/button_style"
                 android:layout_weight="1"
                 android:text="取消"/>

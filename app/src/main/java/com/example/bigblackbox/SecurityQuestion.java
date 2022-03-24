@@ -24,7 +24,7 @@ public class SecurityQuestion extends AppCompatActivity {
     String content;
     private EditText answer,enAnswer;
     private SQLiteDatabase mDB;
-    private static final long DELAY = 2000;
+    private static final long DELAY = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class SecurityQuestion extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             answer.setText("");
                             enAnswer.setText("");
-                            Toast.makeText(SecurityQuestion.this,"已清除",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SecurityQuestion.this,"已清除",Toast.LENGTH_SHORT).show();
                         }
                     });
                     builder.create().show();
@@ -112,7 +112,7 @@ public class SecurityQuestion extends AppCompatActivity {
                  public void onClick(DialogInterface dialog, int which) {
                      mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
                              new String[]{content,answer.getText().toString(),UserInfo.userName});
-                     Toast.makeText(SecurityQuestion.this,"修改密保问题成功，即将返回", Toast.LENGTH_LONG).show();
+                     Toast.makeText(SecurityQuestion.this,"修改密保问题成功，即将返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();
                      TimerTask task = new TimerTask() {
                          @Override
@@ -135,7 +135,7 @@ public class SecurityQuestion extends AppCompatActivity {
                  public void onClick(DialogInterface dialog, int which) {
                      mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
                              new String[]{content,answer.getText().toString(),UserInfo.userName});
-                     Toast.makeText(SecurityQuestion.this,"密保问题保存成功，正在返回", Toast.LENGTH_LONG).show();
+                     Toast.makeText(SecurityQuestion.this,"密保问题保存成功，正在返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();
                      TimerTask task = new TimerTask() {
                          @Override

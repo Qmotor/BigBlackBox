@@ -1,7 +1,9 @@
 package com.example.bigblackbox.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,8 @@ import com.example.bigblackbox.SecurityQuestion;
 import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.activity.IndexActivity;
 
+import java.util.Objects;
+
 
 public class Mine extends Fragment {
 
@@ -40,6 +44,7 @@ public class Mine extends Fragment {
         return inflater.inflate(R.layout.fragment_mine2, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -55,6 +60,11 @@ public class Mine extends Fragment {
         TextView about = view.findViewById(R.id.aboutUs);
 
         name.setText(UserInfo.userName);
+        if(UserInfo.isAdmin.equals("1")){
+            name.setTextColor(Color.parseColor("#FF0000"));
+            name.setText(UserInfo.userName + "（管理员）");
+        }
+
         id.setText("用户ID："+UserInfo.userID);
 
         edit.setOnClickListener(new View.OnClickListener() {
@@ -118,8 +128,8 @@ public class Mine extends Fragment {
                         UserInfo.isAdmin = null;
                         Intent intent = new Intent(getContext(),MainActivity.class);
                         startActivity(intent);
-                        Toast.makeText(getContext(),"注销成功",Toast.LENGTH_LONG).show();
-                        getActivity().onBackPressed();
+                        Toast.makeText(getContext(),"注销成功",Toast.LENGTH_SHORT).show();
+                        requireActivity().onBackPressed();
                     }
                 });
                 builder.setNegativeButton("取消",null);

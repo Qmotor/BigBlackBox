@@ -3,27 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:layout_height="wrap_content">
+    android:layout_height="75dp">
 
     <LinearLayout
         android:layout_marginStart="5dp"
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/title"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textColor="#000000"
-            android:text="今日热点新闻推送测试模块分事实是事实"/>
+            android:text="测试内容"/>
         <TextView
             android:id="@+id/time"
-            android:gravity="left"
+            android:gravity="start|bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="5dp"
             android:text="2021-11-01 12:09:12"/>

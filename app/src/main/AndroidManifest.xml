@@ -16,11 +16,12 @@
         <activity android:name=".SecurityQuestion"/>
         <activity android:name=".FindPwd_detail" />
         <activity android:name=".EditPwd" />
+        <activity android:name=".AddPush" />
         <activity android:name=".FindPwd" />
         <activity android:name=".MyPosting" />
         <activity android:name=".EditUserInfo" />
         <activity android:name=".Search" />
-        <activity android:name=".Add_post" />
+        <activity android:name=".AddPost" />
         <activity android:name=".Push_detail" />
         <activity android:name=".Post_detail" />
         <activity android:name=".activity.IndexActivity" />

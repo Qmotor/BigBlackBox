@@ -54,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = codeUtils.createBitmap();
         verCode.setImageBitmap(bitmap);
 
+        // 测试模块
         verInput.setText(codeUtils.getCode());
 
         /*
-        注册成功后，自动向登录界面中的TextView填充用户名和密码123
+        注册成功后，自动向登录界面中的TextView填充用户名和密码
          */
         String userName = getIntent().getStringExtra("regName");
         String userPwd = getIntent().getStringExtra("regPwd");
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         codeUtils = CodeUtils.getInstance();
         Bitmap bitmap = codeUtils.createBitmap();
         verCode.setImageBitmap(bitmap);
+        verInput.setText(codeUtils.getCode());
     }
 
 

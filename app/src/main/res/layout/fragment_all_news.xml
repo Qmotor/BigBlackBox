@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.All_news">
+    tools:context=".fragment.AllNews">
 
     <ListView
         android:id="@+id/allNewsList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
         android:dividerHeight="2dp"/>
 
     <ImageView
@@ -19,7 +19,7 @@
         android:layout_marginBottom="15dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/plus" />
+        android:src="@drawable/add" />
 
     <ImageView
         android:id="@+id/search_Btn"

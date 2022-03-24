@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF8DC"
+    tools:context=".AddPush">
+
+    <EditText
+        android:id="@+id/edit_push_title"
+        android:hint="在此输入标题"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:gravity="top"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
+
+    <EditText
+        android:id="@+id/edit_push_text"
+        android:hint="在此输入内容"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:padding="10dp"
+        android:minLines="5"
+        android:gravity="top"
+        android:background="@null"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="AddPushChk"
+            android:layout_marginEnd="60dp"
+            android:background="@drawable/button_style"
+            android:text="发布" />
+
+        <Button
+            android:background="@drawable/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="pushClean"
+            android:text="清除"/>
+    </LinearLayout>
+
+</LinearLayout>

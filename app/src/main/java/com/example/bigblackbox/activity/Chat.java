@@ -8,8 +8,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.adapter.ViewAdapter;
-import com.example.bigblackbox.fragment.All_news;
-import com.example.bigblackbox.fragment.Info_sell;
+import com.example.bigblackbox.fragment.AllNews;
+import com.example.bigblackbox.fragment.SecondHandInfo;
 import com.example.bigblackbox.fragment.Lecture;
 import com.example.bigblackbox.fragment.Talk;
 import com.google.android.material.tabs.TabLayout;
@@ -28,15 +28,15 @@ public class Chat extends AppCompatActivity {
         /*
         向ListView中添加不同的片段
          */
-        fragments.add(new All_news());
+        fragments.add(new AllNews());
         fragments.add(new Talk());
         fragments.add(new Lecture());
-        fragments.add(new Info_sell());
+        fragments.add(new SecondHandInfo());
 
-        final ViewPager2 viewPager2 = findViewById(R.id.viewPager);
+        final ViewPager2 viewPager2 = findViewById(R.id.ChatViewPager);
         viewPager2.setAdapter(new ViewAdapter(this,fragments));
 
-        final TabLayout tabLayout = findViewById(R.id.buttomView);
+        final TabLayout tabLayout = findViewById(R.id.ChatButtonView);
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

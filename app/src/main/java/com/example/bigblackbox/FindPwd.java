@@ -112,4 +112,9 @@ public class FindPwd extends AppCompatActivity {
             ver.setText("");              //将验证码输入框置空
         }
     }
+
+    public void back(View view){
+        this.finish();
+    }
+
 }

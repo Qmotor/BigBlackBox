@@ -4,42 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Add_post"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFF8DC"
+    tools:context=".AddPost">
 
     <EditText
-        android:id="@+id/edt_title"
+        android:id="@+id/edit_title"
         android:hint="在此输入标题"
+        android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:padding="5dp"
-        android:minLines="2"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:padding="10dp"
         android:gravity="top"
-        android:background="#FFC0CB"
         android:textColor="#000000"
         android:textSize="14sp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
+
     <EditText
-        android:id="@+id/edt_text"
+        android:id="@+id/edit_text"
         android:hint="在此输入内容"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:padding="5dp"
+        android:layout_height="450dp"
+        android:padding="10dp"
         android:minLines="5"
         android:gravity="top"
-        android:background="#FA8072"
+        android:background="@null"
         android:textColor="#000000"
         android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
 
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="7dp"
             android:text="帖子板块："
-            android:textSize="18dp"/>
+            android:textSize="15sp"/>
         <RadioGroup
             android:id="@+id/type"
             android:layout_width="wrap_content"
@@ -63,14 +78,28 @@
                 android:text="考研资料"/>
         </RadioGroup>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="RegChk"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/button_style"
         android:text="发布" />
+
     <Button
+        android:background="@drawable/button_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="取消"/>
+        android:onClick="postClean"
+        android:text="清除"/>
+    </LinearLayout>
 
 </LinearLayout>

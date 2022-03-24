@@ -24,6 +24,7 @@ import com.example.bigblackbox.R;
 import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
+import com.example.bigblackbox.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class Talk extends Fragment {
         p.clear();
             try(Cursor cursor = mDB.rawQuery("select * from posting where postFollow = 1 order by postTime desc",new String[0])){
                 while(cursor.moveToNext()){
-                    p.add(new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5)));
+                    p.add(new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5), cursor.getInt(6)));
                 }
             }
         mPostingAdapter.notifyDataSetChanged();

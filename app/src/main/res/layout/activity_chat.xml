@@ -12,7 +12,7 @@
 
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/buttomView"
+            android:id="@+id/ChatButtonView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -42,7 +42,7 @@
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+            android:id="@+id/ChatViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </androidx.viewpager2.widget.ViewPager2>

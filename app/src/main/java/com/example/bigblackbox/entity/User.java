@@ -57,5 +57,6 @@ public class User {
     public String getUserCareer() {
         return userCareer;
     }
+
 }
 

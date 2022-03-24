@@ -64,9 +64,10 @@
                 android:layout_marginRight="50dp"
                 android:background="@null"
                 android:hint="请输入密保问题答案"
+                android:singleLine="true"
                 android:textColor="#9F9FA0"
                 android:textColorHint="#9F9FA0"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -86,9 +87,10 @@
                 android:layout_marginRight="50dp"
                 android:background="@null"
                 android:hint="请再次确认您的答案"
+                android:singleLine="true"
                 android:textColor="#9F9FA0"
                 android:textColorHint="#9F9FA0"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -101,8 +103,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style"
                 android:onClick="confirmQuestion"
@@ -112,8 +114,8 @@
                 android:id="@+id/clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style"
                 android:text="清空信息" />

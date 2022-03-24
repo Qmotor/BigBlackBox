@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.IndexActivity">
-
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -16,8 +14,9 @@
     </androidx.viewpager2.widget.ViewPager2>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/buttomView"
+            android:id="@+id/buttonView"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="50dp">
 
             <com.google.android.material.tabs.TabItem
@@ -41,9 +40,5 @@
                 android:icon="@mipmap/mine"
                 android:text="@string/title_mine" />
         </com.google.android.material.tabs.TabLayout>
-
-
-
-
 
 </LinearLayout>

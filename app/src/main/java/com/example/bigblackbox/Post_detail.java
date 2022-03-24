@@ -18,7 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bigblackbox.adapter.ReplyAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.entity.Reply;
+import com.example.bigblackbox.entity.User;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,20 +33,49 @@ public class Post_detail extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private String currentUser;
     private String commUser;
-
+    final List<Reply> r = new ArrayList<>();
     private int post_id = -1;
 
     ReplyAdapter replyAdapter;
 
+    @SuppressLint("SetTextI18n")
+    public void setTime(String postTime){
+        try {
+            TextView time = findViewById(R.id.postTime);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date pDate = ft.parse(postTime);
+            Date nDate = new Date(System.currentTimeMillis());
+            assert pDate != null;
+            long diff = nDate.getTime() - pDate.getTime();//这样得到的差值是毫秒级别
+            long days = diff / (1000 * 60 * 60 * 24);
+            long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+            long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+            if (days == 0 && hours == 0 && minutes == 0) {
+                time.setText((diff / 1000) + "秒前");
+            } else if (days == 0 && hours == 0) {
+                time.setText(minutes + "分钟前");
+            } else if (days == 0) {
+                time.setText(hours + "小时前");
+            } else if(days <= 5){
+                time.setText(days + "天前");
+            } else {
+                time.setText(postTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate");
         setContentView(R.layout.activity_post_detail);
+        comment = findViewById(R.id.edt_comment);
         TextView name = findViewById(R.id.postName);
-        TextView time = findViewById(R.id.postTime);
         TextView title = findViewById(R.id.postTitle);
         TextView content = findViewById(R.id.postContent);
-        comment = findViewById(R.id.edt_comment);
 
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
@@ -51,25 +84,24 @@ public class Post_detail extends AppCompatActivity {
         Posting p = null;
             try(Cursor cursor = mDB.rawQuery("select * from posting where postID = ?",new String[]{String.valueOf(post_id)})){
                 if(cursor.moveToNext()){
-                    p = new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+                    p = new Posting(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5), cursor.getInt(6));
+                    setTime(cursor.getString(4));
                 }
             }
+
         assert p != null;
+            String uName = p.getName();
         name.setText(p.getName());
-        time.setText(p.getTime());
         title.setText(p.getTitle());
         content.setText(p.getContent());
 
-        final List<Reply> r = new ArrayList<>();
-            try(Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ? order by replyTime desc",new String[]{String.valueOf(post_id)})){
-                while (cursor.moveToNext()){
-                    r.add(new Reply(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
-                }
-            }
+
 
         final ListView listView = findViewById(R.id.replyList);
         replyAdapter = new ReplyAdapter(this,r);
         listView.setAdapter(replyAdapter);
+        showReply();
+
         // 长按事件——删除评论
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -92,25 +124,18 @@ public class Post_detail extends AppCompatActivity {
                         if(cu.moveToNext()){
                             commUser = cu.getString(2);
                         }
-                        if(!currentUser.equals(UserInfo.userName)){        //判断所选帖子发帖用户与当前登录用户是否一致
-                            if(!commUser.equals(UserInfo.userName)){       //判断当前评论用户与当前登录用户是否一致
-                                Toast.makeText(Post_detail.this,"这是你的评论吗？",Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                /*
-                                此部分删除的是他人帖子下自己的评论
-                                 */
-                                mDB.execSQL("delete from postReply where replyID = ?", new String[]{String.valueOf(reply.getReplyID())});
-                                Toast.makeText(Post_detail.this,"评论删除成功", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else{
+                        if(currentUser.equals(UserInfo.userName) || (commUser.equals(UserInfo.userName)) || (UserInfo.isAdmin.equals("1"))){
                             /*
-                            此部分删除的是自己发布的帖子下的任意评论
+                               判断当前评论用户与当前登录用户是否一致
+                               判断所选帖子的发帖用户与当前登录用户是否一致
+                               判断当前用户是否为管理员
                              */
                             mDB.execSQL("delete from postReply where replyID = ?", new String[]{String.valueOf(reply.getReplyID())});
-                            Toast.makeText(Post_detail.this,"评论删除成功", Toast.LENGTH_LONG).show();
-                        }
+                            Toast.makeText(Post_detail.this,"评论删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(Post_detail.this,"这是你的评论吗？",Toast.LENGTH_SHORT).show();
+                            }
                     }
                 });
                 builder.create().show();
@@ -151,6 +176,7 @@ public class Post_detail extends AppCompatActivity {
             mDB.execSQL("insert into postReply values(null,?,?,?,?)",
                     new String[]{String.valueOf(post_id), UserInfo.userName, comment.getText().toString(), simpleDateFormat.format(date)});
             Toast.makeText(this, "评论成功", Toast.LENGTH_SHORT).show();
+            System.out.println("评论操作完成");
             this.comment.setText("");
         }
         else{
@@ -159,6 +185,15 @@ public class Post_detail extends AppCompatActivity {
             builder.setMessage("评论失败");    //输出具体未通过原因
             builder.setPositiveButton("确定",null);
             builder.create().show();
+        }
+    }
+
+    public void showReply(){
+        r.clear();
+        try(Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ? order by replyTime desc",new String[]{String.valueOf(post_id)})){
+            while (cursor.moveToNext()){
+                r.add(new Reply(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
+            }
         }
     }
 }

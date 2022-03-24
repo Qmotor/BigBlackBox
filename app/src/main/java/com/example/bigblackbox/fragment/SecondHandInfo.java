@@ -24,11 +24,12 @@ import com.example.bigblackbox.UserInfo;
 import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.Post_detail;
+import com.example.bigblackbox.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Info_sell extends Fragment {
+public class SecondHandInfo extends Fragment {
     private String name;
     private PostingAdapter mPostingAdapter;
     private SQLiteDatabase mDB;
@@ -106,7 +107,7 @@ public class Info_sell extends Fragment {
         p.clear();           //清空List中的数据，防止数据多次显示
             try (Cursor cursor = mDB.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
                 while (cursor.moveToNext()) {
-                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                    p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6)));
                 }
             }
         mPostingAdapter.notifyDataSetChanged();

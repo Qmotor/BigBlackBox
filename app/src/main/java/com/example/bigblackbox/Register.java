@@ -111,7 +111,7 @@ public class Register extends AppCompatActivity {
         }
         else {           //amount为0，用户名未被使用
             mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?,?,?,?)",
-                    new String[]{nameText.getText().toString(), pwdText.getText().toString(), male,"0"});
+                    new String[]{nameText.getText().toString(), pwdText.getText().toString(), "0", male});
             Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("regName",nameText.getText().toString());

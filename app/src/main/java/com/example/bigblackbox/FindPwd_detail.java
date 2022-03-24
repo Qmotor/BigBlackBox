@@ -27,8 +27,9 @@ public class FindPwd_detail extends AppCompatActivity {
     String userName;
     private EditText answer,np,enp;
     private SQLiteDatabase mDB;
-    private static final long DELAY = 2000;
+    private static final long DELAY = 1500;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +53,8 @@ public class FindPwd_detail extends AppCompatActivity {
         userName = getIntent().getStringExtra("editPwdUser");
         showText.setText(userName+"，您正在找回密码");
 
-        /*
-        给列表绑定数据
-         */
+
+        // 给列表绑定数据
         item = getResources().getStringArray(R.array.securityQuestion);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,11 +146,9 @@ public class FindPwd_detail extends AppCompatActivity {
          else{
             mDB.execSQL("update userInfo set userPwd = ? where userName = ?",
                     new String[]{nPwd, userName});
-            Toast.makeText(FindPwd_detail.this,"修改密码成功，正在返回登录界面", Toast.LENGTH_LONG).show();
+            Toast.makeText(FindPwd_detail.this,"修改密码成功，正在返回登录界面", Toast.LENGTH_SHORT).show();
             final Intent localIntent = new Intent(this,MainActivity.class);
-            /*
-            设置延时操作，时间间隔为2s
-             */
+            // 设置延时操作，时间间隔为1.5s
             Timer timer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override

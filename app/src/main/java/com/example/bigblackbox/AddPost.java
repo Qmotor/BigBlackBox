@@ -1,6 +1,7 @@
 package com.example.bigblackbox;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Add_post extends AppCompatActivity {
+public class AddPost extends AppCompatActivity {
     private EditText titleText,contentText;
     private RadioButton talkBtn,lectureBtn;
     private SQLiteDatabase mDB;
@@ -27,8 +28,8 @@ public class Add_post extends AppCompatActivity {
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
 
-        titleText = findViewById(R.id.edt_title);
-        contentText= findViewById(R.id.edt_text);
+        titleText = findViewById(R.id.edit_title);
+        contentText= findViewById(R.id.edit_text);
         talkBtn = findViewById(R.id.talk);
         lectureBtn = findViewById(R.id.lecture);
     }
@@ -69,19 +70,42 @@ public class Add_post extends AppCompatActivity {
             return "内容不能为空！";
         }
         if(content.length() < 6){
-            return "帖子内容长度至少为6位";
+            return "帖子内容长度至少包含6个字符";
+        }
+        if(content.length() > 150){
+            return "帖子内容长度最多包含150个字符";
         }
         return null;
     }
 
+    public void postClean(View view){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("您确定要清空以上信息吗？");
+            builder.setPositiveButton("我手滑了0_o", null);
+            builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    titleText.setText("");
+                    contentText.setText("");
+                    Toast.makeText(AddPost.this,"已清除",Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.create().show();
+    }
+
+
     public void add(int follow){
-        /*
-        获取当前系统时间
-         */
+        // 获取当前系统时间
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
-            mDB.execSQL("insert into posting values(null,?,?,?,?,?)",
-                    new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow)});
+        if(UserInfo.isAdmin.equals("1")){
+            mDB.execSQL("insert into posting values(null,?,?,?,?,?,?)",
+                    new String[]{UserInfo.userName,titleText.getText().toString(),contentText.getText().toString(),simpleDateFormat.format(date),String.valueOf(follow),"1"});
+        }else {
+            mDB.execSQL("insert into posting values(null,?,?,?,?,?,?)",
+                    new String[]{UserInfo.userName, titleText.getText().toString(), contentText.getText().toString(), simpleDateFormat.format(date), String.valueOf(follow),"0"});
+        }
             Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
             this.finish();      //发帖成功后，关闭当前Activity
         }

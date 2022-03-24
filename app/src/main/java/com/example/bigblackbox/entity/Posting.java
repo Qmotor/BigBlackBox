@@ -7,18 +7,20 @@ public class Posting {
     private String content;         //帖子内容
     private String time;            //发帖时间
     private int follow;             //帖子板块从属
+    private int posterIdentity;     //发帖人身份
 
     public Posting(){
 
     }
 
-    public Posting(int postID, String name, String title, String content, String time, int follow) {
+    public Posting(int postID, String name, String title, String content, String time, int follow, int posterIdentity) {
         this.postID = postID;
         this.name = name;
         this.title = title;
         this.content = content;
         this.time = time;
         this.follow = follow;
+        this.posterIdentity = posterIdentity;
     }
 
     public int getPostID() {
@@ -67,5 +69,13 @@ public class Posting {
 
     public void setFollow(int follow) {
         this.follow = follow;
+    }
+
+    public int getPosterIdentity() {
+        return posterIdentity;
+    }
+
+    public void setPosterIdentity(int posterIdentity) {
+        this.posterIdentity = posterIdentity;
     }
 }
