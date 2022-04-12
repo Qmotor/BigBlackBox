@@ -25,6 +25,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/pushIcon"
             android:src="@drawable/pig"
             android:layout_marginStart="5dp"
             android:layout_width="40dp"

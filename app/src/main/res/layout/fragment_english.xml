@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.English">
+
+    <ListView
+        android:id="@+id/englishList"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="2dp"/>
+
+</FrameLayout>

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private int id;
     private int judgeAdmin;
+    private byte[] icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +85,18 @@ public class MainActivity extends AppCompatActivity {
         String code = codeUtils.getCode();
 
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
-                new String[]{nameText.getText().toString(), pwdText.getText().toString()});
+                new String[]{nameText.getText().toString().trim(), pwdText.getText().toString().trim()});
         amount = c.getCount();
         while (c.moveToNext()) {
             id = c.getInt(0);
             judgeAdmin = c.getInt(3);
+            icon = c.getBlob(c.getColumnIndex("icon"));
+        }
+
+        if(icon == null){
+            UserInfo.userIcon = false;
+        }else {
+            UserInfo.userIcon = true;
         }
 
         if (TextUtils.isEmpty(codeStr)) {
@@ -118,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 Intent intent = new Intent(this, IndexActivity.class);
                 //向UserInfo类中的静态变量赋值，方便后续程序调用
-                UserInfo.userName = nameText.getText().toString();
+                UserInfo.userName = nameText.getText().toString().trim();
                 UserInfo.userID = String.valueOf(id);
                 UserInfo.isAdmin = String.valueOf(judgeAdmin);
                 startActivity(intent);

@@ -11,7 +11,7 @@ public class UserInfo {
     public static String getAdmin(){
         return isAdmin;
     }
-    public static boolean getLord(){
+    public static String getLord(){
         return isLord;
     }
 
@@ -21,5 +21,9 @@ public class UserInfo {
 
     public static String isAdmin;
 
-    public static boolean isLord = false;
+    public static String isLord = null;
+
+    public static boolean userIcon = false;
+
+    public static String jug = "全部";
 }

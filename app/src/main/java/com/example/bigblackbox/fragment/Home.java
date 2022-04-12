@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,14 +21,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.bigblackbox.AddPost;
 import com.example.bigblackbox.AddPush;
 import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.UserInfo;
-import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.adapter.PushInfoAdapter;
-import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.Push_detail;
 
@@ -42,7 +38,6 @@ public class Home extends Fragment {
     private PushInfoAdapter mPushInfoAdapter;
     private ImageView addBtn,searchBtn;
     String isPushAdmin;
-    String pusher;
 
     private SQLiteDatabase mDB;
 
@@ -59,7 +54,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home2, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -117,8 +112,6 @@ public class Home extends Fragment {
                 return true;
             }
         });
-
-        showData();
 
         // 判断当前登录用户是否为管理员，若是，则在”主页“显示相应控件，否则直接移除控件
         if(UserInfo.isAdmin.equals("1")) {
@@ -181,5 +174,4 @@ public class Home extends Fragment {
         super.onResume();
         showData();
     }
-
 }

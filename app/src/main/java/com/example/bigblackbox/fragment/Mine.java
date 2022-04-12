@@ -1,47 +1,78 @@
 package com.example.bigblackbox.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bigblackbox.Collection;
+import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.EditPwd;
 import com.example.bigblackbox.EditUserInfo;
+import com.example.bigblackbox.ImageUtils;
 import com.example.bigblackbox.MainActivity;
 import com.example.bigblackbox.MyPosting;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.SecurityQuestion;
 import com.example.bigblackbox.UserInfo;
-import com.example.bigblackbox.activity.IndexActivity;
+import com.example.bigblackbox.entity.Teacher;
+import com.example.bigblackbox.entity.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.Objects;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class Mine extends Fragment {
-
+    protected static Uri tempUri;
+    protected ImageView icon;
+    private SQLiteDatabase mDB;
+    protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
+    protected static final int CROP_SMALL_PICTURE = 2;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        DbUtil mHelper = new DbUtil(getContext());
+        mDB = mHelper.getReadableDatabase();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mine2, container, false);
+        return inflater.inflate(R.layout.fragment_mine, container, false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -49,6 +80,7 @@ public class Mine extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        icon = view.findViewById(R.id.head);
         TextView name = view.findViewById(R.id.uName);
         TextView id = view.findViewById(R.id.uID);
         TextView edit = view.findViewById(R.id.edit_userInfo);
@@ -65,7 +97,28 @@ public class Mine extends Fragment {
             name.setText(UserInfo.userName + "（管理员）");
         }
 
+        if(!UserInfo.userIcon){
+            icon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pig));
+        }else {
+            User u = null;
+            @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where userID = ?", new String[]{String.valueOf(UserInfo.userID)});
+            if (cursor.moveToNext()) {
+                u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
+            }
+            assert u != null;
+            byte[] pic = cursor.getBlob(cursor.getColumnIndex("icon"));
+            Bitmap bmpOut= BitmapFactory.decodeByteArray(pic,0,pic.length);
+            icon.setImageBitmap(bmpOut);
+        }
+
         id.setText("用户ID："+UserInfo.userID);
+
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            showChoosePicDialog();
+            }
+        });
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +155,8 @@ public class Mine extends Fragment {
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"收藏功能开发中。。。", Toast.LENGTH_SHORT).show();
-            }
+                Intent intent = new Intent(getContext(), Collection.class);
+                startActivity(intent); }
         });
 
         about.setOnClickListener(new View.OnClickListener() {
@@ -113,11 +166,10 @@ public class Mine extends Fragment {
             }
         });
 
-
         loginOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("温馨提示");
                 builder.setMessage("你确定要注销当前登录账号吗？");
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -137,4 +189,135 @@ public class Mine extends Fragment {
             }
         });
     }
+
+    public void showChoosePicDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("设置头像");
+        String[] items = { "选择本地照片", "拍照" };
+        builder.setNegativeButton("取消", null);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case CHOOSE_PICTURE: // 选择本地照片
+                        Intent openAlbumIntent = new Intent(Intent.ACTION_PICK);
+                        openAlbumIntent.setType("image/*");
+                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                        break;
+                    case TAKE_PICTURE: // 拍照
+                        takePicture();
+//                        Toast.makeText(getContext(), "拍照", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+    private void takePicture() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (Build.VERSION.SDK_INT >= 23) {
+            // 需要申请动态权限
+            int check = ContextCompat.checkSelfPermission(getContext(), permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            if (check != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(Environment.getExternalStorageDirectory(), "image.jpg");
+        //判断是否是AndroidN以及更高的版本
+        if (Build.VERSION.SDK_INT >= 24) {
+            openCameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            tempUri = FileProvider.getUriForFile(getContext(), "com.lt.uploadpicdemo.fileProvider", file);
+        } else {
+            tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
+        }
+        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
+                switch (requestCode) {
+                    case TAKE_PICTURE:
+                        startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                        break;
+                    case CHOOSE_PICTURE:
+                        startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
+                        break;
+                    case CROP_SMALL_PICTURE:
+                        if (data != null) {
+                            setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
+                        }else {
+                            Toast.makeText(getContext(), "图片路径有误", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                }
+        }
+    }
+
+    /**
+     * 裁剪图片方法实现
+     *
+     * @param uri
+     */
+    protected void startPhotoZoom(Uri uri) {
+        if (uri == null) {
+            Log.i("tag", "The uri is not exist.");
+        }else {
+            Log.i("tag", "The uri is existing.");
+            tempUri = uri;
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(uri, "image/*");
+            // 设置裁剪
+            intent.putExtra("crop", "true");
+            // aspectX aspectY 是宽高的比例
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", 240);
+            intent.putExtra("outputY", 240);
+            intent.putExtra("return-data", true);
+            /*
+               目前出现一个BUG：使用模拟器进行调试时无法上传头像，使用真机调试则无此问题
+               初步考虑是设备上去掉了支持Crop的应用
+               解决思路是在跳转前做检测，或者是全局做检测
+               https://www.cnblogs.com/xing-star/p/11803731.html
+             */
+            startActivityForResult(intent, CROP_SMALL_PICTURE);
+        }
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     *
+     * @param
+     *
+     *
+     */
+    protected void setImageToView(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            photo = ImageUtils.toRoundBitmap(photo); // 这个时候的图片已经被处理成圆形的了
+            icon.setImageBitmap(photo);
+            // bitmap转byte[] (做不到)
+//            uploadPic(photo);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//
+//            byte[] iconData = baos.toByteArray();
+//
+//            mDB.execSQL("update userInfo set icon = ? where userName = ?",
+//                    new String[]{Arrays.toString(iconData), UserInfo.userName});
+            Toast.makeText(getContext(), "修改成功", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

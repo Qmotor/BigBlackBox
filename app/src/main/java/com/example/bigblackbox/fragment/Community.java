@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.bigblackbox.Plan;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.activity.Chat;
+import com.example.bigblackbox.activity.Teacher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,14 +26,13 @@ import java.util.Map;
 
 public class Community extends Fragment {
 
-    private GridView gridView;
     private Intent intent;
-    private String[] names = new String[]{"谈天说地","院校信息","考研大纲","统考科目备考","专业课备考","老师推荐","考研资料","研招网","轻松一刻","备考时间表","复试准备","干货分享","13","14","15"};
-    private int[] imgIds = new int[]{R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p4,R.drawable.p5,R.drawable.p6,
+    private final String[] names = new String[]{"谈天说地","院校信息","考研大纲","统考科目备考","专业课备考","老师推荐","考研资料","研招网","轻松一刻","备考时间表","复试准备","干货分享"};
+    private final int[] imgIds = new int[]{R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p4,R.drawable.p5,R.drawable.p6,
             R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,
-            R.drawable.p12,R.drawable.p13,R.drawable.p14,R.drawable.p15};
+            R.drawable.p12};
 
-    private List<Map<String,Object>> data = new ArrayList<>();
+    private final List<Map<String,Object>> data = new ArrayList<>();
 
     private void initData(){
         for(int i = 0; i < names.length; i++){
@@ -55,7 +56,7 @@ public class Community extends Fragment {
         /*
         绑定控件，将数据库查询结果显示在相应的ListView中
          */
-        gridView = view.findViewById(R.id.gridView);
+        GridView gridView = view.findViewById(R.id.gridView);
         initData();
         SimpleAdapter adapter = new SimpleAdapter(getContext(),data,R.layout.grid_item,new String[]{"name","imgId"}
                 ,new int[]{R.id.name,R.id.img});
@@ -70,9 +71,17 @@ public class Community extends Fragment {
                         intent = new Intent(getActivity(), Chat.class);
                         startActivity(intent);
                         break;
+                    case 5:
+                        intent = new Intent(getActivity(), Teacher.class);
+                        startActivity(intent);
+                        break;
                     case 7:
                         Uri uri = Uri.parse("https://yz.chsi.com.cn");
                         intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        break;
+                    case 9:
+                        intent = new Intent(getActivity(), Plan.class);
                         startActivity(intent);
                         break;
                 }

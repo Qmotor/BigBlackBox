@@ -3,8 +3,11 @@
     package="com.example.bigblackbox">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +24,12 @@
         <activity android:name=".MyPosting" />
         <activity android:name=".EditUserInfo" />
         <activity android:name=".Search" />
+        <activity android:name=".Plan" />
+        <activity android:name=".activity.Teacher" />
         <activity android:name=".AddPost" />
+        <activity android:name=".ChooseTeacher" />
+        <activity android:name=".Collection" />
+        <activity android:name=".Teacher_detail" />
         <activity android:name=".Push_detail" />
         <activity android:name=".Post_detail" />
         <activity android:name=".activity.IndexActivity" />
@@ -31,10 +39,21 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".AutoReceiver"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -38,10 +38,11 @@ public class SecurityQuestion extends AppCompatActivity {
         enAnswer = findViewById(R.id.enAnswer1);
         Button clearBtn = findViewById(R.id.clear);
 
+
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("".equals(answer.getText().toString()) && "".equals(enAnswer.getText().toString())){
+                if("".equals(answer.getText().toString().trim()) && "".equals(enAnswer.getText().toString().trim())){
                     Toast.makeText(SecurityQuestion.this,"本来就没东西就没必要清空了吧^_^",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -83,12 +84,12 @@ public class SecurityQuestion extends AppCompatActivity {
 
     public void confirmQuestion(View view){
         int amount;
-        String an = answer.getText().toString();
-        String enAn = enAnswer.getText().toString();
+        String an = answer.getText().toString().trim();
+        String enAn = enAnswer.getText().toString().trim();
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select question from userInfo where userName = ? and question != '' ",
                 new String[]{UserInfo.userName});
         amount = c.getCount();
-         if(an.equals("") || enAn.equals("")){
+         if(an.trim().equals("") || enAn.trim().equals("")){
             AlertDialog.Builder builder = new AlertDialog.Builder(SecurityQuestion.this);
             builder.setTitle("提示");
             builder.setMessage("密保问题答案不能为空");
@@ -111,7 +112,7 @@ public class SecurityQuestion extends AppCompatActivity {
                  @Override
                  public void onClick(DialogInterface dialog, int which) {
                      mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
-                             new String[]{content,answer.getText().toString(),UserInfo.userName});
+                             new String[]{content,answer.getText().toString().trim(),UserInfo.userName});
                      Toast.makeText(SecurityQuestion.this,"修改密保问题成功，即将返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();
                      TimerTask task = new TimerTask() {
@@ -134,7 +135,7 @@ public class SecurityQuestion extends AppCompatActivity {
                  @Override
                  public void onClick(DialogInterface dialog, int which) {
                      mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
-                             new String[]{content,answer.getText().toString(),UserInfo.userName});
+                             new String[]{content,answer.getText().toString().trim(),UserInfo.userName});
                      Toast.makeText(SecurityQuestion.this,"密保问题保存成功，正在返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();
                      TimerTask task = new TimerTask() {

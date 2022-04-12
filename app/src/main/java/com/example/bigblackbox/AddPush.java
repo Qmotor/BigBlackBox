@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddPush extends AppCompatActivity {
-    private TextView pushTitle, pushText;
+    private TextView pushNum;
+    private EditText pushTitle, pushText;
     private SQLiteDatabase mDB;
 
 
@@ -29,6 +33,37 @@ public class AddPush extends AppCompatActivity {
 
         pushTitle = findViewById(R.id.edit_push_title);
         pushText = findViewById(R.id.edit_push_text);
+        pushNum = findViewById(R.id.pushTextNum);
+        
+        // 实时显示输入框字数
+        pushText.addTextChangedListener(new TextWatcher() {
+            private CharSequence wordNum;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                wordNum = s;
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void afterTextChanged(Editable s) {
+                pushNum.setText(s.length() + "/250");
+                int start = pushText.getSelectionStart();
+                int end = pushText.getSelectionEnd();
+                if (wordNum.length() > pushText.length()) {
+                    //删除多余输入的字（不会显示出来）
+                    s.delete(start - 1, end);
+                    pushText.setText(s);
+                    //设置光标在最后
+                    pushText.setSelection(end);
+                }
+            }
+        });
     }
 
 
@@ -47,27 +82,21 @@ public class AddPush extends AppCompatActivity {
     }
 
     public String checkInfo(){
-        String title = pushTitle.getText().toString();
-        String content = pushText.getText().toString();
+        String title = pushTitle.getText().toString().trim();
+        String content = pushText.getText().toString().trim();
         if(UserInfo.userName == null){
             return "登录状态无效";
-        }
-        if("".equals(title)){
+        }if("".equals(title)){
             return "标题不能为空！";
-        }
-        if(title.length() < 4){
+        }if(title.length() < 4){
             return "标题长度至少为4位！";
-        }
-        if(title.length() > 24){
+        }if(title.length() > 24){
             return "标题长度至多为24位！";
-        }
-        if("".equals(content)){
+        }if("".equals(content)){
             return "内容不能为空！";
-        }
-        if(content.length() < 6){
+        }if(content.length() < 6){
             return "帖子内容长度至少包含6个字符";
-        }
-        if(content.length() > 250){
+        }if(content.length() > 250){
             return "帖子内容长度最多包含250个字符";
         }
         return null;
@@ -94,7 +123,7 @@ public class AddPush extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         mDB.execSQL("insert into pushPosting values(null,?,?,?,?)",
-                new String[]{UserInfo.userName,pushTitle.getText().toString(),pushText.getText().toString(),simpleDateFormat.format(date)});
+                new String[]{UserInfo.userName,pushTitle.getText().toString().trim(),pushText.getText().toString().trim(),simpleDateFormat.format(date)});
         Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
         this.finish();      //发帖成功后，关闭当前Activity
     }

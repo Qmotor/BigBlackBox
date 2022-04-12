@@ -9,13 +9,14 @@ public class User {
     private String userEdu;                 //教育经历
     private String userSchool;              //目标院校
     private String userCareer;              //当前职业
+    private byte[] userIcon;
 
 
     public User(){
 
     }
 
-    public User(int userID, String userName, String userGender, String userPhone, String userEmail, String userEdu, String userSchool, String userCareer) {
+    public User(int userID, String userName, String userGender, String userPhone, String userEmail, String userEdu, String userSchool, String userCareer, byte[] userIcon) {
         this.userID = userID;
         this.userName = userName;
         this.userGender = userGender;
@@ -24,10 +25,15 @@ public class User {
         this.userEdu = userEdu;
         this.userSchool = userSchool;
         this.userCareer = userCareer;
+        this.userIcon = userIcon;
     }
 
     public int getUserID() {
         return userID;
+    }
+
+    public byte[] getUserIcon() {
+        return userIcon;
     }
 
     public String getUserName() {

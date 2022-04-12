@@ -3,6 +3,7 @@ package com.example.bigblackbox;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import java.util.TimerTask;
 public class EditUserInfo extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private EditText phone, email, edu, school, career;
-    private RadioButton mGender, fGender;
+    private RadioButton mGender;
     private static final long DELAY = 1500;            //设置延迟参数，默认值为1.5s
 
     @Override
@@ -34,7 +35,7 @@ public class EditUserInfo extends AppCompatActivity {
         TextView uid = findViewById(R.id.uid);
         TextView uName = findViewById(R.id.uname);
         mGender = findViewById(R.id.uMale);
-        fGender = findViewById(R.id.uFemale);
+        RadioButton fGender = findViewById(R.id.uFemale);
         phone = findViewById(R.id.uPhone);
         email = findViewById(R.id.uEmail);
         edu = findViewById(R.id.uEdu);
@@ -42,9 +43,9 @@ public class EditUserInfo extends AppCompatActivity {
         career = findViewById(R.id.uCareer);
 
         User u = null;
-        Cursor cursor = mDB.rawQuery("select * from userInfo where userID = ?", new String[]{String.valueOf(UserInfo.userID)});
+        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where userID = ?", new String[]{String.valueOf(UserInfo.userID)});
         if (cursor.moveToNext()) {
-            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
+            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
         }
 
         uid.setText(UserInfo.userID);
@@ -84,13 +85,14 @@ public class EditUserInfo extends AppCompatActivity {
     }
 
     public void save() {
+        // 此处不上传头像
         if (!UserInfo.userID.equals("-1")) {
             if (mGender.isChecked()) {
                 mDB.execSQL("update userInfo set userGender = '男', userPhone = ?,userEmail = ?,userEdu = ?, userTargetSchol = ?, userCareer = ? where userName = ?",
-                        new String[]{phone.getText().toString(), email.getText().toString(), edu.getText().toString(), school.getText().toString(), career.getText().toString(), UserInfo.userName});
+                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), UserInfo.userName});
             } else {
                 mDB.execSQL("update userInfo set userGender = '女', userPhone = ?,userEmail = ?,userEdu = ?, userTargetSchol = ?, userCareer = ? where userName = ?",
-                        new String[]{phone.getText().toString(), email.getText().toString(), edu.getText().toString(), school.getText().toString(), career.getText().toString(), UserInfo.userName});
+                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(),  UserInfo.userName});
             }
             Toast.makeText(EditUserInfo.this, "修改个人信息成功，正在返回上个页面。。", Toast.LENGTH_LONG).show();
 

@@ -81,17 +81,18 @@
             android:textColor="#000000"
             android:gravity="end|center"
             android:layout_height="match_parent" />
+
         <EditText
-            android:textSize="16sp"
-            android:background="@null"
             android:id="@+id/uPhone"
-            android:text="13333333333"
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="end|center"
-            android:singleLine="true"
-            android:maxLength="11"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:maxLength="11"
+            android:singleLine="true"
+            android:text="13333333333"
+            android:textSize="16sp" />
     </FrameLayout>
 
     <FrameLayout

@@ -26,7 +26,9 @@ import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.entity.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Lecture extends Fragment {
@@ -70,25 +72,53 @@ public class Lecture extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final Posting posting = p.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("提示");
-                builder.setMessage("您确定要删除该帖子吗？");
-                builder.setPositiveButton("我手滑了0_o", null);
-                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                String[] items = {"删除帖子", "收藏帖子"};
+                builder.setNegativeButton("取消", null);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
-                                new String[]{String.valueOf(posting.getPostID())});
-                        if(c.moveToNext()){
-                            name = c.getString(1);
-                        }
-                        if(!name.equals(UserInfo.userName)){
-                            Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            mDB.execSQL("delete from posting where postUserName = ? and postID = ?",
-                                    new String[]{UserInfo.userName, String.valueOf(posting.getPostID())});
-                            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_LONG).show();
+                        switch (which) {
+                            case 0: // 删除帖子
+                                builder.setMessage("您确定要删除该帖子吗？");
+                                builder.setPositiveButton("我手滑了0_o", null);
+                                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                                                new String[]{String.valueOf(posting.getPostID())});
+                                        if (c.moveToNext()) {
+                                            name = c.getString(1);
+                                        }
+                                        if (name.equals(UserInfo.userName) || UserInfo.isAdmin.equals("1")) {
+                                            // 删除操作会将帖子及帖子下的所以评论删除
+                                            mDB.execSQL("delete from posting where postID = ?",
+                                                    new String[]{String.valueOf(posting.getPostID())});
+                                            mDB.execSQL("delete from postReply where reply_postID = ?",
+                                                    new String[]{String.valueOf(posting.getPostID())});
+                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                                builder.create().show();
+                                break;
+                            case 1: // 收藏帖子
+                                int amount;
+                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where postID = ?", new String[]{String.valueOf(posting.getPostID())});
+                                amount = c.getCount();
+                                if (amount == 0) {
+                                    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date date = new Date(System.currentTimeMillis());
+                                    mDB.execSQL("insert into collection values(null,?,?,?)",
+                                            new String[]{UserInfo.userID, String.valueOf(posting.getPostID()), simpleDateFormat.format(date)});
+                                    Toast.makeText(getContext(), "收藏成功", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "已收藏该帖子，不能重复收藏", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
                         }
                     }
                 });
@@ -96,7 +126,6 @@ public class Lecture extends Fragment {
                 return true;
             }
         });
-        showData();
     }
 
     private void showData(){
@@ -114,5 +143,4 @@ public class Lecture extends Fragment {
         super.onResume();
         showData();
     }
-
 }

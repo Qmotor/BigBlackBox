@@ -60,7 +60,7 @@ public class FindPwd_detail extends AppCompatActivity {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("".equals(answer.getText().toString()) && "".equals(np.getText().toString()) && "".equals(enp.getText().toString())){
+                if("".equals(answer.getText().toString().trim()) && "".equals(np.getText().toString().trim()) && "".equals(enp.getText().toString().trim())){
                     Toast.makeText(FindPwd_detail.this,"本来就没东西就没必要清空了吧^_^",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -95,12 +95,12 @@ public class FindPwd_detail extends AppCompatActivity {
 
     public void editPwd(View view){
         int amount;
-        String ans = answer.getText().toString();
-        String nPwd = np.getText().toString();
-        String enPwd = enp.getText().toString();
+        String ans = answer.getText().toString().trim();
+        String nPwd = np.getText().toString().trim();
+        String enPwd = enp.getText().toString().trim();
 
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and question = ? and answer = ?",
-                new String[]{userName, content, answer.getText().toString()});
+                new String[]{userName, content, answer.getText().toString().trim()});
         amount = c.getCount();
 
         if(ans.equals("")){

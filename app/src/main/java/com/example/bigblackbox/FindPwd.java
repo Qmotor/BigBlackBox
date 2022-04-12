@@ -58,7 +58,7 @@ public class FindPwd extends AppCompatActivity {
         int amount;
         String codeStr = ver.getText().toString().trim();     //验证码输入框字符串
         String code = codeUtils.getCode();                    //验证码控件字符串
-        String uName = userName.getText().toString();         //用户名
+        String uName = userName.getText().toString().trim();         //用户名
 
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ?",
                 new String[]{uName});

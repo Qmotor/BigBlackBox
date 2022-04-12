@@ -51,7 +51,7 @@ public class EditPwd extends AppCompatActivity {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("".equals(oldP.getText().toString()) && "".equals(newP.getText().toString()) && "".equals(enP.getText().toString())){
+                if("".equals(oldP.getText().toString().trim()) && "".equals(newP.getText().toString().trim()) && "".equals(enP.getText().toString().trim())){
                     Toast.makeText(EditPwd.this,"本来就没东西就没必要清空了吧^_^",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -78,9 +78,9 @@ public class EditPwd extends AppCompatActivity {
 
     public void edit(View view) {
         int amount;
-        String op = oldP.getText().toString();
-        String np = newP.getText().toString();
-        String enp = enP.getText().toString();
+        String op = oldP.getText().toString().trim();
+        String np = newP.getText().toString().trim();
+        String enp = enP.getText().toString().trim();
 
         @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
                 new String[]{UserInfo.userName, op});
