@@ -16,14 +16,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bigblackbox.activity.IndexActivity;
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class EditPwd extends AppCompatActivity {
-
+    public static String uName;
     private EditText oldP,newP,enP;
+    private View v;
     private SQLiteDatabase mDB;
     private static final long DELAY = 1500;     //设置延迟参数，默认值为1.5s
 
@@ -36,10 +38,13 @@ public class EditPwd extends AppCompatActivity {
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
 
+        uName = getIntent().getStringExtra("userName");
+
         TextView user = findViewById(R.id.editUser);
         oldP = findViewById(R.id.oldPwd);
         newP = findViewById(R.id.newPwd);
         enP = findViewById(R.id.enNewPwd);
+        v = findViewById(R.id.pwdView);
         Button clearBtn = findViewById(R.id.clear);
 
         /*
@@ -65,7 +70,7 @@ public class EditPwd extends AppCompatActivity {
                             oldP.setText("");
                             newP.setText("");
                             enP.setText("");
-                            Toast.makeText(EditPwd.this,"已清除",Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditPwd.this,"已清除",Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -73,7 +78,13 @@ public class EditPwd extends AppCompatActivity {
                 }
             }
         });
-        user.setText("当前操作用户为："+UserInfo.userName);
+        if(uName!=null){
+            oldP.setVisibility(View.GONE);
+            v.setVisibility(View.GONE);
+            user.setText("当前正在为用户“"+ uName + "”修改密码");
+        }else {
+            user.setText("当前操作用户为：" + UserInfo.userName);
+        }
     }
 
     public void edit(View view) {
@@ -82,79 +93,89 @@ public class EditPwd extends AppCompatActivity {
         String np = newP.getText().toString().trim();
         String enp = enP.getText().toString().trim();
 
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
-                new String[]{UserInfo.userName, op});
-        amount = c.getCount();
-        // 将select查询结果数赋值给amount
-
+        if(uName==null) {
+            @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where user_name = ? and user_pwd = ?",
+                    new String[]{UserInfo.userName, op});
+            amount = c.getCount();
         /*
         以下代码为系统验证用户所输入信息是否无误
         若信息有误，则向用户提示相应信息
          */
-            if("".equals(op)){
+            if ("".equals(op)) {
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("旧密码不能为空");
-                empBuilder.setPositiveButton("确定",null);
+                empBuilder.setPositiveButton("确定", null);
                 empBuilder.create().show();
-            }
-
-            else if(enp.length() < 5 || enp.length() > 13){
+            } else if (enp.length() < 5 || enp.length() > 13) {
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("新密码长度应在6-12位之间");
-                empBuilder.setPositiveButton("确定",null);
+                empBuilder.setPositiveButton("确定", null);
                 empBuilder.create().show();
-            }
-
-            else if(!np.equals(enp)){
+            } else if (!np.equals(enp)) {
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("新密码输入不一致");
-                empBuilder.setPositiveButton("确定",null);
+                empBuilder.setPositiveButton("确定", null);
                 empBuilder.create().show();
-            }
-
-            else  if(op.equals(np)){
+            } else if (op.equals(np)) {
                 AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("新密码与旧密码不能相同");
-                empBuilder.setPositiveButton("确定",null);
+                empBuilder.setPositiveButton("确定", null);
                 empBuilder.create().show();
             }
-
-
             // amount为0，即说明用户输入旧密码与当前账户不匹配
-            else if(amount == 0){
+            else if (amount == 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("错误提示！");
                 builder.setMessage("旧密码输入有误，请重新输入");
-                builder.setPositiveButton("确定",null);
+                builder.setPositiveButton("确定", null);
                 builder.create().show();
                 oldP.setText("");
             }
 
             // 用户输入信息无误，则可以修改当前账户密码，修改密码完毕后，自动跳转至登录界面
             else {
-                mDB.execSQL("update userInfo set userPwd = ? where userName = ?",
+                mDB.execSQL("update userInfo set user_pwd = ? where user_name = ?",
                         new String[]{np, UserInfo.userName});
                 // 修改密码成功后，自动清空UserInfo中的用户信息，以防止出现数据错误
                 UserInfo.userName = null;
                 UserInfo.userID = null;
 
-                Toast.makeText(EditPwd.this,"修改密码成功，即将跳转至登录界面", Toast.LENGTH_SHORT).show();
-                final Intent localIntent = new Intent(this,MainActivity.class);
+                Toast.makeText(EditPwd.this, "修改密码成功，即将跳转至登录界面", Toast.LENGTH_SHORT).show();
+                final Intent localIntent = new Intent(this, MainActivity.class);
                 Timer timer = new Timer();
-
                 // 设置定时操作，保证程序结构合理
                 TimerTask task = new TimerTask() {
                     @Override
-                    public void run(){
+                    public void run() {
                         startActivity(localIntent);
                         finish();
                     }
                 };
-                timer.schedule(task,DELAY);
+                timer.schedule(task, DELAY);
             }
+        }else {
+            if (enp.length() < 5 || enp.length() > 13) {
+                AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
+                empBuilder.setTitle("错误提示！");
+                empBuilder.setMessage("新密码长度应在6-12位之间");
+                empBuilder.setPositiveButton("确定", null);
+                empBuilder.create().show();
+            } else if (!np.equals(enp)) {
+                AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
+                empBuilder.setTitle("错误提示！");
+                empBuilder.setMessage("新密码输入不一致");
+                empBuilder.setPositiveButton("确定", null);
+                empBuilder.create().show();
+            }else {
+                mDB.execSQL("update userInfo set user_pwd = ? where user_name = ?",
+                        new String[]{np, uName});
+                Toast.makeText(EditPwd.this, "修改用户密码成功", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 }

@@ -8,19 +8,16 @@
     tools:context=".Search">
 
     <EditText
-        android:id="@+id/edit_search"
-        android:hint="请输入要查询的帖子关键字"
-        android:padding="5dp"
-        android:minLines="2"
-        android:paddingStart="7dp"
-        android:imeOptions="actionSearch"
-        android:gravity="center|start"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:textSize="14sp"
         android:singleLine="true"
-        android:background="#DCDCDC"
-        android:textColor="#000000"
-        android:textSize="14sp"/>
+        android:id="@+id/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入要查询的帖子关键字"
+        android:imeOptions="actionSearch"
+        android:background="@drawable/search_border"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:padding="8dp" />
 
     <ListView
         android:id="@+id/searchList"

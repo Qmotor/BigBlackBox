@@ -18,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bigblackbox.tool.DbUtil;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,7 +76,7 @@ public class FindPwd_detail extends AppCompatActivity {
                             answer.setText("");
                             np.setText("");
                             enp.setText("");
-                            Toast.makeText(FindPwd_detail.this,"已清除",Toast.LENGTH_LONG).show();
+                            Toast.makeText(FindPwd_detail.this,"已清除",Toast.LENGTH_SHORT).show();
                         }
                     });
                     builder.create().show();
@@ -99,7 +101,7 @@ public class FindPwd_detail extends AppCompatActivity {
         String nPwd = np.getText().toString().trim();
         String enPwd = enp.getText().toString().trim();
 
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and question = ? and answer = ?",
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where user_name = ? and question = ? and answer = ?",
                 new String[]{userName, content, answer.getText().toString().trim()});
         amount = c.getCount();
 
@@ -144,7 +146,7 @@ public class FindPwd_detail extends AppCompatActivity {
             answer.setText("");
         }
          else{
-            mDB.execSQL("update userInfo set userPwd = ? where userName = ?",
+            mDB.execSQL("update userInfo set user_pwd = ? where user_name = ?",
                     new String[]{nPwd, userName});
             Toast.makeText(FindPwd_detail.this,"修改密码成功，正在返回登录界面", Toast.LENGTH_SHORT).show();
             final Intent localIntent = new Intent(this,MainActivity.class);

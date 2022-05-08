@@ -25,6 +25,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
             android:background="#99000000">
             <EditText
                 android:id="@+id/LUid"
-                android:text="testUser"
+                android:text="铅笔学长"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -109,8 +110,8 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -26,8 +25,8 @@ import com.example.bigblackbox.adapter.ReplyAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.entity.Reply;
 import com.example.bigblackbox.entity.User;
-
-import org.w3c.dom.Text;
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,7 +88,7 @@ public class Post_detail extends AppCompatActivity {
 
         post_id = getIntent().getIntExtra("postID", -1);
         Posting p = null;
-        try (Cursor cursor = mDB.rawQuery("select * from posting where postID = ?", new String[]{String.valueOf(post_id)})) {
+        try (Cursor cursor = mDB.rawQuery("select * from posting where post_id = ?", new String[]{String.valueOf(post_id)})) {
             if (cursor.moveToNext()) {
                 p = new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6));
                 UserInfo.isLord = cursor.getString(1);
@@ -107,13 +106,17 @@ public class Post_detail extends AppCompatActivity {
 
         // 头像设置
         User u = null;
-        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{String.valueOf(UserInfo.isLord)});
+        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where user_name = ?", new String[]{String.valueOf(UserInfo.isLord)});
         if (cursor.moveToNext()) {
-            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
+            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getBlob(cursor.getColumnIndex("icon")));
         }
         assert u != null;
         if(cursor.getBlob(cursor.getColumnIndex("icon")) == null){
-            pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pig));
+            if(u.getUserGender().equals("男")) {
+                pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boy));
+            }else {
+                pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.girl));
+            }
         }else {
             Bitmap bmpOut= BitmapFactory.decodeByteArray(u.getUserIcon(),0,u.getUserIcon().length);
             pi.setImageBitmap(bmpOut);
@@ -136,9 +139,9 @@ public class Post_detail extends AppCompatActivity {
                 builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where post_id = ?",
                                 new String[]{String.valueOf(reply.getPostID())});
-                        @SuppressLint("Recycle") Cursor cu = mDB.rawQuery("select * from postReply where replyID = ?",
+                        @SuppressLint("Recycle") Cursor cu = mDB.rawQuery("select * from replying where reply_id = ?",
                                 new String[]{String.valueOf(reply.getReplyID())});
                         if (c.moveToNext()) {
                             currentUser = c.getString(1);
@@ -152,7 +155,7 @@ public class Post_detail extends AppCompatActivity {
                                判断所选帖子的发帖用户与当前登录用户是否一致
                                判断当前用户是否为管理员
                              */
-                            mDB.execSQL("delete from postReply where replyID = ?", new String[]{String.valueOf(reply.getReplyID())});
+                            mDB.execSQL("delete from replying where reply_id = ?", new String[]{String.valueOf(reply.getReplyID())});
                             // 实时刷新帖子数据
                             finish();
                             Intent intent = new Intent(Post_detail.this, Post_detail.class);
@@ -198,8 +201,8 @@ public class Post_detail extends AppCompatActivity {
         //获取当前时间
         Date date = new Date(System.currentTimeMillis());
         if (post_id != -1) {
-            mDB.execSQL("insert into postReply values(null,?,?,?,?,?)",
-                    new String[]{String.valueOf(post_id), UserInfo.userName, comment.getText().toString().trim(), simpleDateFormat.format(date), UserInfo.isAdmin});
+            mDB.execSQL("insert into replying values(null,?,?,?,?,?,?)",
+                    new String[]{String.valueOf(post_id), UserInfo.userName, comment.getText().toString().trim(), simpleDateFormat.format(date), UserInfo.isAdmin, UserInfo.gender});
             Toast.makeText(this, "评论成功", Toast.LENGTH_SHORT).show();
             this.finish();
             Intent intent = new Intent(this, Post_detail.class);
@@ -216,9 +219,9 @@ public class Post_detail extends AppCompatActivity {
 
     public void showReply() {
         r.clear();
-        try (Cursor cursor = mDB.rawQuery("select * from postReply where reply_postID = ? order by replyTime desc", new String[]{String.valueOf(post_id)})) {
+        try (Cursor cursor = mDB.rawQuery("select * from replying where reply_post_id = ?", new String[]{String.valueOf(post_id)})) {
             while (cursor.moveToNext()) {
-                r.add(new Reply(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                r.add(new Reply(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getString(6)));
             }
         }
     }

@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.bigblackbox.activity.IndexActivity;
+import com.example.bigblackbox.tool.CodeUtils;
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private int id;
     private int judgeAdmin;
+    private int isBanned;
+    private String uGender;
     private byte[] icon;
 
     @Override
@@ -58,15 +63,6 @@ public class MainActivity extends AppCompatActivity {
         // 测试模块
         verInput.setText(codeUtils.getCode());
 
-        /*
-        注册成功后，自动向登录界面中的TextView填充用户名和密码
-         */
-        String userName = getIntent().getStringExtra("regName");
-        String userPwd = getIntent().getStringExtra("regPwd");
-        if(userName != null){
-            nameText.setText(userName);
-            pwdText.setText(userPwd);
-        }
     }
 
     public void flashVer(View view){
@@ -76,20 +72,20 @@ public class MainActivity extends AppCompatActivity {
         verInput.setText(codeUtils.getCode());
     }
 
-
-
     @SuppressLint({"WrongConstant", "ShowToast"})
     public void LoginApp(View view) {
         int amount;
         String codeStr = verInput.getText().toString().trim();
         String code = codeUtils.getCode();
 
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ? and userPwd = ?",
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where user_name = ? and user_pwd = ?",
                 new String[]{nameText.getText().toString().trim(), pwdText.getText().toString().trim()});
         amount = c.getCount();
         while (c.moveToNext()) {
             id = c.getInt(0);
             judgeAdmin = c.getInt(3);
+            isBanned = c.getInt(4);
+            uGender = c.getString(5);
             icon = c.getBlob(c.getColumnIndex("icon"));
         }
 
@@ -106,22 +102,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (code.equalsIgnoreCase(codeStr)) {
+            AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
             if("".equals(nameText.getText().toString()) && "".equals(pwdText.getText().toString())){
-                AlertDialog.Builder empBuilder = new AlertDialog.Builder(this);
                 empBuilder.setTitle("错误提示！");
                 empBuilder.setMessage("用户名或密码不能为空");
                 empBuilder.setPositiveButton("确定",null);
                 empBuilder.create().show();
             }
             else if(amount == 0){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("错误提示！");
-                builder.setMessage("用户名或密码不正确，请重新输入");
-                builder.setPositiveButton("确定",null);
-                builder.create().show();
+                empBuilder.setTitle("错误提示！");
+                empBuilder.setMessage("用户名或密码不正确，请重新输入");
+                empBuilder.setPositiveButton("确定",null);
+                empBuilder.create().show();
                 flashVer(view);
                 verInput.setText("");
                 pwdText.setText("");
+            }
+            else if(isBanned == 1){
+                empBuilder.setTitle("错误提示！");
+                empBuilder.setMessage("您的账号已被封禁，请联系管理员进行处理！");
+                empBuilder.setPositiveButton("确定",null);
+                empBuilder.create().show();
             }
             else {
                 Intent intent = new Intent(this, IndexActivity.class);
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 UserInfo.userName = nameText.getText().toString().trim();
                 UserInfo.userID = String.valueOf(id);
                 UserInfo.isAdmin = String.valueOf(judgeAdmin);
+                UserInfo.gender = uGender;
                 startActivity(intent);
                 flashVer(view);
                 verInput.setText("");
@@ -151,4 +153,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 判断是否有数据从注册页面传入登录页面
+        if(UserInfo.regUName != null && UserInfo.regUPwd != null){
+            nameText.setText(UserInfo.regUName);
+            pwdText.setText(UserInfo.regUPwd);
+            // 用完即置空
+            UserInfo.regUName = null;
+            UserInfo.regUPwd = null;
+        }
+    }
 }

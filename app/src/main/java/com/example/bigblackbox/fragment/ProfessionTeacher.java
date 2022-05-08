@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,19 +18,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.bigblackbox.ChooseTeacher;
-import com.example.bigblackbox.DbUtil;
-import com.example.bigblackbox.MainActivity;
+import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.Teacher_detail;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.adapter.TeacherAdapter;
 import com.example.bigblackbox.entity.Teacher;
-import com.example.bigblackbox.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Profession extends Fragment {
+public class ProfessionTeacher extends Fragment {
     private SQLiteDatabase mDB;
     private TextView choose;
     private TeacherAdapter mTeacherAdapter;
@@ -43,17 +39,11 @@ public class Profession extends Fragment {
         super.onCreate(savedInstanceState);
         DbUtil mHelper = new DbUtil(getContext());
         mDB = mHelper.getReadableDatabase();
-
-//        Bundle bundle =this.getArguments();//得到从Activity传来的数据
-//        if(bundle!=null){
-//            follow = bundle.getInt("data");
-//        }
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profession, container, false);
+        return inflater.inflate(R.layout.fragment_profession_teacher, container, false);
     }
 
     @Override

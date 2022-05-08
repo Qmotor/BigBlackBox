@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.adapter.ViewAdapter;
 import com.example.bigblackbox.fragment.Community;
 import com.example.bigblackbox.fragment.Home;
@@ -46,6 +46,7 @@ public class IndexActivity extends AppCompatActivity {
         viewPager2.setUserInputEnabled(false);
 
         final TabLayout tabLayout = findViewById(R.id.buttonView);
+        tabLayout.setSelectedTabIndicator(null);   // 去除底部TabLayout上的滚动条
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 

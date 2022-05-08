@@ -1,13 +1,13 @@
 package com.example.bigblackbox.entity;
 
 public class Teacher {
-    private int teacherID;
-    private String teacherName;
-    private String teacherIntro;
-    private byte[] teacherIcon;
-    private int teacherFollow;
-    private String proFollow;
-    private String book1;
+    private int teacherID;              // 老师编号
+    private String teacherName;         // 老师名字
+    private String teacherIntro;        // 老师简介
+    private byte[] teacherIcon;         // 老师头像
+    private int teacherFollow;          // 科目分区
+    private String proFollow;           // 专业课分区
+    private String book1;               // 以下为代表书籍1~5
     private String book2;
     private String book3;
     private String book4;

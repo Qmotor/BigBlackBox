@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context=".SubjectDetail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/sIv"
+            android:src="@drawable/zy"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"/>
+
+        <TextView
+            android:text="name"
+            android:textSize="20sp"
+            android:id="@+id/sTit"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="intro"
+            android:id="@+id/sFirstC"
+            android:textSize="16sp"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/sFirstP"
+            android:src="@drawable/zy"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"/>
+
+        <TextView
+            android:text="intro"
+            android:id="@+id/sSecC"
+            android:textSize="16sp"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/sSecP"
+            android:src="@drawable/zy"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"/>
+
+        <TextView
+            android:text="intro"
+            android:id="@+id/sThirdC"
+            android:textSize="16sp"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</ScrollView>

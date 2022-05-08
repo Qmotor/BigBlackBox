@@ -1,17 +1,19 @@
 package com.example.bigblackbox.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.entity.Reply;
 
 import java.text.ParseException;
@@ -44,7 +46,7 @@ public class ReplyAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SdCardPath"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
@@ -66,6 +68,14 @@ public class ReplyAdapter extends BaseAdapter {
         }else {
             ((TextView)v.findViewById(R.id.replyUser)).setText(reply.getReplyName());
         }
+
+        @SuppressLint("SdCardPath") Bitmap bmp;
+        if(reply.getReplyUserGender().equals("男")){
+            bmp = BitmapFactory.decodeFile("/data/data/com.example.bigblackbox/pic/boy.png");
+        }else {
+            bmp = BitmapFactory.decodeFile("/data/data/com.example.bigblackbox/pic/girl.png");
+        }
+        ((ImageView)v.findViewById(R.id.replyIcon)).setImageBitmap(bmp);
 
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

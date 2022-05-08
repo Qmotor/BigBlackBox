@@ -32,24 +32,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bigblackbox.Collection;
-import com.example.bigblackbox.DbUtil;
+import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.EditPwd;
 import com.example.bigblackbox.EditUserInfo;
-import com.example.bigblackbox.ImageUtils;
+import com.example.bigblackbox.tool.ImageUtils;
 import com.example.bigblackbox.MainActivity;
 import com.example.bigblackbox.MyPosting;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.SecurityQuestion;
-import com.example.bigblackbox.UserInfo;
-import com.example.bigblackbox.entity.Teacher;
+import com.example.bigblackbox.tool.UserInfo;
+import com.example.bigblackbox.UserManagement;
 import com.example.bigblackbox.entity.User;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Arrays;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -81,6 +76,7 @@ public class Mine extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         icon = view.findViewById(R.id.head);
+        View v = view.findViewById(R.id.view);
         TextView name = view.findViewById(R.id.uName);
         TextView id = view.findViewById(R.id.uID);
         TextView edit = view.findViewById(R.id.edit_userInfo);
@@ -88,6 +84,7 @@ public class Mine extends Fragment {
         TextView editPwd = view.findViewById(R.id.editPwd);
         TextView loginOut = view.findViewById(R.id.login_out);
         TextView safeAsk = view.findViewById(R.id.safeQuestion);
+        TextView manUser = view.findViewById(R.id.managerUser);
         TextView collect = view.findViewById(R.id.collection);
         TextView about = view.findViewById(R.id.aboutUs);
 
@@ -97,18 +94,9 @@ public class Mine extends Fragment {
             name.setText(UserInfo.userName + "（管理员）");
         }
 
-        if(!UserInfo.userIcon){
-            icon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pig));
-        }else {
-            User u = null;
-            @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where userID = ?", new String[]{String.valueOf(UserInfo.userID)});
-            if (cursor.moveToNext()) {
-                u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
-            }
-            assert u != null;
-            byte[] pic = cursor.getBlob(cursor.getColumnIndex("icon"));
-            Bitmap bmpOut= BitmapFactory.decodeByteArray(pic,0,pic.length);
-            icon.setImageBitmap(bmpOut);
+        if(!UserInfo.isAdmin.equals("1")){
+            manUser.setVisibility(View.GONE);
+            v.setVisibility(View.GONE);
         }
 
         id.setText("用户ID："+UserInfo.userID);
@@ -152,6 +140,14 @@ public class Mine extends Fragment {
             }
         });
 
+        manUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UserManagement.class);
+                startActivity(intent);
+            }
+        });
+
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +177,7 @@ public class Mine extends Fragment {
                         Intent intent = new Intent(getContext(),MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(getContext(),"注销成功",Toast.LENGTH_SHORT).show();
-                        requireActivity().onBackPressed();
+                        requireActivity().onBackPressed();  // 关闭当前fragment
                     }
                 });
                 builder.setNegativeButton("取消",null);
@@ -317,6 +313,28 @@ public class Mine extends Fragment {
 //            mDB.execSQL("update userInfo set icon = ? where userName = ?",
 //                    new String[]{Arrays.toString(iconData), UserInfo.userName});
             Toast.makeText(getContext(), "修改成功", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        User u = null;
+        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where user_id = ?", new String[]{String.valueOf(UserInfo.userID)});
+        if (cursor.moveToNext()) {
+            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getBlob(cursor.getColumnIndex("icon")));
+        }
+        assert u != null;
+        if(!UserInfo.userIcon){  // 没有头像，使用默认头像
+            if(u.getUserGender().equals("男")) {
+                icon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.boy));
+            }else {
+                icon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.girl));
+            }
+        } else {
+            byte[] pic = cursor.getBlob(cursor.getColumnIndex("icon"));
+            Bitmap bmpOut= BitmapFactory.decodeByteArray(pic,0,pic.length);
+            icon.setImageBitmap(bmpOut);
         }
     }
 

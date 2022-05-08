@@ -22,11 +22,20 @@
         <activity android:name=".AddPush" />
         <activity android:name=".FindPwd" />
         <activity android:name=".MyPosting" />
+        <activity android:name=".SubjectDetail" />
         <activity android:name=".EditUserInfo" />
         <activity android:name=".Search" />
         <activity android:name=".Plan" />
+        <activity android:name=".GuessNum" />
+        <activity android:name=".UserManagement" />
         <activity android:name=".activity.Teacher" />
         <activity android:name=".AddPost" />
+        <activity android:name=".RealStuffShare" />
+        <activity android:name=".ChooseSchool" />
+        <activity android:name=".MusicDetail" />
+        <activity android:name=".activity.GenSubject" />
+        <activity android:name=".activity.GraduateData" />
+        <activity android:name=".GuessNumChoose" />
         <activity android:name=".ChooseTeacher" />
         <activity android:name=".Collection" />
         <activity android:name=".Teacher_detail" />
@@ -45,7 +54,7 @@
         </activity>
 
         <receiver
-            android:name=".AutoReceiver"
+            android:name=".tool.AutoReceiver"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

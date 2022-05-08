@@ -2,20 +2,13 @@ package com.example.bigblackbox.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.entity.Posting;
 

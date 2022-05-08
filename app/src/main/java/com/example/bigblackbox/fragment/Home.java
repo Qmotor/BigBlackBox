@@ -17,14 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.bigblackbox.AddPush;
-import com.example.bigblackbox.DbUtil;
+import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.adapter.PushInfoAdapter;
 import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.Push_detail;
@@ -37,15 +39,11 @@ public class Home extends Fragment {
     final List<PushInfo> pi = new ArrayList<>();
     private PushInfoAdapter mPushInfoAdapter;
     private ImageView addBtn,searchBtn;
-    String isPushAdmin;
-
     private SQLiteDatabase mDB;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         DbUtil mHelper = new DbUtil(getContext());
         mDB = mHelper.getReadableDatabase();
     }
@@ -64,9 +62,9 @@ public class Home extends Fragment {
         searchBtn = view.findViewById(R.id.searchBtnHome);
 
         // 绑定控件，将数据库查询结果显示在相应的ListView中
-        ListView listView = view.findViewById(R.id.homeList);
+        final ListView listView = view.findViewById(R.id.homeList);
 
-        mPushInfoAdapter = new PushInfoAdapter(getContext(), pi);
+        mPushInfoAdapter = new PushInfoAdapter(requireContext(), pi);
         listView.setAdapter(mPushInfoAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,7 +72,6 @@ public class Home extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PushInfo pushInfo = pi.get(position);
                 Intent intent = new Intent(getContext(), Push_detail.class);
-
                 // 根据用户点击的帖子，从实体类获取推送消息ID，并将该值传入Push_detail中
                 intent.putExtra("pushInfoID",pushInfo.getPushID());
                 startActivity(intent);
@@ -86,25 +83,20 @@ public class Home extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final PushInfo pushInfo = pi.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("提示");
                 builder.setMessage("您确定要删除该帖子吗？");
                 builder.setPositiveButton("我手滑了0_o", null);
                 builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select is_admin from userInfo where userName = ?",
-                                new String[]{UserInfo.userName});
-                        if(c.moveToNext()){
-                            isPushAdmin = c.getString(0);
-                        }
-                        if(isPushAdmin.equals("1")){
-                            mDB.execSQL("delete from pushPosting where pushPostingID = ?",
+                        if(UserInfo.isAdmin.equals("1")){
+                            mDB.execSQL("delete from pushing where push_id = ?",
                                     new String[]{String.valueOf(pushInfo.getPushID())});
-                            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -139,7 +131,6 @@ public class Home extends Fragment {
             });
         }else {
             addBtn.setVisibility(View.GONE);
-            searchBtn.setVisibility(View.GONE);
         }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -152,16 +143,34 @@ public class Home extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"456",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                final LinearLayout linearLayout = (LinearLayout)getLayoutInflater().inflate(R.layout.dialogname,null);
+                final EditText albumName = linearLayout.findViewById(R.id.eUser);
+                albumName.setHint("请输入关键字");
+                builder.setTitle("帖子查找");
+                builder.setView(linearLayout);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        pi.clear();
+                        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from pushing where push_title like ? and push_follow = '0' order by push_time desc", new String[]{"%" + String.valueOf(albumName.getText()).trim() + "%"});
+                        while (cursor.moveToNext()) {
+                            pi.add(new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5),cursor.getInt(6)));
+                        }
+                        listView.setAdapter(new PushInfoAdapter(requireContext(), pi));
+                    }
+                });
+                builder.setNegativeButton("取消",null);
+                builder.create().show();
             }
         });
     }
 
     private void showData() {
         pi.clear();                //清除List中的数据，防止数据显示出错
-            try(Cursor cursor = mDB.rawQuery("select * from pushPosting order by pushPostingTime desc",new String[0])){
+            try(Cursor cursor = mDB.rawQuery("select * from pushing where push_follow = '0' order by push_time desc",new String[0])){
                 while(cursor.moveToNext()){
-                    pi.add(new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
+                    pi.add(new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5),cursor.getInt(6)));
                 }
             }
         //通知观察者数据已经变更

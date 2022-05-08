@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bigblackbox.adapter.TeacherAdapter;
 import com.example.bigblackbox.entity.Teacher;
+import com.example.bigblackbox.tool.DbUtil;
 
 public class Teacher_detail extends AppCompatActivity {
     private int tID = -1;

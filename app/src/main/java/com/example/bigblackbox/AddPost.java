@@ -15,6 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,7 +58,7 @@ public class AddPost extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void afterTextChanged(Editable s) {
-                numShow.setText(s.length() + "/250");
+                numShow.setText(s.length() + "/300");
                 int start = contentText.getSelectionStart();
                 int end = contentText.getSelectionEnd();
                 if (wordNum.length() > contentText.length()) {
@@ -137,7 +140,8 @@ public class AddPost extends AppCompatActivity {
             mDB.execSQL("insert into posting values(null,?,?,?,?,?,?)",
                     new String[]{UserInfo.userName, titleText.getText().toString().trim(), contentText.getText().toString().trim(), simpleDateFormat.format(date), String.valueOf(follow),"0"});
         }
-            Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
-            this.finish();      //发帖成功后，关闭当前Activity
-        }
+        UserInfo.flag = false;
+        Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
+        this.finish();      //发帖成功后，关闭当前Activity
+    }
 }

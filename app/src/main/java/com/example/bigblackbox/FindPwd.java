@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bigblackbox.tool.CodeUtils;
+import com.example.bigblackbox.tool.DbUtil;
+
 public class FindPwd extends AppCompatActivity {
     private TextView userName,ver;
     private ImageView verImage;
@@ -60,7 +63,7 @@ public class FindPwd extends AppCompatActivity {
         String code = codeUtils.getCode();                    //验证码控件字符串
         String uName = userName.getText().toString().trim();         //用户名
 
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ?",
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where user_name = ?",
                 new String[]{uName});
         amount = c.getCount();
         /*
@@ -68,7 +71,7 @@ public class FindPwd extends AppCompatActivity {
          */
 
         if (TextUtils.isEmpty(codeStr)) {
-            Toast.makeText(this, "验证码不能为空", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -107,7 +110,7 @@ public class FindPwd extends AppCompatActivity {
             }
         }
         else {
-            Toast.makeText(this, "验证码输入有误", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "验证码输入有误", Toast.LENGTH_SHORT).show();
             flash(view);                  //调用flash()方法，刷新验证码
             ver.setText("");              //将验证码输入框置空
         }

@@ -22,10 +22,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.bigblackbox.AddPost;
-import com.example.bigblackbox.DbUtil;
+import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.Search;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.Post_detail;
@@ -42,7 +42,6 @@ public class AllNews extends Fragment {
     public static int count = 0;
     private SQLiteDatabase mDB;
     private PostingAdapter mPostingAdapter;
-    static boolean flag = true;    // 判断当前用户选择的帖子是发布时间优先还是回复时间优先
     static String[] items;
     private final List<Posting> p = new ArrayList<>();
     public List<Integer> list = new LinkedList<>();
@@ -55,14 +54,12 @@ public class AllNews extends Fragment {
         mDB = mHelper.getReadableDatabase();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.fragment_all_news, container, false);
-
     }
 
     @Override
@@ -108,20 +105,20 @@ public class AllNews extends Fragment {
                                 builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where post_id = ?",
                                                 new String[]{String.valueOf(posting.getPostID())});
                                         if (c.moveToNext()) {
                                             name = c.getString(1);
                                         }
                                         if (name.equals(UserInfo.userName) || UserInfo.isAdmin.equals("1")) {
                                             // 删除操作会将帖子及帖子下的所以评论删除
-                                            mDB.execSQL("delete from posting where postID = ?",
+                                            mDB.execSQL("delete from posting where post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
-                                            mDB.execSQL("delete from postReply where reply_postID = ?",
+                                            mDB.execSQL("delete from replying where reply_post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
-                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -129,7 +126,7 @@ public class AllNews extends Fragment {
                                 break;
                             case 1: // 收藏帖子
                                 int amount;
-                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where postID = ?", new String[]{String.valueOf(posting.getPostID())});
+                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
                                 amount = c.getCount();
                                 if (amount == 0) {
                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -194,7 +191,7 @@ public class AllNews extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("设置帖子显示顺序");
-                if (flag) {
+                if (UserInfo.flag) {
                     items = new String[]{"发布时间", "回复时间（当前）"};
                 } else {
                     items = new String[]{"发布时间（当前）", "回复时间"};
@@ -205,12 +202,12 @@ public class AllNews extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: // 发布时间
-                                flag = false;
+                                UserInfo.flag = false;
                                 sb2.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.reversesort));
                                 showPostData();
                                 break;
                             case 1: // 回复时间
-                                flag = true;
+                                UserInfo.flag = true;
                                 sb2.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.sort));
                                 flashData();
                                 showPostTimeData();
@@ -232,7 +229,7 @@ public class AllNews extends Fragment {
                 有相同数据的删除，剩下的就是没有评论的帖子，再按发布时间倒序排序即可
                 2存在的问题：不知道怎么将有评论的帖子和没有评论的帖子“缝”起来，使之成为一个整体
          */
-        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from postReply order by replyTime desc", new String[0]);
+        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from replying order by reply_time desc", new String[0]);
         while (cursor.moveToNext()) {
             if (count == 0) {
                 list.add(cursor.getInt(1));
@@ -259,7 +256,7 @@ public class AllNews extends Fragment {
     private void showPostTimeData() {  // 回复时间
         p.clear();                //清除List中的数据，防止数据显示出错
         for (int c = 0; c < list.size(); c++) {
-            @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from posting where postID = ?", new String[]{String.valueOf(list.get(c))});
+            @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from posting where post_id = ?", new String[]{String.valueOf(list.get(c))});
             while (cursor.moveToNext()) {
                 p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6)));
             }
@@ -270,7 +267,7 @@ public class AllNews extends Fragment {
 
     private void showPostData() {      // 发布时间
         p.clear();                //清除List中的数据，防止数据显示出错
-        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from posting order by postTime desc", new String[0]);
+        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from posting order by post_time desc", new String[0]);
         while (cursor.moveToNext()) {
             p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6)));
         }
@@ -282,11 +279,17 @@ public class AllNews extends Fragment {
     public void onResume() {
         // 重写onResume()方法，保持显示数据常新
         super.onResume();
-        if (flag) {
+        if (UserInfo.flag) {
             flashData();
             showPostTimeData();
         } else {
             showPostData();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        UserInfo.flag = true;
     }
 }

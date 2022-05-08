@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bigblackbox.entity.User;
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,8 +24,10 @@ public class EditUserInfo extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private EditText phone, email, edu, school, career;
     private RadioButton mGender;
+    public String uname;
     private static final long DELAY = 1500;            //设置延迟参数，默认值为1.5s
 
+    @SuppressLint("Recycle")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +46,23 @@ public class EditUserInfo extends AppCompatActivity {
         school = findViewById(R.id.uSchool);
         career = findViewById(R.id.uCareer);
 
+        int uID = getIntent().getIntExtra("userID", -1);
+
         User u = null;
-        @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where userID = ?", new String[]{String.valueOf(UserInfo.userID)});
+        @SuppressLint("Recycle") Cursor cursor;
+        if(uID == -1) {
+            cursor = mDB.rawQuery("select * from userInfo where user_id = ?", new String[]{String.valueOf(UserInfo.userID)});
+        }else {
+            cursor = mDB.rawQuery("select * from userInfo where user_id = ?", new String[]{String.valueOf(uID)});
+        }
         if (cursor.moveToNext()) {
-            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
+            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getBlob(cursor.getColumnIndex("icon")));
+            uname = cursor.getString(1);
         }
 
-        uid.setText(UserInfo.userID);
-        uName.setText(UserInfo.userName);
         assert u != null;
+        uid.setText(String.valueOf(u.getUserID()));
+        uName.setText(u.getUserName());
         // 性别判断
         if (u.getUserGender().equals("男")) {
             mGender.setChecked(true);
@@ -88,13 +100,13 @@ public class EditUserInfo extends AppCompatActivity {
         // 此处不上传头像
         if (!UserInfo.userID.equals("-1")) {
             if (mGender.isChecked()) {
-                mDB.execSQL("update userInfo set userGender = '男', userPhone = ?,userEmail = ?,userEdu = ?, userTargetSchol = ?, userCareer = ? where userName = ?",
-                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), UserInfo.userName});
+                mDB.execSQL("update userInfo set user_gender = '男', user_phone = ?,user_email = ?,user_edu = ?, user_target_school = ?, user_career = ? where user_name = ?",
+                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), uname});
             } else {
-                mDB.execSQL("update userInfo set userGender = '女', userPhone = ?,userEmail = ?,userEdu = ?, userTargetSchol = ?, userCareer = ? where userName = ?",
-                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(),  UserInfo.userName});
+                mDB.execSQL("update userInfo set user_gender = '女', user_phone = ?,user_email = ?,user_edu = ?, user_target_school = ?, user_career = ? where user_name = ?",
+                        new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), uname});
             }
-            Toast.makeText(EditUserInfo.this, "修改个人信息成功，正在返回上个页面。。", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditUserInfo.this, "修改个人信息成功，正在返回上个页面。。", Toast.LENGTH_SHORT).show();
 
             //设置延时操作，时间间隔为1.5s
             Timer timer = new Timer();

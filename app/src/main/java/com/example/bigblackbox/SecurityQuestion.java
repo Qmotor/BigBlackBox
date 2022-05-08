@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -86,7 +89,7 @@ public class SecurityQuestion extends AppCompatActivity {
         int amount;
         String an = answer.getText().toString().trim();
         String enAn = enAnswer.getText().toString().trim();
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select question from userInfo where userName = ? and question != '' ",
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select question from userInfo where user_name = ? and question != '' ",
                 new String[]{UserInfo.userName});
         amount = c.getCount();
          if(an.trim().equals("") || enAn.trim().equals("")){
@@ -111,7 +114,7 @@ public class SecurityQuestion extends AppCompatActivity {
              empBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialog, int which) {
-                     mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
+                     mDB.execSQL("update userInfo set question = ?, answer = ? where user_name = ?",
                              new String[]{content,answer.getText().toString().trim(),UserInfo.userName});
                      Toast.makeText(SecurityQuestion.this,"修改密保问题成功，即将返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();
@@ -134,7 +137,7 @@ public class SecurityQuestion extends AppCompatActivity {
              empBuilder.setNegativeButton("我已检查完毕", new DialogInterface.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialog, int which) {
-                     mDB.execSQL("update userInfo set question = ?, answer = ? where userName = ?",
+                     mDB.execSQL("update userInfo set question = ?, answer = ? where user_name = ?",
                              new String[]{content,answer.getText().toString().trim(),UserInfo.userName});
                      Toast.makeText(SecurityQuestion.this,"密保问题保存成功，正在返回", Toast.LENGTH_SHORT).show();
                      Timer timer = new Timer();

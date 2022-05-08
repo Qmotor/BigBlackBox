@@ -19,7 +19,6 @@
         <ImageView
             android:id="@+id/head"
             android:src="@drawable/pig"
-            android:layout_marginTop="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <LinearLayout
@@ -32,7 +31,7 @@
                 android:id="@+id/uName"
                 android:text="李狗蛋"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textColor="#000000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -117,6 +116,27 @@
         android:id="@+id/safeQuestion"
         android:layout_marginTop="3dp"
         android:text="    完善密保信息"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="start|center"
+        android:paddingEnd="5dp"
+        app:drawableEndCompat="@drawable/right"
+        android:background="@drawable/click_bg"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#dcdcdc" />
+
+    <TextView
+        android:id="@+id/managerUser"
+        android:layout_marginTop="3dp"
+        android:text="    用户管理"
         android:textColor="#000000"
         android:textSize="14sp"
         android:gravity="start|center"

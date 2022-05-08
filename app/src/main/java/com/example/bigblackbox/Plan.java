@@ -4,13 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
+import com.example.bigblackbox.tool.AutoReceiver;
 
 public class Plan extends AppCompatActivity {
 

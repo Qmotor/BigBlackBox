@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 public class Register extends AppCompatActivity {
     private EditText nameText,pwdText,repeatPwdText;
@@ -54,7 +56,7 @@ public class Register extends AppCompatActivity {
                             nameText.setText("");
                             pwdText.setText("");
                             repeatPwdText.setText("");
-                            Toast.makeText(Register.this,"已清除",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Register.this,"已清除",Toast.LENGTH_SHORT).show();
                         }
                     });
                     builder.create().show();
@@ -96,7 +98,7 @@ public class Register extends AppCompatActivity {
 
     public void add(String male){
         int amount;
-        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where userName = ?", new String[]{nameText.getText().toString().trim()});
+        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from userInfo where user_name = ?", new String[]{nameText.getText().toString().trim()});
         amount = c.getCount();         //如果amount不为0，说明该用户名已被使用
         if(amount != 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -107,13 +109,11 @@ public class Register extends AppCompatActivity {
             this.nameText.setText("");
         }
         else {           //amount为0，用户名未被使用
-            mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?,?,?,?)",
-                    new String[]{nameText.getText().toString().trim(), pwdText.getText().toString().trim(), "0", male});
+            mDB.execSQL("insert into userInfo values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new String[]{nameText.getText().toString().trim(), pwdText.getText().toString().trim(), "0", "0", male});
             Toast.makeText(Register.this,"注册成功", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("regName",nameText.getText().toString().trim());
-            intent.putExtra("regPwd",pwdText.getText().toString().trim());
-            startActivity(intent);
+            UserInfo.regUName = nameText.getText().toString().trim();
+            UserInfo.regUPwd = pwdText.getText().toString().trim();
             this.finish();
         }
     }

@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/gridView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:horizontalSpacing="2dp"
-    android:numColumns="4"
-    android:verticalSpacing="2dp"
+    android:orientation="vertical"
     tools:context=".fragment.Community">
 
-</GridView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <!--存放图片的ViewPager-->
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/loopViewPager">
+        </androidx.viewpager.widget.ViewPager>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#33000000">
+            <!-- 标题-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="start"
+                android:id="@+id/loop_dec" />
+            <!-- 小圆点-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_dots_loop"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginEnd="10dp"
+                android:padding="10dp">
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="2dp"
+        android:numColumns="4"
+        android:verticalSpacing="2dp"
+        tools:context=".fragment.Community"/>
+
+</LinearLayout>

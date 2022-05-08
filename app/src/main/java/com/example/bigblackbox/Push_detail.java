@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.bigblackbox.entity.PushInfo;
 import com.example.bigblackbox.entity.User;
+import com.example.bigblackbox.tool.DbUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,8 +52,6 @@ public class Push_detail extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +66,9 @@ public class Push_detail extends AppCompatActivity {
 
         int push_id = getIntent().getIntExtra("pushInfoID",-1);
         PushInfo p = null;
-            try(Cursor cursor = db.rawQuery("select * from pushPosting where pushPostingID = ?",new String[]{String.valueOf(push_id)})){
+            try(Cursor cursor = db.rawQuery("select * from pushing where push_id = ?",new String[]{String.valueOf(push_id)})){
                 if(cursor.moveToNext()){
-                    p = new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+                    p = new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5),cursor.getInt(6));
                     pushName = cursor.getString(1);
                     setTime(cursor.getString(4));
                 }
@@ -81,17 +80,20 @@ public class Push_detail extends AppCompatActivity {
 
         // 头像设置
         User u = null;
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("select * from userInfo where userName = ?", new String[]{String.valueOf(pushName)});
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("select * from userInfo where user_name = ?", new String[]{String.valueOf(pushName)});
         if (cursor.moveToNext()) {
-            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getBlob(cursor.getColumnIndex("icon")));
+            u = new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getBlob(cursor.getColumnIndex("icon")));
         }
         assert u != null;
         if(cursor.getBlob(cursor.getColumnIndex("icon")) == null){
-            pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pig));
+            if(u.getUserGender().equals("男")) {
+                pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.boy));
+            }else {
+                pi.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.girl));
+            }
         }else {
             Bitmap bmpOut= BitmapFactory.decodeByteArray(u.getUserIcon(),0,u.getUserIcon().length);
             pi.setImageBitmap(bmpOut);
         }
-
     }
 }

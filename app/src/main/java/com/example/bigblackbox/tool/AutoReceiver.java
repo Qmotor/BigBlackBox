@@ -1,4 +1,4 @@
-package com.example.bigblackbox;
+package com.example.bigblackbox.tool;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -6,6 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.example.bigblackbox.Plan;
+import com.example.bigblackbox.R;
 
 public class AutoReceiver extends BroadcastReceiver {
     private static final int NOTIFICATION_FLAG = 1;

@@ -14,19 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.bigblackbox.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.Teacher_detail;
-import com.example.bigblackbox.adapter.TeacherAdapter;
-import com.example.bigblackbox.entity.Teacher;
+import com.example.bigblackbox.SubjectDetail;
+import com.example.bigblackbox.adapter.SubjectAdapter;
+import com.example.bigblackbox.entity.Subject;
+import com.example.bigblackbox.tool.DbUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Math extends Fragment {
     private SQLiteDatabase mDB;
-    private TeacherAdapter mTeacherAdapter;
-    private List<Teacher> t = new ArrayList<>();
+    private SubjectAdapter mSubjectAdapter;
+    private List<Subject> s = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,31 +45,29 @@ public class Math extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final ListView listView = view.findViewById(R.id.mathList);
 
-        mTeacherAdapter = new TeacherAdapter(getContext(), t);
-        listView.setAdapter(mTeacherAdapter);
+        mSubjectAdapter = new SubjectAdapter(requireContext(), s);
+        listView.setAdapter(mSubjectAdapter);
 
         // 列表点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Teacher teacher = t.get(position);
-                Intent intent = new Intent(getContext(), Teacher_detail.class);
-                intent.putExtra("teacherID", teacher.getTeacherID());
+                Subject subject = s.get(position);
+                Intent intent = new Intent(getContext(), SubjectDetail.class);
+                intent.putExtra("subjectID", subject.getSubID());
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void showData(){
-        t.clear();
-        try(Cursor cursor = mDB.rawQuery("select * from teacher where teacher_follow = '0' ",new String[0])){
+        s.clear();
+        try(Cursor cursor = mDB.rawQuery("select * from subject where sub_follow = '0' ",new String[0])){
             while (cursor.moveToNext()) {
-                t.add(new Teacher(cursor.getInt(0),cursor.getString(1),cursor.getBlob(cursor.getColumnIndex("teacher_icon")),cursor.getInt(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
+                s.add(new Subject(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(cursor.getColumnIndex("sub_fir_pic")),cursor.getString(5),cursor.getBlob(cursor.getColumnIndex("sub_sec_pic")),cursor.getString(7),cursor.getInt(8),cursor.getInt(9)));
             }
         }
-        mTeacherAdapter.notifyDataSetChanged();
+        mSubjectAdapter.notifyDataSetChanged();
     }
 
     @Override

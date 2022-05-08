@@ -18,13 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.example.bigblackbox.DbUtil;
+import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.R;
-import com.example.bigblackbox.UserInfo;
+import com.example.bigblackbox.tool.UserInfo;
 import com.example.bigblackbox.adapter.PostingAdapter;
 import com.example.bigblackbox.entity.Posting;
 import com.example.bigblackbox.Post_detail;
-import com.example.bigblackbox.entity.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,20 +90,20 @@ public class SecondHandInfo extends Fragment {
                                 builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where postID = ?",
+                                        @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from posting where post_id = ?",
                                                 new String[]{String.valueOf(posting.getPostID())});
                                         if (c.moveToNext()) {
                                             name = c.getString(1);
                                         }
                                         if (name.equals(UserInfo.userName) || UserInfo.isAdmin.equals("1")) {
                                             // 删除操作会将帖子及帖子下的所以评论删除
-                                            mDB.execSQL("delete from posting where postID = ?",
+                                            mDB.execSQL("delete from posting where post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
-                                            mDB.execSQL("delete from postReply where reply_postID = ?",
+                                            mDB.execSQL("delete from replying where reply_post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
-                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -112,7 +111,7 @@ public class SecondHandInfo extends Fragment {
                                 break;
                             case 1: // 收藏帖子
                                 int amount;
-                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where postID = ?", new String[]{String.valueOf(posting.getPostID())});
+                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
                                 amount = c.getCount();
                                 if (amount == 0) {
                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -134,7 +133,7 @@ public class SecondHandInfo extends Fragment {
     }
     private void showSellData(){
         p.clear();           //清空List中的数据，防止数据多次显示
-            try (Cursor cursor = mDB.rawQuery("select * from posting where postFollow = 3 order by postTime desc", new String[0])) {
+            try (Cursor cursor = mDB.rawQuery("select * from posting where post_follow = 3 order by post_time desc", new String[0])) {
                 while (cursor.moveToNext()) {
                     p.add(new Posting(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getInt(6)));
                 }

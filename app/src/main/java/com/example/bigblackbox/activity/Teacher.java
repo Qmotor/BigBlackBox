@@ -8,10 +8,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.adapter.ViewAdapter;
-import com.example.bigblackbox.fragment.English;
-import com.example.bigblackbox.fragment.Math;
-import com.example.bigblackbox.fragment.Polity;
-import com.example.bigblackbox.fragment.Profession;
+import com.example.bigblackbox.fragment.EnglishTeacher;
+import com.example.bigblackbox.fragment.MathTeacher;
+import com.example.bigblackbox.fragment.PolityTeacher;
+import com.example.bigblackbox.fragment.ProfessionTeacher;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -25,23 +25,14 @@ public class Teacher extends AppCompatActivity {
 
         setContentView(R.layout.activity_teacher);
 
-//        int id = getIntent().getIntExtra("id", 0);
-//        if (id == 1) {
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container,new Profession())
-//                    .addToBackStack(null)
-//                    .commit();
-//        }
-
         List<Fragment> fragments = new ArrayList<>(4);
         /*
         向ListView中添加不同的片段
          */
-        fragments.add(new Math());
-        fragments.add(new English());
-        fragments.add(new Polity());
-        fragments.add(new Profession());
+        fragments.add(new MathTeacher());
+        fragments.add(new EnglishTeacher());
+        fragments.add(new PolityTeacher());
+        fragments.add(new ProfessionTeacher());
 
         final ViewPager2 viewPager2 = findViewById(R.id.TeacherViewPager);
         viewPager2.setAdapter(new ViewAdapter(this,fragments));

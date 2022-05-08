@@ -6,17 +6,31 @@ public class PushInfo {
     private String pushTitle;                //推送信息标题
     private String pushContent;              //推送信息内容
     private String pushTime;                 //发布时间
+    private int pushFollow;                  //推送帖子版块从属
+    private int pushIcon;
 
     public PushInfo() {
 
     }
 
-    public PushInfo(int pushID, String postUser, String postTitle, String postContent, String postTime) {
+
+
+    public PushInfo(int pushID, String pushUser, String pushTitle, String pushContent, String pushTime, int pushFollow, int pushIcon) {
         this.pushID = pushID;
-        this.pushUser = postUser;
-        this.pushTitle = postTitle;
-        this.pushContent = postContent;
-        this.pushTime = postTime;
+        this.pushUser = pushUser;
+        this.pushTitle = pushTitle;
+        this.pushContent = pushContent;
+        this.pushTime = pushTime;
+        this.pushFollow = pushFollow;
+        this.pushIcon = pushIcon;
+    }
+
+    public int getPushIcon() {
+        return pushIcon;
+    }
+
+    public void setPushIcon(int pushIcon) {
+        this.pushIcon = pushIcon;
     }
 
     public int getPushID() {
@@ -29,6 +43,14 @@ public class PushInfo {
 
     public String getPushUser() {
         return pushUser;
+    }
+
+    public int getPushFollow() {
+        return pushFollow;
+    }
+
+    public void setPushFollow(int pushFollow) {
+        this.pushFollow = pushFollow;
     }
 
     public void setPushUser(String pushUser) {

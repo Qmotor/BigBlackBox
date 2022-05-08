@@ -8,18 +8,27 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class AddPush extends AppCompatActivity {
     private TextView pushNum;
+    private LinearLayout linear;
     private EditText pushTitle, pushText;
+    private RadioButton news,hot;
+    public static int pFollow, judge;
     private SQLiteDatabase mDB;
 
 
@@ -31,10 +40,18 @@ public class AddPush extends AppCompatActivity {
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
 
+        linear = findViewById(R.id.lin);
         pushTitle = findViewById(R.id.edit_push_title);
         pushText = findViewById(R.id.edit_push_text);
         pushNum = findViewById(R.id.pushTextNum);
-        
+        news = findViewById(R.id.news);
+        hot = findViewById(R.id.hot);
+
+        pFollow = getIntent().getIntExtra("follow",-1);
+        judge = getIntent().getIntExtra("judgeID",-1);
+        if(judge != -1){
+            linear.setVisibility(View.GONE);
+        }
         // 实时显示输入框字数
         pushText.addTextChangedListener(new TextWatcher() {
             private CharSequence wordNum;
@@ -52,7 +69,7 @@ public class AddPush extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void afterTextChanged(Editable s) {
-                pushNum.setText(s.length() + "/250");
+                pushNum.setText(s.length() + "/500");
                 int start = pushText.getSelectionStart();
                 int end = pushText.getSelectionEnd();
                 if (wordNum.length() > pushText.length()) {
@@ -66,8 +83,6 @@ public class AddPush extends AppCompatActivity {
         });
     }
 
-
-
     public void AddPushChk(View view){
         String checkResult = checkInfo();
         if(checkResult != null){                                                    //系统验证帖子信息不合法
@@ -77,7 +92,18 @@ public class AddPush extends AppCompatActivity {
             builder.setPositiveButton("确定",null);
             builder.create().show();
         }else{
-            add();
+            int follow = 3;                    //默认follow初始值为3
+            if(news.isChecked()){
+                follow = 1;
+            }
+            else if(hot.isChecked()){
+                follow = 2;
+            }
+            if(judge == -1){
+                add(follow);
+            }else {
+                add(3);
+            }
         }
     }
 
@@ -96,8 +122,8 @@ public class AddPush extends AppCompatActivity {
             return "内容不能为空！";
         }if(content.length() < 6){
             return "帖子内容长度至少包含6个字符";
-        }if(content.length() > 250){
-            return "帖子内容长度最多包含250个字符";
+        }if(content.length() > 500){
+            return "帖子内容长度最多包含500个字符";
         }
         return null;
     }
@@ -118,13 +144,19 @@ public class AddPush extends AppCompatActivity {
         builder.create().show();
     }
 
-    public void add(){
+    public void add(int follow){
         // 获取当前系统时间
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
-        mDB.execSQL("insert into pushPosting values(null,?,?,?,?)",
-                new String[]{UserInfo.userName,pushTitle.getText().toString().trim(),pushText.getText().toString().trim(),simpleDateFormat.format(date)});
-        Toast.makeText(this,"发帖成功", Toast.LENGTH_SHORT).show();
+        if(pFollow == -1) {
+            mDB.execSQL("insert into pushing values(null,?,?,?,?,?,?)",
+                    new String[]{UserInfo.userName, pushTitle.getText().toString().trim(), pushText.getText().toString().trim(), simpleDateFormat.format(date), "0", String.valueOf(follow)});
+        }else {
+            mDB.execSQL("insert into pushing values(null,?,?,?,?,?,?)",
+                    new String[]{UserInfo.userName, pushTitle.getText().toString().trim(), pushText.getText().toString().trim(), simpleDateFormat.format(date), "1", String.valueOf(follow)});
+        }
+        Toast.makeText(this, "发帖成功", Toast.LENGTH_SHORT).show();
+
         this.finish();      //发帖成功后，关闭当前Activity
     }
 }

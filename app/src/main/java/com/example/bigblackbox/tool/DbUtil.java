@@ -1,4 +1,4 @@
-package com.example.bigblackbox;
+package com.example.bigblackbox.tool;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,9 +19,7 @@ public class DbUtil extends SQLiteOpenHelper {
         db.execSQL("create table postReply(replyID integer primary key autoincrement,reply_postID integer,replyUserName varchar(30),replyContent varchar(30),replyTime varchar(30))");
         //推送消息表
         db.execSQL("create table pushPosting(pushPostingID integer primary key autoincrement,pushPostingUserName varchar(30),pushPostingTitle varchar(30),pushPostingContent varchar(50),pushPostingTime varchar(30))");
-        //管理员表
-        db.execSQL("create table admin(adID integer primary key autoincrement,adName varchar(30),adPwd varchar(30))");
-    }
+        }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

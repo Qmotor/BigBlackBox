@@ -1,6 +1,5 @@
 package com.example.bigblackbox;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,6 +7,8 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +41,6 @@ public class ChooseTeacher extends AppCompatActivity {
         SimpleAdapter adapter = new SimpleAdapter(this,data,R.layout.grid_item,new String[]{"name","imgId"}
                 ,new int[]{R.id.name,R.id.img});
         gridView.setAdapter(adapter);
-
-
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
