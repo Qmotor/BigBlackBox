@@ -1,5 +1,6 @@
 package com.example.bigblackbox.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,8 +54,13 @@ public class TeacherAdapter extends BaseAdapter {
              SQLite: byte[]
              ImageView: bitmap
          */
-        Bitmap bmpOut= BitmapFactory.decodeByteArray(teacher.getTeacherIcon(),0,teacher.getTeacherIcon().length);
-        ((ImageView)v.findViewById(R.id.iv)).setImageBitmap(bmpOut);
+        if(teacher.getTeacherIcon() != null) {
+            Bitmap bmpOut = BitmapFactory.decodeByteArray(teacher.getTeacherIcon(), 0, teacher.getTeacherIcon().length);
+            ((ImageView) v.findViewById(R.id.iv)).setImageBitmap(bmpOut);
+        }else {
+            @SuppressLint("SdCardPath") Bitmap bmp = BitmapFactory.decodeFile("/data/data/com.example.bigblackbox/pic/noPic.png");
+            ((ImageView)v.findViewById(R.id.iv)).setImageBitmap(bmp);
+        }
         ((TextView)v.findViewById(R.id.teacherName)).setText(teacher.getTeacherName());
         return v;
     }

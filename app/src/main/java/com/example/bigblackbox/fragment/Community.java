@@ -23,6 +23,7 @@ import com.example.bigblackbox.ChooseSchool;
 import com.example.bigblackbox.GuessNum;
 import com.example.bigblackbox.GuessNumChoose;
 import com.example.bigblackbox.Plan;
+import com.example.bigblackbox.ProfessionCourse;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.RealStuffShare;
 import com.example.bigblackbox.activity.Chat;
@@ -40,8 +41,6 @@ import java.util.Objects;
 
 public class Community extends Fragment {
     private ViewPager viewPager;  //轮播图模块
-    private int[] mImg;
-    private int[] mImg_id;
     private String[] mDec;
     private ArrayList<ImageView> mImgList;
     private LinearLayout ll_dots_container;
@@ -49,10 +48,13 @@ public class Community extends Fragment {
     private int previousSelectedPosition = 0;
     boolean isRunning = false;
     private Intent intent;
-    private final String[] names = new String[]{"谈天说地","院校信息","统考科目备考","专业课备考","老师推荐","考研资料","研招网","轻松一刻","复试准备","干货分享"};
-    private final int[] imgIds = new int[]{R.drawable.p1,R.drawable.p2,R.drawable.p4,R.drawable.p5,R.drawable.p6,
-            R.drawable.p7,R.drawable.p8,R.drawable.p10,R.drawable.p11,
-            R.drawable.p12};
+    private final String[] names = new String[]{
+            "谈天说地","院校信息","统考科目备考","专业课备考",
+            "老师推荐","考研资料","研招网","轻松一刻","干货分享"};
+    private final int[] imgIds = new int[]{
+            R.drawable.p1,R.drawable.p2,R.drawable.p4,
+            R.drawable.p5,R.drawable.p6, R.drawable.p7,
+            R.drawable.p8,R.drawable.p11, R.drawable.p12};
 
     private final List<Map<String,Object>> data = new ArrayList<>();
 
@@ -103,6 +105,10 @@ public class Community extends Fragment {
                         intent = new Intent(getActivity(), GenSubject.class);
                         startActivity(intent);
                         break;
+                    case 3:
+                        intent = new Intent(getActivity(), ProfessionCourse.class);
+                        startActivity(intent);
+                        break;
                     case 4:
                         intent = new Intent(getActivity(), Teacher.class);
                         startActivity(intent);
@@ -120,7 +126,7 @@ public class Community extends Fragment {
                         intent = new Intent(getActivity(), GuessNumChoose.class);
                         startActivity(intent);
                         break;
-                    case 9:
+                    case 8:
                         intent = new Intent(getActivity(), RealStuffShare.class);
                         startActivity(intent);
                         break;
@@ -129,7 +135,7 @@ public class Community extends Fragment {
         });
 
         // 图片资源id数组
-        mImg = new int[]{
+        int[] mImg = new int[]{
                 R.drawable.zy, R.drawable.yjs, R.drawable.bk, R.drawable.gg, R.drawable.aq
         };
 
@@ -138,7 +144,7 @@ public class Community extends Fragment {
                 "考研数学名师——张宇", "“别人家的”寝室，4人同时考上研究生", "这个寒假，23考研人该如何启动备考？", "平台维护公告", "完善密保信息，维护账号安全"
         };
 
-        mImg_id = new int[]{
+        int[] mImg_id = new int[]{
                 R.id.pager_img1, R.id.pager_img2, R.id.pager_img3, R.id.pager_img4, R.id.pager_img5
         };
 
@@ -147,7 +153,7 @@ public class Community extends Fragment {
         ImageView imageView;
         View dotView;
         LinearLayout.LayoutParams layoutParams;
-        for(int i=0;i<mImg.length;i++){
+        for(int i = 0; i< mImg.length; i++){
             //初始化要显示的图片对象
             imageView = new ImageView(requireContext());
             imageView.setBackgroundResource(mImg[i]);
@@ -208,15 +214,20 @@ public class Community extends Fragment {
                         e.printStackTrace();
                     }
                     //下一条
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
-                        }
-                    });
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                            }
+                        });
+                    }
                 }
             }
         }.start();
 
     }
+
+
+
 }

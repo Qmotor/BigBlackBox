@@ -32,4 +32,13 @@
         android:layout_height="match_parent"
         android:dividerHeight="2dp"/>
 
+    <ImageView
+        android:id="@+id/addProTeacherBtn"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/add" />
+
 </FrameLayout>

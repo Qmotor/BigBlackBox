@@ -87,7 +87,7 @@
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="考研资料"/>
+                android:text="考研课本"/>
         </RadioGroup>
     </LinearLayout>
 
@@ -110,7 +110,7 @@
         android:background="@drawable/button_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="postClean"
+        android:onClick="teacherInfoClean"
         android:text="清除"/>
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,24 +44,68 @@ public class SubjectDetail extends AppCompatActivity {
             assert s != null;
             sT.setText(s.getSubTitle());
             sfc.setText(s.getFirCont());
-            ssc.setText(s.getSecCont());
-            stc.setText(s.getThrCont());
+            if(!s.getSecCont().equals("")){
+                ssc.setText(s.getSecCont());
+            }else {
+                ssc.setVisibility(View.GONE);
+            }
+            if(!s.getThrCont().equals("")){
+                stc.setText(s.getThrCont());
+            }else {
+                stc.setVisibility(View.GONE);
+            }
+
             // byte[] 转 bitmap
             Bitmap bmpOut;
-            bmpOut = BitmapFactory.decodeByteArray(s.getFirPic(), 0, s.getFirPic().length);
-            sfp.setImageBitmap(bmpOut);
-            bmpOut = BitmapFactory.decodeByteArray(s.getSecPic(), 0, s.getSecPic().length);
-            ssp.setImageBitmap(bmpOut);
-            switch (s.getFollChoose()){
-                case 1:
-                    viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math1));
-                    break;
-                case 2:
-                    viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math2));
-                    break;
-                case 3:
-                    viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math3));
-                    break;
+            if(s.getFirPic() != null) {
+                bmpOut = BitmapFactory.decodeByteArray(s.getFirPic(), 0, s.getFirPic().length);
+                sfp.setImageBitmap(bmpOut);
+            }else {
+                sfp.setVisibility(View.GONE);
+            }
+            if(s.getSecPic() != null) {
+                bmpOut = BitmapFactory.decodeByteArray(s.getSecPic(), 0, s.getSecPic().length);
+                ssp.setImageBitmap(bmpOut);
+            }else {
+                ssp.setVisibility(View.GONE);
+            }
+
+            if(s.getSubFollow() == 1){ // 数学
+                switch (s.getFollChoose()){
+                    case 1:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math1));
+                        break;
+                    case 2:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math2));
+                        break;
+                    case 3:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.math3));
+                        break;
+                }
+            }else if(s.getSubFollow() == 2){  // 英语
+                switch (s.getFollChoose()){
+                    case 1:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.eng1));
+                        break;
+                    case 2:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.eng2));
+                        break;
+                    case 3:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.eng3));
+                        break;
+                }
+            }else {
+                switch (s.getFollChoose()){  // 政治
+                    case 1:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.polity1));
+                        break;
+                    case 2:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.polity2));
+                        break;
+                    case 3:
+                        viewing.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.polity3));
+                        break;
+                }
             }
         }
     }

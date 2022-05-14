@@ -1,5 +1,6 @@
 package com.example.bigblackbox.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.bigblackbox.R;
@@ -19,6 +22,7 @@ import com.example.bigblackbox.SubjectDetail;
 import com.example.bigblackbox.adapter.SubjectAdapter;
 import com.example.bigblackbox.entity.Subject;
 import com.example.bigblackbox.tool.DbUtil;
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +62,41 @@ public class English extends Fragment {
                 startActivity(intent);
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(UserInfo.isAdmin.equals("1")){
+                    final Subject subject = s.get(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("提示");
+                    builder.setMessage("您确定要删除该信息吗？");
+                    builder.setPositiveButton("我手滑了0_o", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (UserInfo.isAdmin.equals("1")) {
+                                mDB.execSQL("delete from subject where sub_id = ?",
+                                        new String[]{String.valueOf(subject.getSubID())});
+                                Toast.makeText(requireContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                requireActivity().onBackPressed();
+                                Intent intent = new Intent(getActivity(), com.example.bigblackbox.activity.GenSubject.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(requireContext(), "权限不足!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.create().show();
+                }
+                return true;
+            }
+        });
     }
 
     private void showData(){
         s.clear();
-        try(Cursor cursor = mDB.rawQuery("select * from subject where sub_follow = '1' ",new String[0])){
+        try(Cursor cursor = mDB.rawQuery("select * from subject where sub_follow = '2' ",new String[0])){
             while (cursor.moveToNext()) {
                 s.add(new Subject(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(cursor.getColumnIndex("sub_fir_pic")),cursor.getString(5),cursor.getBlob(cursor.getColumnIndex("sub_sec_pic")),cursor.getString(7),cursor.getInt(8),cursor.getInt(9)));
             }

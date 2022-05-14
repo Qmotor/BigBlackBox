@@ -82,25 +82,29 @@ public class Home extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final PushInfo pushInfo = pi.get(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("提示");
-                builder.setMessage("您确定要删除该帖子吗？");
-                builder.setPositiveButton("我手滑了0_o", null);
-                builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(UserInfo.isAdmin.equals("1")){
-                            mDB.execSQL("delete from pushing where push_id = ?",
-                                    new String[]{String.valueOf(pushInfo.getPushID())});
-                            Toast.makeText(getContext(),"删除成功", Toast.LENGTH_SHORT).show();
+                if(UserInfo.isAdmin.equals("1")) {
+                    final PushInfo pushInfo = pi.get(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("提示");
+                    builder.setMessage("您确定要删除该帖子吗？");
+                    builder.setPositiveButton("我手滑了0_o", null);
+                    builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (UserInfo.isAdmin.equals("1")) {
+                                mDB.execSQL("delete from pushing where push_id = ?",
+                                        new String[]{String.valueOf(pushInfo.getPushID())});
+                                Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                requireActivity().onBackPressed();
+                                Intent intent = new Intent(getActivity(), com.example.bigblackbox.activity.IndexActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            Toast.makeText(getContext(),"权限不足!",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.create().show();
+                    });
+                    builder.create().show();
+                }
                 return true;
             }
         });

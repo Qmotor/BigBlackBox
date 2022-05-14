@@ -3,7 +3,6 @@
     package="com.example.bigblackbox">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,6 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,8 +30,13 @@
         <activity android:name=".UserManagement" />
         <activity android:name=".activity.Teacher" />
         <activity android:name=".AddPost" />
+        <activity android:name=".AddTeacher" />
+        <activity android:name=".AddSubject" />
+        <activity android:name=".AddProfession" />
         <activity android:name=".RealStuffShare" />
+        <activity android:name=".ProfessionCourse" />
         <activity android:name=".ChooseSchool" />
+        <activity android:name=".ProfessionDetail" />
         <activity android:name=".MusicDetail" />
         <activity android:name=".activity.GenSubject" />
         <activity android:name=".activity.GraduateData" />
@@ -58,10 +63,19 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.bigblackbox.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

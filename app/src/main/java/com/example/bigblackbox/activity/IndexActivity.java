@@ -28,11 +28,11 @@ public class IndexActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(UserInfo.isAdmin.equals("1")){
-            Toast.makeText(this,"欢迎管理员",Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(this,"欢迎您",Toast.LENGTH_SHORT).show();
-        }
+//        if(UserInfo.isAdmin.equals("1")){
+//            Toast.makeText(this,"欢迎管理员",Toast.LENGTH_SHORT).show();
+//        }else {
+//            Toast.makeText(this,"欢迎您",Toast.LENGTH_SHORT).show();
+//        }
 
         setContentView(R.layout.activity_index);
 

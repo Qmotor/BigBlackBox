@@ -23,6 +23,7 @@ import java.util.Date;
 
 public class Push_detail extends AppCompatActivity {
     SQLiteOpenHelper helper;
+    public static int follow;
 
     @SuppressLint("SetTextI18n")
     public void setTime(String pushTime){
@@ -58,6 +59,7 @@ public class Push_detail extends AppCompatActivity {
         String pushName = null;
         setContentView(R.layout.activity_push_detail);
         ImageView pi = findViewById(R.id.pushIcon);
+        ImageView piv = findViewById(R.id.pIv);
         TextView name = findViewById(R.id.pushName);
         TextView title = findViewById(R.id.pushTitle);
         TextView content = findViewById(R.id.pushContent);
@@ -71,9 +73,17 @@ public class Push_detail extends AppCompatActivity {
                     p = new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5),cursor.getInt(6));
                     pushName = cursor.getString(1);
                     setTime(cursor.getString(4));
+                    follow = cursor.getInt(6);
                 }
             }
         assert p != null;
+            if(follow == 1){
+                piv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.news));
+            }else if(follow == 2){
+                piv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.hot));
+            }else {
+                piv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.info));
+            }
         name.setText(p.getPushUser());
         title.setText(p.getPushTitle());
         content.setText(p.getPushContent());

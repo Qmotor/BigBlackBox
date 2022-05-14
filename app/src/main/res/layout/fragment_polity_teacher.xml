@@ -6,7 +6,7 @@
     tools:context=".fragment.PolityTeacher">
 
     <ListView
-        android:id="@+id/polityList"
+        android:id="@+id/polityTeacherList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:dividerHeight="2dp"/>

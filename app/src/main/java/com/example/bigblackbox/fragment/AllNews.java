@@ -117,6 +117,9 @@ public class AllNews extends Fragment {
                                             mDB.execSQL("delete from replying where reply_post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
                                             Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                            requireActivity().onBackPressed();
+                                            Intent intent = new Intent(getActivity(), com.example.bigblackbox.activity.Chat.class);
+                                            startActivity(intent);
                                         } else {
                                             Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_SHORT).show();
                                         }

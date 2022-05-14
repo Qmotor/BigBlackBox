@@ -70,7 +70,6 @@ public class AddPost extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void RegChk(View view){

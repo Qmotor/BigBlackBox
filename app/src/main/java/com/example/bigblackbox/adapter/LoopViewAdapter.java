@@ -10,7 +10,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import java.util.ArrayList;
 
 public class LoopViewAdapter extends PagerAdapter {
-    private ArrayList<ImageView> imageViewList;
+    private final ArrayList<ImageView> imageViewList;
 
     public LoopViewAdapter(ArrayList<ImageView> mImgList){
         imageViewList = mImgList;
@@ -26,7 +26,10 @@ public class LoopViewAdapter extends PagerAdapter {
         int newPosition = position % imageViewList.size();
         ImageView img = imageViewList.get(newPosition);
         // a. 把View对象添加到container中
-        container.addView(img);
+        if (img.getParent() == null) {
+            container.addView(img);
+        }
+
         // b. 把View对象返回给框架, 适配器
         return img;
     }

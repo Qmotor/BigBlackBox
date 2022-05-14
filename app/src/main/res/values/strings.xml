@@ -25,4 +25,23 @@
         <item><font color="#009fcc">你的小学名字</font></item>
         <item><font color="#009fcc">你第一款通关的游戏名字</font></item>
     </string-array>
+
+    <string-array name="professionalTeacher">
+        <item>计算机</item>
+        <item>法学</item>
+        <item>医学</item>
+        <item>力学</item>
+        <item>历史学</item>
+        <item>文学</item>
+        <item>管理学</item>
+        <item>经济学</item>
+        <item>教育学</item>
+        <item>哲学</item>
+        <item>物理学</item>
+        <item>心理学</item>
+        <item>数学</item>
+        <item>艺术学</item>
+        <item>农学</item>
+    </string-array>
+
 </resources>

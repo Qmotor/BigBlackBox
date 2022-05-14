@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF8DC"
+    android:scrollbars="none"
+    tools:context=".AddTeacher">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFF8DC">
+
+    <EditText
+        android:id="@+id/tn"
+        android:hint="在此输入老师姓名"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:gravity="top"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
+
+    <ImageView
+        android:id="@+id/tPic"
+        android:src="@drawable/addpic"
+        android:background="#FFF8DC"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+    <EditText
+        android:id="@+id/ti"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="在此输入老师简介"
+        android:maxLength="400"
+        android:minLines="5"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tNum"
+        android:text="0/400"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="end"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="#DCDCDC" />
+
+    <EditText
+        android:id="@+id/b1"
+        android:hint="代表书籍"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLength="20"
+        android:padding="10dp"
+        android:gravity="top"
+        android:textColor="#000000"
+        android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+        <EditText
+            android:id="@+id/b2"
+            android:hint="代表书籍"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="20"
+            android:padding="10dp"
+            android:gravity="top"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+        <EditText
+            android:id="@+id/b3"
+            android:hint="代表书籍"
+            android:background="@null"
+            android:maxLength="20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:gravity="top"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+        <EditText
+            android:id="@+id/b4"
+            android:hint="代表书籍"
+            android:maxLength="20"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:gravity="top"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+        <EditText
+            android:id="@+id/b5"
+            android:hint="代表书籍"
+            android:maxLength="20"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:gravity="top"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:background="#DCDCDC" />
+
+        <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="7dp"
+            android:text="老师所属学科："
+            android:textSize="15sp"/>
+
+        <Spinner
+            android:id="@+id/proT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:entries="@array/professionalTeacher" />
+
+        <RadioGroup
+            android:id="@+id/tcType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/mathT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="数学"/>
+            <RadioButton
+                android:id="@+id/engT"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="英语"/>
+            <RadioButton
+                android:id="@+id/polityT"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="政治"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="InfoChk"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_style"
+            android:text="发布" />
+
+        <Button
+            android:background="@drawable/button_style"
+            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="teacherInfoClean"
+            android:text="清除"/>
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

@@ -57,7 +57,7 @@ public class SecondHandInfo extends Fragment {
 
         final ListView listView = view.findViewById(R.id.infoSellList);
 
-        mPostingAdapter = new PostingAdapter(getContext(), p);
+        mPostingAdapter = new PostingAdapter(requireContext(), p);
         listView.setAdapter(mPostingAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,6 +102,9 @@ public class SecondHandInfo extends Fragment {
                                             mDB.execSQL("delete from replying where reply_post_id = ?",
                                                     new String[]{String.valueOf(posting.getPostID())});
                                             Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                                            requireActivity().onBackPressed();
+                                            Intent intent = new Intent(getActivity(), com.example.bigblackbox.activity.Chat.class);
+                                            startActivity(intent);
                                         } else {
                                             Toast.makeText(getContext(), "权限不足!", Toast.LENGTH_SHORT).show();
                                         }

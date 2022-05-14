@@ -33,6 +33,7 @@ public class EditUserInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
 
+
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
 
