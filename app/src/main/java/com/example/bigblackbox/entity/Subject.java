@@ -1,16 +1,16 @@
 package com.example.bigblackbox.entity;
 
 public class Subject {
-    private int subID;
-    private String subAuthor;
-    private String subTitle;
-    private String firCont;
-    private byte[] firPic;
-    private String secCont;
-    private byte[] secPic;
-    private String thrCont;
-    private int subFollow;
-    private int follChoose;
+    private int subID;             // 科目编号
+    private String subAuthor;      // 科目信息上传者
+    private String subTitle;       // 科目信息标题
+    private String firCont;        // 段落一
+    private byte[] firPic;         // 图片一
+    private String secCont;        // 段落二
+    private byte[] secPic;         // 图片二
+    private String thrCont;        // 段落三
+    private int subFollow;         // 学科分类
+    private int follChoose;        // 封面代码
 
     public Subject(int subID, String subAuthor, String subTitle, String firCont, byte[] firPic, String secCont, byte[] secPic, String thrCont, int subFollow, int follChoose){
         this.subID = subID;

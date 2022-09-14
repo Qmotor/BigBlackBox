@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right" />
+        app:drawableEndCompat="@drawable/right1" />
 
     <View
         android:layout_width="fill_parent"
@@ -81,7 +81,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -101,7 +101,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -121,7 +121,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -142,7 +142,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -162,7 +162,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -182,7 +182,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>
@@ -202,7 +202,7 @@
         android:textSize="14sp"
         android:gravity="start|center"
         android:paddingEnd="5dp"
-        app:drawableEndCompat="@drawable/right"
+        app:drawableEndCompat="@drawable/right1"
         android:background="@drawable/click_bg"
         android:layout_width="match_parent"
         android:layout_height="35dp"/>

@@ -1,13 +1,13 @@
 package com.example.bigblackbox.entity;
 
 public class PushInfo {
-    private int pushID;                      //推送消息编号
-    private String pushUser;                 //发帖人用户名
-    private String pushTitle;                //推送信息标题
-    private String pushContent;              //推送信息内容
-    private String pushTime;                 //发布时间
-    private int pushFollow;                  //推送帖子版块从属
-    private int pushIcon;
+    private int pushID;                      // 推送消息编号
+    private String pushUser;                 // 发帖人用户名
+    private String pushTitle;                // 推送信息标题
+    private String pushContent;              // 推送信息内容
+    private String pushTime;                 // 发布时间
+    private int pushFollow;                  // 推送帖子版块从属
+    private int pushIcon;                    // 推送信息封面
 
     public PushInfo() {
 

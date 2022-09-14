@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@android:drawable/picture_frame"
     android:orientation="horizontal">
 
     <ImageView
@@ -19,7 +20,7 @@
             android:layout_marginStart="20dp"
             android:id="@+id/teacherName"
             android:gravity="start|center"
-            android:text="李林"
+            android:text="NAME"
             android:textStyle="bold"
             android:textSize="25sp"
             android:layout_width="wrap_content"

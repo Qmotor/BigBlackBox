@@ -100,12 +100,12 @@ public class Search extends AppCompatActivity {
                                     break;
                                 case 1: // 收藏帖子
                                     int amount;
-                                    @SuppressLint("Recycle") Cursor c = db.rawQuery("select * from collection where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
+                                    @SuppressLint("Recycle") Cursor c = db.rawQuery("select * from coll_post where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
                                     amount = c.getCount();
                                     if (amount == 0) {
                                         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                         Date date = new Date(System.currentTimeMillis());
-                                        db.execSQL("insert into collection values(null,?,?,?)",
+                                        db.execSQL("insert into coll_post values(null,?,?,?)",
                                                 new String[]{UserInfo.userID, String.valueOf(posting.getPostID()), simpleDateFormat.format(date)});
                                         Toast.makeText(Search.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                     } else {
@@ -139,8 +139,5 @@ public class Search extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
     }
 }

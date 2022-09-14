@@ -7,7 +7,7 @@ public class Reply {
     private String replyContent;               // 评论内容
     private String replyTime;                  // 评论时间
     private int pusherIdentity;                // 评论人身份
-    private String replyUserGender;
+    private String replyUserGender;            // 评论人性别->设置头像
 
     public Reply() {
 

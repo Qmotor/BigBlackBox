@@ -4,15 +4,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bigblackbox.activity.Chat;
 import com.example.bigblackbox.entity.User;
 import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.tool.UserInfo;
@@ -23,6 +28,7 @@ import java.util.TimerTask;
 public class EditUserInfo extends AppCompatActivity {
     private SQLiteDatabase mDB;
     private EditText phone, email, edu, school, career;
+    private TextView tv;
     private RadioButton mGender;
     public String uname;
     private static final long DELAY = 1500;            //设置延迟参数，默认值为1.5s
@@ -32,7 +38,6 @@ public class EditUserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
-
 
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
@@ -46,9 +51,9 @@ public class EditUserInfo extends AppCompatActivity {
         edu = findViewById(R.id.uEdu);
         school = findViewById(R.id.uSchool);
         career = findViewById(R.id.uCareer);
+        tv = findViewById(R.id.tv1);
 
         int uID = getIntent().getIntExtra("userID", -1);
-
         User u = null;
         @SuppressLint("Recycle") Cursor cursor;
         if(uID == -1) {
@@ -75,6 +80,44 @@ public class EditUserInfo extends AppCompatActivity {
         edu.setText(u.getUserEdu());
         school.setText(u.getUserSchool());
         career.setText(u.getUserCareer());
+
+        school.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditUserInfo.this, ChooseSchool.class);
+                intent.putExtra("judge", 1);
+                startActivity(intent);
+            }
+        });
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditUserInfo.this, ChooseSchool.class);
+                intent.putExtra("judge", 1);
+                startActivity(intent);
+            }
+        });
+
+        school.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtils.isEmpty(charSequence)) {
+                    tv.setVisibility(View.VISIBLE);
+                } else {
+                    tv.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
     }
 
     public void saveEdit(View view) {
@@ -103,12 +146,17 @@ public class EditUserInfo extends AppCompatActivity {
             if (mGender.isChecked()) {
                 mDB.execSQL("update userInfo set user_gender = '男', user_phone = ?,user_email = ?,user_edu = ?, user_target_school = ?, user_career = ? where user_name = ?",
                         new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), uname});
+                mDB.execSQL("update replying set reply_user_gender = '男' where reply_user_name = ? ",
+                new String[]{uname});
+                UserInfo.gender = "男";
             } else {
                 mDB.execSQL("update userInfo set user_gender = '女', user_phone = ?,user_email = ?,user_edu = ?, user_target_school = ?, user_career = ? where user_name = ?",
                         new String[]{phone.getText().toString().trim(), email.getText().toString().trim(), edu.getText().toString().trim(), school.getText().toString().trim(), career.getText().toString().trim(), uname});
+                mDB.execSQL("update replying set reply_user_gender = '女' where reply_user_name = ? ",
+                        new String[]{uname});
+                UserInfo.gender = "女";
             }
             Toast.makeText(EditUserInfo.this, "修改个人信息成功，正在返回上个页面。。", Toast.LENGTH_SHORT).show();
-
             //设置延时操作，时间间隔为1.5s
             Timer timer = new Timer();
             TimerTask task = new TimerTask() {
@@ -129,5 +177,19 @@ public class EditUserInfo extends AppCompatActivity {
 
     public void back(View view){
         this.finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(UserInfo.school != null) {
+            school.setText(UserInfo.school);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        UserInfo.school = null;
     }
 }

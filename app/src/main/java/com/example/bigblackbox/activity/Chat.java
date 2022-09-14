@@ -34,7 +34,6 @@ public class Chat extends AppCompatActivity {
         fragments.add(new SecondHandInfo());
 
         final ViewPager2 viewPager2 = findViewById(R.id.ChatViewPager);
-//        viewPager2.setOffscreenPageLimit(5);
         viewPager2.setAdapter(new ViewAdapter(this,fragments));
 
         final TabLayout tabLayout = findViewById(R.id.ChatButtonView);

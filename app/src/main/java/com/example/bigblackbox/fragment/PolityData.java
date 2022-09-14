@@ -8,17 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.bigblackbox.MusicTest;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.adapter.MusicAdapter;
-import com.example.bigblackbox.MusicDetail;
 import com.example.bigblackbox.entity.Music;
-import com.example.bigblackbox.entity.Teacher;
 import com.example.bigblackbox.tool.DbUtil;
 
 import java.util.ArrayList;
@@ -27,6 +27,8 @@ import java.util.List;
 public class PolityData extends Fragment {
     private SQLiteDatabase mDB;
     private MusicAdapter mMusicAdapter;
+    private ListView listView;
+    private ImageView im;
     private List<Music> m = new ArrayList<>();
 
     @Override
@@ -44,8 +46,10 @@ public class PolityData extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final ListView listView = view.findViewById(R.id.polityDataList);
+        im = view.findViewById(R.id.nodata);
+        listView = view.findViewById(R.id.polityDataList);
 
+        im.setVisibility(View.GONE);
         mMusicAdapter = new MusicAdapter(requireContext(), m);
         listView.setAdapter(mMusicAdapter);
 
@@ -54,7 +58,7 @@ public class PolityData extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Music music = m.get(position);
-                Intent intent = new Intent(getContext(), MusicDetail.class);
+                Intent intent = new Intent(getContext(), MusicTest.class);
                 intent.putExtra("musicID", music.getMusicID());
                 startActivity(intent);
             }
@@ -77,5 +81,9 @@ public class PolityData extends Fragment {
         // 重写onResume()方法，保持显示数据常新
         super.onResume();
         showData();
+        if(m.size() == 0){
+            listView.setVisibility(View.GONE);
+            im.setVisibility(View.VISIBLE);
+        }
     }
 }

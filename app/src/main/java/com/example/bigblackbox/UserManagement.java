@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bigblackbox.adapter.PushInfoAdapter;
 import com.example.bigblackbox.adapter.UserAdapter;
 import com.example.bigblackbox.entity.User;
 import com.example.bigblackbox.tool.DbUtil;
@@ -128,8 +129,15 @@ public class UserManagement extends AppCompatActivity {
                         @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from userInfo where user_name like ?", new String[]{"%" + String.valueOf(albumName.getText()).trim() + "%"});
                         while (cursor.moveToNext()) {
                             u.add(new User(cursor.getInt(0), cursor.getString(1), cursor.getInt(3), cursor.getInt(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getBlob(cursor.getColumnIndex("icon"))));
+                        }if(u.size() == 0){
+                            AlertDialog.Builder b = new AlertDialog.Builder(UserManagement.this);
+                            b.setTitle("提示");
+                            b.setMessage("未搜索到相关用户，请检查输入是否正确!");
+                            b.setNegativeButton("确定", null);
+                            b.create().show();
+                        }else {
+                            listView.setAdapter(new UserAdapter(UserManagement.this, u));
                         }
-                        listView.setAdapter(new UserAdapter(UserManagement.this, u));
                     }
                 });
                 builder.setNegativeButton("取消",null);

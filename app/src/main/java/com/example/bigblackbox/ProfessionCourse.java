@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -40,7 +42,7 @@ public class ProfessionCourse extends AppCompatActivity {
         final ImageView im = findViewById(R.id.addProCBtn);
         final ListView listView = findViewById(R.id.professionCList);
         choose = findViewById(R.id.chooseProC);
-
+        setTextViewStyles(choose);
         mProfessionAdapter = new ProfessionAdapter(this, p);
         listView.setAdapter(mProfessionAdapter);
 
@@ -110,13 +112,13 @@ public class ProfessionCourse extends AppCompatActivity {
     private void showData(){
         p.clear();
         if(UserInfo.jug.equals("全部")) {
-            try (Cursor cursor = mDB.rawQuery("select * from profession", new String[0])) {
+            try (Cursor cursor = mDB.rawQuery("select * from profession order by pro_id desc", new String[0])) {
                 while (cursor.moveToNext()) {
                     p.add(new Profession(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(cursor.getColumnIndex("pro_fir_pic")),cursor.getString(5),cursor.getBlob(cursor.getColumnIndex("pro_sec_pic")),cursor.getString(7),cursor.getString(8),cursor.getBlob(cursor.getColumnIndex("pro_face"))));
                 }
             }
         }else {
-            try (Cursor cursor = mDB.rawQuery("select * from profession where pro_follow = ? ", new String[]{UserInfo.jug})) {
+            try (Cursor cursor = mDB.rawQuery("select * from profession where pro_follow = ? order by pro_id desc", new String[]{UserInfo.jug})) {
                 while (cursor.moveToNext()) {
                     p.add(new Profession(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(cursor.getColumnIndex("pro_fir_pic")),cursor.getString(5),cursor.getBlob(cursor.getColumnIndex("pro_sec_pic")),cursor.getString(7),cursor.getString(8),cursor.getBlob(cursor.getColumnIndex("pro_face"))));
                 }
@@ -137,6 +139,12 @@ public class ProfessionCourse extends AppCompatActivity {
             builder.create().show();
         }
         choose.setText(UserInfo.jug);
+    }
+
+    private void setTextViewStyles(TextView textView) {
+        LinearGradient mLinearGradient = new LinearGradient(0, 0, textView.getPaint().getTextSize()* textView.getText().length(), 0, Color.parseColor("#FFFF68FF"), Color.parseColor("#FFFED732"), Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(mLinearGradient);
+        textView.invalidate();
     }
 
     @Override

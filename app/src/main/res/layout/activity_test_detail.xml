@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TestDetail"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleExam"
+        android:text="测试标题"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/chooseAns"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/ansA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选项A"/>
+        <RadioButton
+            android:id="@+id/ansB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选项B"/>
+        <RadioButton
+            android:id="@+id/ansC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选项C"/>
+        <RadioButton
+            android:id="@+id/ansD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选项D"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/exp"
+        android:text="测试解释"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/pre"
+            android:text="上一题"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_style">
+        </Button>
+
+        <Button
+            android:id="@+id/next"
+            android:text="下一题"
+            android:layout_marginStart="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_style">
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>

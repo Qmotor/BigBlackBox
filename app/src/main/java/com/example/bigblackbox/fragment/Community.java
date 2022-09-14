@@ -1,7 +1,6 @@
 package com.example.bigblackbox.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,13 +19,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bigblackbox.ChooseSchool;
-import com.example.bigblackbox.GuessNum;
 import com.example.bigblackbox.GuessNumChoose;
-import com.example.bigblackbox.Plan;
 import com.example.bigblackbox.ProfessionCourse;
 import com.example.bigblackbox.R;
 import com.example.bigblackbox.RealStuffShare;
 import com.example.bigblackbox.activity.Chat;
+import com.example.bigblackbox.activity.Examination;
 import com.example.bigblackbox.activity.GenSubject;
 import com.example.bigblackbox.activity.GraduateData;
 import com.example.bigblackbox.activity.Teacher;
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Community extends Fragment {
     private ViewPager viewPager;  //轮播图模块
@@ -50,11 +47,12 @@ public class Community extends Fragment {
     private Intent intent;
     private final String[] names = new String[]{
             "谈天说地","院校信息","统考科目备考","专业课备考",
-            "老师推荐","考研资料","研招网","轻松一刻","干货分享"};
+            "老师推荐","考研资料","研招网","轻松一刻","干货分享","模拟试题"};
     private final int[] imgIds = new int[]{
             R.drawable.p1,R.drawable.p2,R.drawable.p4,
             R.drawable.p5,R.drawable.p6, R.drawable.p7,
-            R.drawable.p8,R.drawable.p11, R.drawable.p12};
+            R.drawable.p8,R.drawable.p9, R.drawable.p12,
+            R.drawable.p13};
 
     private final List<Map<String,Object>> data = new ArrayList<>();
 
@@ -128,6 +126,10 @@ public class Community extends Fragment {
                         break;
                     case 8:
                         intent = new Intent(getActivity(), RealStuffShare.class);
+                        startActivity(intent);
+                        break;
+                    case 9:
+                        intent = new Intent(getActivity(), Examination.class);
                         startActivity(intent);
                         break;
                 }
@@ -225,9 +227,5 @@ public class Community extends Fragment {
                 }
             }
         }.start();
-
     }
-
-
-
 }

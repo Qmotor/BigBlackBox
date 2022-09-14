@@ -4,6 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,9 +61,10 @@ public class ProfessionTeacher extends Fragment {
         final ImageView im = view.findViewById(R.id.addProTeacherBtn);
         final ListView listView = view.findViewById(R.id.professionList);
         choose = view.findViewById(R.id.choosePro);
-
+        setTextViewStyles(choose);
         mTeacherAdapter = new TeacherAdapter(requireContext(), t);
         listView.setAdapter(mTeacherAdapter);
+
 
         if(!UserInfo.isAdmin.equals("1")){
             im.setVisibility(View.GONE);
@@ -155,6 +159,12 @@ public class ProfessionTeacher extends Fragment {
             builder.create().show();
         }
         choose.setText(UserInfo.jug);
+    }
+
+    private void setTextViewStyles(TextView textView) {
+        LinearGradient mLinearGradient = new LinearGradient(0, 0, textView.getPaint().getTextSize()* textView.getText().length(), 0, Color.parseColor("#FFFF68FF"), Color.parseColor("#FFFED732"), Shader.TileMode.CLAMP);
+        textView.getPaint().setShader(mLinearGradient);
+        textView.invalidate();
     }
 
     @Override

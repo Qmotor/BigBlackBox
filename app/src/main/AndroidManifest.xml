@@ -25,31 +25,35 @@
         <activity android:name=".SubjectDetail" />
         <activity android:name=".EditUserInfo" />
         <activity android:name=".Search" />
-        <activity android:name=".Plan" />
         <activity android:name=".GuessNum" />
         <activity android:name=".UserManagement" />
+        <activity android:name=".CardActivity" />
+        <activity android:name=".ExamActivity" />
+        <activity android:name=".PracticeActivity" />
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".ResultActivity" />
         <activity android:name=".activity.Teacher" />
         <activity android:name=".AddPost" />
         <activity android:name=".AddTeacher" />
+        <activity android:name=".MusicTest" />
         <activity android:name=".AddSubject" />
         <activity android:name=".AddProfession" />
         <activity android:name=".RealStuffShare" />
         <activity android:name=".ProfessionCourse" />
         <activity android:name=".ChooseSchool" />
         <activity android:name=".ProfessionDetail" />
-        <activity android:name=".MusicDetail" />
         <activity android:name=".activity.GenSubject" />
+        <activity android:name=".activity.Examination" />
         <activity android:name=".activity.GraduateData" />
         <activity android:name=".GuessNumChoose" />
         <activity android:name=".ChooseTeacher" />
-        <activity android:name=".Collection" />
+        <activity android:name=".CollPost" />
         <activity android:name=".Teacher_detail" />
         <activity android:name=".Push_detail" />
         <activity android:name=".Post_detail" />
         <activity android:name=".activity.IndexActivity" />
         <activity android:name=".Register" />
         <activity android:name=".activity.Chat"/>
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,14 +62,14 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".tool.AutoReceiver"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".tool.AutoReceiver"-->
+<!--            android:label="@string/app_name" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <provider
             android:name="androidx.core.content.FileProvider"

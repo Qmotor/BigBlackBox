@@ -429,6 +429,7 @@ public class AddSubject extends AppCompatActivity {
 
     public void add(int follow){
         if(UserInfo.isAdmin.equals("1")){
+            // 设置随机封面
             Random random = new Random();
             int num = random.nextInt(3) + 1;
             try {

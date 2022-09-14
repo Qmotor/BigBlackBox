@@ -1,16 +1,16 @@
 package com.example.bigblackbox.entity;
 
 public class Profession {
-    private int proID;
-    private String proAuthor;
-    private String proTitle;
-    private String proFirCont;
-    private byte[] proFirPic;
-    private String proSecCont;
-    private byte[] proSecPic;
-    private String proThrCont;
-    private String proFollow;
-    private byte[] proFace;
+    private int proID;             // 专业课信息编号
+    private String proAuthor;      // 专业课信息上传者
+    private String proTitle;       // 专业课信息标题
+    private String proFirCont;     // 段落一
+    private byte[] proFirPic;      // 图片一
+    private String proSecCont;     // 段落二
+    private byte[] proSecPic;      // 图片二
+    private String proThrCont;     // 段落三
+    private String proFollow;      // 专业课信息分类
+    private byte[] proFace;        // 专业课信息封面
 
     public Profession(int proID, String proAuthor, String proTitle, String proFirCont,
                       byte[] proFirPic, String proSecCont,byte[] proSecPic,String proThrCont,

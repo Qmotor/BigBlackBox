@@ -35,7 +35,6 @@
             android:background="#99000000">
             <EditText
                 android:id="@+id/LUid"
-                android:text="铅笔学长"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -59,7 +58,6 @@
 
             <EditText
                 android:id="@+id/LUpwd"
-                android:text="123123"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"

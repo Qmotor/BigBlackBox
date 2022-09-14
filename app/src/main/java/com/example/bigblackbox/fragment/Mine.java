@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bigblackbox.Collection;
+import com.example.bigblackbox.CollPost;
 import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.EditPwd;
 import com.example.bigblackbox.EditUserInfo;
@@ -47,8 +47,6 @@ import com.example.bigblackbox.entity.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -106,12 +104,13 @@ public class Mine extends Fragment {
 
         id.setText("用户ID："+UserInfo.userID);
 
-        uIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            showChoosePicDialog();
-            }
-        });
+//        由于目前还无法做到头像同步功能，即头像上传功能在系统内无意义，因此该模块暂时关闭
+//        uIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            showChoosePicDialog();
+//            }
+//        });
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +155,7 @@ public class Mine extends Fragment {
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Collection.class);
+                Intent intent = new Intent(getContext(), CollPost.class);
                 startActivity(intent); }
         });
 
@@ -302,7 +301,7 @@ public class Mine extends Fragment {
             }
         }catch (Exception e){
             // 报这个错误大概率是因为当前测试环境是模拟器
-            // 真机测试环境下，头像上传功能可以完美运行，模拟器报错原因未知
+            // 真机测试环境下，图片上传功能可以完美运行，模拟器报错原因未知
             Toast.makeText(requireContext(), "未知错误！", Toast.LENGTH_LONG).show();
         }
     }

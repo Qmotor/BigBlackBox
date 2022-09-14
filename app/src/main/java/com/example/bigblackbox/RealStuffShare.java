@@ -144,8 +144,15 @@ public class RealStuffShare extends AppCompatActivity {
                         @SuppressLint("Recycle") Cursor cursor = mDB.rawQuery("select * from pushing where push_title like ? and push_follow = '1' order by push_time desc", new String[]{"%" + String.valueOf(albumName.getText()).trim() + "%"});
                         while (cursor.moveToNext()) {
                             pi.add(new PushInfo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5),cursor.getInt(6)));
+                        }if(pi.size() == 0){
+                            AlertDialog.Builder b = new AlertDialog.Builder(RealStuffShare.this);
+                            b.setTitle("提示");
+                            b.setMessage("未搜索到相关信息，请检查关键字或帖子是否存在!");
+                            b.setNegativeButton("确定", null);
+                            b.create().show();
+                        }else {
+                            listView.setAdapter(new PushInfoAdapter(RealStuffShare.this, pi));
                         }
-                        listView.setAdapter(new PushInfoAdapter(RealStuffShare.this, pi));
                     }
                 });
                 builder.setNegativeButton("取消",null);

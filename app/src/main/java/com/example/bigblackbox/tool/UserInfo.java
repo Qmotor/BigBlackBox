@@ -34,8 +34,10 @@ public class UserInfo {
 
     public static String regUPwd = null;        // 当前注册用户——密码
 
-    public static boolean flag = true;
+    public static boolean flag = true;          // 帖子显示顺序判断符
 
-    public static String gender;
+    public static String gender;                // 当前登录用户——性别
+
+    public static String school;                // 所选院校名称
 
 }

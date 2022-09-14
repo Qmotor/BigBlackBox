@@ -109,12 +109,12 @@ public class Lecture extends Fragment {
                                 break;
                             case 1: // 收藏帖子
                                 int amount;
-                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from collection where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
+                                @SuppressLint("Recycle") Cursor c = mDB.rawQuery("select * from coll_post where post_id = ?", new String[]{String.valueOf(posting.getPostID())});
                                 amount = c.getCount();
                                 if (amount == 0) {
                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date date = new Date(System.currentTimeMillis());
-                                    mDB.execSQL("insert into collection values(null,?,?,?)",
+                                    mDB.execSQL("insert into coll_post values(null,?,?,?)",
                                             new String[]{UserInfo.userID, String.valueOf(posting.getPostID()), simpleDateFormat.format(date)});
                                     Toast.makeText(getContext(), "收藏成功", Toast.LENGTH_SHORT).show();
                                 } else {

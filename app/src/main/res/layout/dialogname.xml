@@ -6,6 +6,8 @@
     <EditText
         android:id="@+id/eUser"
         android:hint="请输入用户名"
+        android:textSize="15sp"
+        android:singleLine="true"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

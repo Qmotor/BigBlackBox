@@ -91,7 +91,6 @@
             android:background="@null"
             android:maxLength="11"
             android:singleLine="true"
-            android:text="13333333333"
             android:textSize="16sp" />
     </FrameLayout>
 
@@ -164,8 +163,17 @@
             android:layout_width="80dp"
             android:gravity="end|center"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:background="@null"
+            android:gravity="end|center_vertical"
+            android:text="点击选择学校" />
+
         <EditText
-            android:text="浙江大学"
             android:textSize="16sp"
             android:background="@null"
             android:id="@+id/uSchool"

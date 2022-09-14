@@ -23,6 +23,7 @@ import com.example.bigblackbox.entity.School;
 import com.example.bigblackbox.tool.CharacterUtils;
 import com.example.bigblackbox.tool.DbUtil;
 import com.example.bigblackbox.tool.NavView;
+import com.example.bigblackbox.tool.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,13 +35,17 @@ public class ChooseSchool extends AppCompatActivity {
     private EditText et;
     private ListView lv;
     private NavView nv;
-
+    private static int judge;
     private SchoolAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_school);
+
+//        String schoolName = getIntent().getStringExtra("sName");
+        judge = getIntent().getIntExtra("judge", -1);
+
         DbUtil mHelper = new DbUtil(this);
         mDB = mHelper.getReadableDatabase();
         et = findViewById(R.id.search_school);
@@ -98,14 +103,18 @@ public class ChooseSchool extends AppCompatActivity {
         //填充ListView
         adapter = new SchoolAdapter(this, list);
         lv.setAdapter(adapter);
-
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 School school = list.get(position);
-                Uri uri = Uri.parse(school.getSchoolUrl());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                if(judge == -1) {
+                    Uri uri = Uri.parse(school.getSchoolUrl());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }else if (judge == 1){
+                    UserInfo.school = school.getSchoolName();
+                    finish();
+                }
             }
         });
 

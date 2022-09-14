@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-
         nameText = findViewById(R.id.LUid);
         pwdText = findViewById(R.id.LUpwd);
         verCode = findViewById(R.id.verCode);
@@ -61,15 +60,14 @@ public class MainActivity extends AppCompatActivity {
         verCode.setImageBitmap(bitmap);
 
         // 测试模块
-        verInput.setText(codeUtils.getCode());
-
+//        verInput.setText(codeUtils.getCode());
     }
 
     public void flashVer(View view){
         codeUtils = CodeUtils.getInstance();
         Bitmap bitmap = codeUtils.createBitmap();
         verCode.setImageBitmap(bitmap);
-        verInput.setText(codeUtils.getCode());
+//        verInput.setText(codeUtils.getCode());
     }
 
     @SuppressLint({"WrongConstant", "ShowToast"})

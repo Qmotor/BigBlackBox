@@ -115,7 +115,7 @@ public class Math extends Fragment {
 
     private void showData(){
         s.clear();
-        try(Cursor cursor = mDB.rawQuery("select * from subject where sub_follow = '1' ",new String[0])){
+        try(Cursor cursor = mDB.rawQuery("select * from subject where sub_follow = '1' order by sub_id desc",new String[0])){
             while (cursor.moveToNext()) {
                 s.add(new Subject(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(cursor.getColumnIndex("sub_fir_pic")),cursor.getString(5),cursor.getBlob(cursor.getColumnIndex("sub_sec_pic")),cursor.getString(7),cursor.getInt(8),cursor.getInt(9)));
             }
